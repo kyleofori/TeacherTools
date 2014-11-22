@@ -16,10 +16,11 @@
         android:layout_weight=".10"
         android:layout_gravity="center_horizontal"
         android:gravity="bottom"
-        android:text="@string/Teacher_Tools"
+        android:text="@string/search"
         android:textAllCaps="true"/>
 
     <TextView
+        android:id="@+id/txt_clever_tagline"
         android:text="@string/clever_tagline"
         android:layout_width="wrap_content"
         android:layout_height="0"
