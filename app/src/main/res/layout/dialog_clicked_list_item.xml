@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:weightSum="4">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0"
+        android:layout_weight=".66"
+        android:orientation="horizontal">
+
+        <TextView
+        android:text="title:"
+        android:layout_width="0"
+        android:layout_weight=".15"
+        android:layout_height="@dimen/row_text_height"/>
+
+
+        <TextView
+        android:layout_width="0"
+        android:layout_weight=".35"
+        android:layout_height="@dimen/row_text_height"/>
+
+        <TextView
+            android:text="author:"
+            android:layout_width="0"
+            android:layout_weight=".15"
+            android:layout_height="@dimen/row_text_height"/>
+
+
+        <TextView
+            android:layout_width="0"
+            android:layout_weight=".35"
+            android:layout_height="@dimen/row_text_height"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0"
+        android:layout_weight=".67"
+        android:orientation="horizontal">
+
+        <TextView
+            android:text="duration:"
+            android:layout_width="0"
+            android:layout_weight=".15"
+            android:layout_height="@dimen/row_text_height"/>
+
+
+        <TextView
+            android:layout_width="0"
+            android:layout_weight=".35"
+            android:layout_height="@dimen/row_text_height"/>
+
+        <TextView
+            android:text="standard:"
+            android:layout_width="0"
+            android:layout_weight=".20"
+            android:layout_height="@dimen/row_text_height"/>
+
+
+        <TextView
+            android:layout_width="0"
+            android:layout_weight=".30"
+            android:layout_height="@dimen/row_text_height"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0"
+        android:layout_weight=".67"
+        android:orientation="vertical">
+
+        <TextView
+            android:text="description:"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/row_text_height"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/row_text_height"/>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0"
+        android:layout_weight="2"
+        android:weightSum="2"
+        android:orientation="vertical">
+
+    <TextView
+        android:text="preview:"
+        android:layout_width="wrap_content"
+        android:layout_height="0"
+        android:layout_weight=".25"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+</LinearLayout>
