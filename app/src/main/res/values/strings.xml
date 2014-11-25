@@ -5,6 +5,8 @@
     <string name="clever_tagline">This is the tagline for TeacherTools!</string>
     <string name="login">Log In</string>
     <string name="action_settings">Settings</string>
+    <string name="favorites">Favorites</string>
+    <string name="downloads">Downloads</string>
     <string name="search">Search</string>
     <string name="Teacher_Tools">Teacher Tools</string>
     <string name="preview">preview\:</string>
