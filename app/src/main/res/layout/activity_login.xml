@@ -28,6 +28,7 @@
         android:gravity="center_vertical"/>
 
     <EditText
+        android:id="@+id/edt_username"
         android:layout_width="120dp"
         android:layout_height="0dp"
         android:layout_weight=".16"
@@ -36,12 +37,14 @@
         android:hint="@string/username"/>
 
     <EditText
+        android:id="@+id/edt_password"
         android:layout_width="120dp"
         android:layout_height="0dp"
         android:layout_weight=".16"
         android:layout_gravity="center"
         android:gravity="center"
-        android:hint="@string/password"/>
+        android:hint="@string/password"
+        android:inputType="textPassword"/>
 
     <Button
         android:id="@+id/btn_login"
