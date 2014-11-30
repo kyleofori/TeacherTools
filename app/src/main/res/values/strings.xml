@@ -15,4 +15,6 @@
     <string name="duration">duration\:</string>
     <string name="author">author\:</string>
     <string name="title">title\:</string>
+    <string name="username">user name</string>
+    <string name="password">password</string>
 </resources>

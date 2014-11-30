@@ -23,9 +23,25 @@
         android:text="@string/clever_tagline"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_weight=".81"
+        android:layout_weight=".49"
         android:layout_gravity="center"
         android:gravity="center_vertical"/>
+
+    <EditText
+        android:layout_width="120dp"
+        android:layout_height="0dp"
+        android:layout_weight=".16"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:hint="@string/username"/>
+
+    <EditText
+        android:layout_width="120dp"
+        android:layout_height="0dp"
+        android:layout_weight=".16"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:hint="@string/password"/>
 
     <Button
         android:id="@+id/btn_login"
