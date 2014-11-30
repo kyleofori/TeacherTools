@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.detroitlabs.kyleofori.teachertools.R;
+
 /**
  * Created by kyleofori on 11/30/14.
  */
@@ -12,6 +14,7 @@ public class SearchActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_search);
     }
 
     @Override
