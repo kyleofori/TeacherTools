@@ -3,6 +3,7 @@ package com.detroitlabs.kyleofori.teachertools.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,6 +26,7 @@ public class SearchActivity extends Activity implements View.OnClickListener {
         setContentView(R.layout.activity_search);
         edtSearchBar = (EditText) findViewById(R.id.edt_search_bar);
         btnSearch = (Button) findViewById(R.id.btn_search);
+        btnSearch.setOnClickListener(this);
     }
 
     @Override
@@ -47,6 +49,6 @@ public class SearchActivity extends Activity implements View.OnClickListener {
     }
 
     public void trySearchTermSubmit() {
-        
+        String searchKeyword = edtSearchBar.getText().toString().trim();
     }
 }
