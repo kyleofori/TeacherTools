@@ -1,9 +1,11 @@
-package com.detroitlabs.kyleofori.teachertools;
+package com.detroitlabs.kyleofori.teachertools.activities;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.detroitlabs.kyleofori.teachertools.R;
 
 
 public class LoginActivity extends Activity {
