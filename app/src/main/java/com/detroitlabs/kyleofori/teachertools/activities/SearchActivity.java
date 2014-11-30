@@ -3,7 +3,6 @@ package com.detroitlabs.kyleofori.teachertools.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,7 +11,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.detroitlabs.kyleofori.teachertools.R;
-import com.detroitlabs.kyleofori.teachertools.fragments.SearchResultsListFragment;
 
 /**
  * Created by kyleofori on 11/30/14.
@@ -21,7 +19,7 @@ public class SearchActivity extends Activity implements View.OnClickListener {
 
     private EditText edtSearchBar;
     private Button btnSearch;
-    private static final String SEARCH_KEYWORD = "search keyword";
+    private static final String EXTRA_SEARCH_KEYWORD = "search keyword";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +60,7 @@ public class SearchActivity extends Activity implements View.OnClickListener {
 
     public void openSearchResultsListFragment(String searchKeyword) {
         Intent toResultsActivity = new Intent(this, ResultsActivity.class);
-        toResultsActivity.putExtra(SEARCH_KEYWORD, searchKeyword);
+        toResultsActivity.putExtra(EXTRA_SEARCH_KEYWORD, searchKeyword);
         startActivity(toResultsActivity);
     }
 }
