@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.detroitlabs.kyleofori.teachertools.R;
 
@@ -50,5 +51,14 @@ public class SearchActivity extends Activity implements View.OnClickListener {
 
     public void trySearchTermSubmit() {
         String searchKeyword = edtSearchBar.getText().toString().trim();
+        if(searchKeyword.isEmpty()) {
+            Toast.makeText(this, R.string.toast_search_error, Toast.LENGTH_SHORT).show();
+        } else {
+            openSearchResultsListFragment(searchKeyword);
+        }
+    }
+
+    public void openSearchResultsListFragment(String searchKeyword) {
+        
     }
 }

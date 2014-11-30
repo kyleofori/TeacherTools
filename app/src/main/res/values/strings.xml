@@ -17,4 +17,5 @@
     <string name="title">title\:</string>
     <string name="username">user name</string>
     <string name="password">password</string>
+    <string name="toast_search_error">You must enter the name of a playlist.</string>
 </resources>
