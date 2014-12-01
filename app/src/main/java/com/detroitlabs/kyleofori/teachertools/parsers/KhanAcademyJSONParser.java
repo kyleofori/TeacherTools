@@ -1,5 +1,6 @@
 package com.detroitlabs.kyleofori.teachertools.parsers;
 
+import com.detroitlabs.kyleofori.teachertools.fragments.SearchResultsFragment;
 import com.detroitlabs.kyleofori.teachertools.models.KhanAcademyPlaylist;
 
 import org.json.JSONArray;
@@ -17,9 +18,9 @@ public class KhanAcademyJSONParser {
     public static List<KhanAcademyPlaylist> parseJSONObject(JSONArray jsonArray) {
 
         try {
-            List<KhanAcademyPlaylist> khanAcademyPlaylists = new ArrayList<KhanAcademyPlaylist>();
+            List<KhanAcademyPlaylist> khanAcademyPlaylists = new ArrayList<>();
 
-            for (int index = 0; index < 5; index++) {
+            for (int index = 0; index < jsonArray.length(); index++) {
 
                 JSONObject playlistObject = jsonArray.getJSONObject(index);
                 String title = playlistObject.optString("title", "unknown title");

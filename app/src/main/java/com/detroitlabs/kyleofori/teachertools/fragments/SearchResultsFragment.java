@@ -30,7 +30,10 @@ import java.util.concurrent.TimeUnit;
 public class SearchResultsFragment extends Fragment implements KhanAcademyApiCallback, View.OnClickListener {
 
     private static final String ARG_SEARCH_TERM = "arg_search_term";
-    private static final long REFRESH_INTERVAL = TimeUnit.SECONDS.toMillis(30);
+    private static final long REFRESH_INTERVAL = TimeUnit.SECONDS.toMillis(6);
+    private static final int NUM_ENTRIES = 10;
+    public static Integer startEntry = 0;
+    private List<KhanAcademyPlaylist> redditEntries;
 
     public static SearchResultsFragment newInstance(String searchTerm) {
 
@@ -72,8 +75,14 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_previous:
+                if(startEntry >= 10) {
+                    startEntry-=10;
+                    updateEntriesShown(redditEntries);
+                }
                 break;
             case R.id.btn_next:
+                startEntry+=10;
+                updateEntriesShown(redditEntries);
                 break;
         }
     }
@@ -110,10 +119,15 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
     @Override
     public void onSuccess(JSONArray response) {
         if (isAdded()) {
-            List<KhanAcademyPlaylist> redditEntries = KhanAcademyJSONParser.parseJSONObject(response);
-            searchResultsAdapter.clear();
-            searchResultsAdapter.addAll(redditEntries);
+            redditEntries = KhanAcademyJSONParser.parseJSONObject(response);
+            updateEntriesShown(redditEntries);
         }
+    }
+
+    public void updateEntriesShown(List<KhanAcademyPlaylist> redditEntries) {
+        searchResultsAdapter.clear();
+        for (int index = startEntry; index < startEntry + NUM_ENTRIES; index++)
+        searchResultsAdapter.add(redditEntries.get(index));
     }
 
     @Override
