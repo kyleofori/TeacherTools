@@ -10,6 +10,7 @@ import android.widget.Button;
 import com.detroitlabs.kyleofori.teachertools.R;
 import com.detroitlabs.kyleofori.teachertools.fragments.SearchResultsFragment;
 import com.detroitlabs.kyleofori.teachertools.interfaces.FragmentController;
+import com.parse.Parse;
 
 /**
  * Created by kyleofori on 11/30/14.
@@ -22,6 +23,8 @@ public class ResultsActivity extends Activity implements FragmentController/*, V
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Parse.initialize(this, "t7JTeQx4arA61XvUhQa1CjJhA2VrKWv9mMj3p44G", "jzKFoFbkf2FYwMf9sNwIegGFPt5oNBWwbsffNqa3");
+
         setContentView(R.layout.activity_results);
 //        btnPrevious = (Button) findViewById(R.id.btn_previous);
 //        btnPrevious.setOnClickListener(this);
