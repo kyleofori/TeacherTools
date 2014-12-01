@@ -18,10 +18,12 @@
         android:orientation="horizontal">
 
         <Button
+            android:id="@+id/btn_previous"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:text="@string/previous"/>
         <Button
+            android:id="@+id/btn_next"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:text="@string/next"/>

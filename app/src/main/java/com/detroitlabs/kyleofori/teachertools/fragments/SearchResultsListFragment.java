@@ -3,9 +3,11 @@ package com.detroitlabs.kyleofori.teachertools.fragments;
 import android.app.ListFragment;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.detroitlabs.kyleofori.teachertools.R;
 import com.detroitlabs.kyleofori.teachertools.adapters.SearchResultsListAdapter;
 import com.detroitlabs.kyleofori.teachertools.interfaces.FragmentController;
 import com.detroitlabs.kyleofori.teachertools.khanacademyapi.KhanAcademyApi;
@@ -23,7 +25,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by bobbake4 on 11/13/14.
  */
-public class SearchResultsListFragment extends ListFragment implements KhanAcademyApiCallback {
+public class SearchResultsListFragment extends ListFragment implements KhanAcademyApiCallback, View.OnClickListener {
 
     private static final String ARG_SEARCH_TERM = "arg_search_term";
     private static final long REFRESH_INTERVAL = TimeUnit.SECONDS.toMillis(6);
@@ -42,13 +44,29 @@ public class SearchResultsListFragment extends ListFragment implements KhanAcade
     private SearchResultsListAdapter searchResultsListAdapter;
     private KhanAcademyApi khanAcademyApi = KhanAcademyApi.getKhanAcademyApi();
     private Timer refreshTimer;
+    private Button btnPrevious, btnNext;
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        btnPrevious = (Button) view.findViewById(R.id.btn_previous);
+        btnPrevious.setOnClickListener(this);
+        btnNext = (Button) view.findViewById(R.id.btn_next);
+        btnNext.setOnClickListener(this);
         searchResultsListAdapter = new SearchResultsListAdapter(getActivity());
         setListAdapter(searchResultsListAdapter);
         loadRedditEntries();
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.btn_previous:
+                break;
+            case R.id.btn_next:
+                break;
+        }
+
     }
 
     @Override
@@ -136,4 +154,6 @@ public class SearchResultsListFragment extends ListFragment implements KhanAcade
             throw new IllegalStateException("Must supply a search term to SearchResultsListFragment");
         }
     }
+
+
 }
