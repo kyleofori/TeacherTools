@@ -19,7 +19,7 @@ public class KhanAcademyJSONParser {
         try {
             List<KhanAcademyPlaylist> khanAcademyPlaylists = new ArrayList<KhanAcademyPlaylist>();
 
-            for (int index = 0; index < jsonArray.length(); index++) {
+            for (int index = 0; index < 10; index++) {
 
                 JSONObject playlistObject = jsonArray.getJSONObject(index);
                 String title = playlistObject.optString("title", "unknown title");
@@ -33,7 +33,7 @@ public class KhanAcademyJSONParser {
 
             return khanAcademyPlaylists;
         } catch (JSONException e) {
-            return new ArrayList<KhanAcademyPlaylist>();
+            return new ArrayList<>();
         }
     }
 
