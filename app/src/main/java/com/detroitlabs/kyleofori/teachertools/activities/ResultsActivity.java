@@ -15,10 +15,9 @@ import com.parse.Parse;
 /**
  * Created by kyleofori on 11/30/14.
  */
-public class ResultsActivity extends Activity implements FragmentController/*, View.OnClickListener*/ {
+public class ResultsActivity extends Activity implements FragmentController {
 
     public static final String EXTRA_SEARCH_KEYWORD = "search keyword";
-    private Button btnPrevious, btnNext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,21 +25,7 @@ public class ResultsActivity extends Activity implements FragmentController/*, V
         Parse.initialize(this, "t7JTeQx4arA61XvUhQa1CjJhA2VrKWv9mMj3p44G", "jzKFoFbkf2FYwMf9sNwIegGFPt5oNBWwbsffNqa3");
 
         setContentView(R.layout.activity_results);
-//        btnPrevious = (Button) findViewById(R.id.btn_previous);
-//        btnPrevious.setOnClickListener(this);
-//        btnNext = (Button) findViewById(R.id.btn_next);
-//        btnNext.setOnClickListener(this);
         loadSubredditFragment();
-    }
-
-//    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.btn_previous:
-                break;
-            case R.id.btn_next:
-                break;
-        }
     }
 
     @Override
@@ -53,10 +38,10 @@ public class ResultsActivity extends Activity implements FragmentController/*, V
     }
 
     @Override
-    public void changeFragment(Fragment fragment, boolean addToBackstack) {
+    public void changeFragment(Fragment fragment, boolean addToBackStack) {
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
 
-        if (addToBackstack) {
+        if (addToBackStack) {
             fragmentTransaction.addToBackStack(null);
         }
 
