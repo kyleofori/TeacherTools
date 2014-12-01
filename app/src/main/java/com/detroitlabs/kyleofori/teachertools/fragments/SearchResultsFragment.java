@@ -62,9 +62,9 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
         ListView listView = (ListView) view.findViewById(R.id.itm_search_results);
         listView.setAdapter(searchResultsAdapter);
         btnPrevious = (Button) view.findViewById(R.id.btn_previous);
-//        btnPrevious.setOnClickListener(this);
+        btnPrevious.setOnClickListener(this);
         btnNext = (Button) view.findViewById(R.id.btn_next);
-//        btnNext.setOnClickListener(this);
+        btnNext.setOnClickListener(this);
         loadRedditEntries();
     }
 
