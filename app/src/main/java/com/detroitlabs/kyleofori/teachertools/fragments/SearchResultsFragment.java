@@ -2,9 +2,11 @@ package com.detroitlabs.kyleofori.teachertools.fragments;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -49,7 +51,6 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
     private SearchResultsAdapter searchResultsAdapter;
     private KhanAcademyApi khanAcademyApi = KhanAcademyApi.getKhanAcademyApi();
     private Timer refreshTimer;
-    private Button btnPrevious, btnNext;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -64,9 +65,15 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
 
         ListView listView = (ListView) view.findViewById(R.id.itm_search_results);
         listView.setAdapter(searchResultsAdapter);
-        btnPrevious = (Button) view.findViewById(R.id.btn_previous);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Log.i("Yes, I clicked", "oh yes he did");
+            }
+        });
+        Button btnPrevious = (Button) view.findViewById(R.id.btn_previous);
         btnPrevious.setOnClickListener(this);
-        btnNext = (Button) view.findViewById(R.id.btn_next);
+        Button btnNext = (Button) view.findViewById(R.id.btn_next);
         btnNext.setOnClickListener(this);
         loadRedditEntries();
     }
