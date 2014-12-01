@@ -1,17 +1,24 @@
-package com.detroitlabs.kyleofori.teachertools;
+package com.detroitlabs.kyleofori.teachertools.activities;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
+
+import com.detroitlabs.kyleofori.teachertools.R;
 
 
 public class LoginActivity extends Activity {
+
+    private EditText edtUsername, edtPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        edtUsername = (EditText) findViewById(R.id.edt_username);
+        edtPassword = (EditText) findViewById(R.id.edt_password);
     }
 
 
