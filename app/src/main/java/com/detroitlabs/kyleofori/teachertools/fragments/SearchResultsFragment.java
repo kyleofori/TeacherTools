@@ -63,12 +63,20 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
         super.onViewCreated(view, savedInstanceState);
         searchResultsAdapter = new SearchResultsAdapter(getActivity());
 
-        ListView listView = (ListView) view.findViewById(R.id.itm_search_results);
+        final ListView listView = (ListView) view.findViewById(R.id.itm_search_results);
         listView.setAdapter(searchResultsAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Log.i("Yes, I clicked", "oh yes he did");
+                if(getActivity() instanceof FragmentController) {
+                    KhanAcademyPlaylist khanAcademyPlaylist = (KhanAcademyPlaylist) listView.getAdapter().getItem(i);
+                    PlaylistDetailFragment playlistDetailFragment = PlaylistDetailFragment.newInstance(khanAcademyPlaylist);
+                    FragmentController fragmentController = (FragmentController) getActivity();
+                    fragmentController.changeFragment(playlistDetailFragment, true);
+                } else {
+                    throw new IllegalArgumentException(getString(R.string.fragment_controller_interface_error));
+                }
             }
         });
         Button btnPrevious = (Button) view.findViewById(R.id.btn_previous);
@@ -110,10 +118,9 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
 //    public void onListItemClick(ListView listView, View row, int position, long id) {
 //
 //        if (getActivity() instanceof FragmentController) {
-//
+
 //            KhanAcademyPlaylist khanAcademyPlaylist = (KhanAcademyPlaylist) listView.getAdapter().getItem(position);
 //            PlaylistDetailFragment playlistDetailFragment = PlaylistDetailFragment.newInstance(khanAcademyPlaylist);
-//
 //            FragmentController fragmentController = (FragmentController) getActivity();
 //            fragmentController.changeFragment(playlistDetailFragment, true);
 //

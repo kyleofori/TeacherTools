@@ -21,4 +21,6 @@
     <string name="username">user name</string>
     <string name="password">password</string>
     <string name="toast_search_error">You must enter the name of a playlist.</string>
+
+    <string name="fragment_controller_interface_error">Your activity must implement the Fragment Controller interface.</string>
 </resources>
