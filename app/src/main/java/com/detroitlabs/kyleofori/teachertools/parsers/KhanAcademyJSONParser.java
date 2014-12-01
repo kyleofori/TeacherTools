@@ -19,7 +19,7 @@ public class KhanAcademyJSONParser {
         try {
             List<KhanAcademyPlaylist> khanAcademyPlaylists = new ArrayList<KhanAcademyPlaylist>();
 
-            for (int index = 0; index < 10; index++) {
+            for (int index = 0; index < 5; index++) {
 
                 JSONObject playlistObject = jsonArray.getJSONObject(index);
                 String title = playlistObject.optString("title", "unknown title");

@@ -1,14 +1,16 @@
 package com.detroitlabs.kyleofori.teachertools.fragments;
 
-import android.app.ListFragment;
+import android.app.Fragment;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.detroitlabs.kyleofori.teachertools.R;
-import com.detroitlabs.kyleofori.teachertools.adapters.SearchResultsListAdapter;
+import com.detroitlabs.kyleofori.teachertools.adapters.SearchResultsAdapter;
 import com.detroitlabs.kyleofori.teachertools.interfaces.FragmentController;
 import com.detroitlabs.kyleofori.teachertools.khanacademyapi.KhanAcademyApi;
 import com.detroitlabs.kyleofori.teachertools.khanacademyapi.KhanAcademyApiCallback;
@@ -25,36 +27,44 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by bobbake4 on 11/13/14.
  */
-public class SearchResultsListFragment extends ListFragment implements KhanAcademyApiCallback, View.OnClickListener {
+public class SearchResultsFragment extends Fragment implements KhanAcademyApiCallback, View.OnClickListener {
 
     private static final String ARG_SEARCH_TERM = "arg_search_term";
-    private static final long REFRESH_INTERVAL = TimeUnit.SECONDS.toMillis(6);
+    private static final long REFRESH_INTERVAL = TimeUnit.SECONDS.toMillis(30);
 
-    public static SearchResultsListFragment newInstance(String searchTerm) {
+    public static SearchResultsFragment newInstance(String searchTerm) {
 
         Bundle args = new Bundle();
         args.putString(ARG_SEARCH_TERM, searchTerm);
 
-        SearchResultsListFragment searchResultsListFragment = new SearchResultsListFragment();
-        searchResultsListFragment.setArguments(args);
+        SearchResultsFragment searchResultsFragment = new SearchResultsFragment();
+        searchResultsFragment.setArguments(args);
 
-        return searchResultsListFragment;
+        return searchResultsFragment;
     }
 
-    private SearchResultsListAdapter searchResultsListAdapter;
+    private SearchResultsAdapter searchResultsAdapter;
     private KhanAcademyApi khanAcademyApi = KhanAcademyApi.getKhanAcademyApi();
     private Timer refreshTimer;
     private Button btnPrevious, btnNext;
 
     @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.fragment_search_results, container, false);
+        return rootView;
+    }
+
+    @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        searchResultsAdapter = new SearchResultsAdapter(getActivity());
+
+        ListView listView = (ListView) view.findViewById(R.id.itm_search_results);
+        listView.setAdapter(searchResultsAdapter);
         btnPrevious = (Button) view.findViewById(R.id.btn_previous);
-        btnPrevious.setOnClickListener(this);
+//        btnPrevious.setOnClickListener(this);
         btnNext = (Button) view.findViewById(R.id.btn_next);
-        btnNext.setOnClickListener(this);
-        searchResultsListAdapter = new SearchResultsListAdapter(getActivity());
-        setListAdapter(searchResultsListAdapter);
+//        btnNext.setOnClickListener(this);
         loadRedditEntries();
     }
 
@@ -66,7 +76,6 @@ public class SearchResultsListFragment extends ListFragment implements KhanAcade
             case R.id.btn_next:
                 break;
         }
-
     }
 
     @Override
@@ -81,29 +90,29 @@ public class SearchResultsListFragment extends ListFragment implements KhanAcade
         stopRefreshTimer();
     }
 
-    @Override
-    public void onListItemClick(ListView listView, View row, int position, long id) {
-
-        if (getActivity() instanceof FragmentController) {
-
-            KhanAcademyPlaylist khanAcademyPlaylist = (KhanAcademyPlaylist) listView.getAdapter().getItem(position);
-            PlaylistDetailFragment playlistDetailFragment = PlaylistDetailFragment.newInstance(khanAcademyPlaylist);
-
-            FragmentController fragmentController = (FragmentController) getActivity();
-            fragmentController.changeFragment(playlistDetailFragment, true);
-
-        } else {
-            throw new IllegalArgumentException("Your activity must implement the FragmentController interface");
-        }
-
-    }
+//    @Override
+//    public void onListItemClick(ListView listView, View row, int position, long id) {
+//
+//        if (getActivity() instanceof FragmentController) {
+//
+//            KhanAcademyPlaylist khanAcademyPlaylist = (KhanAcademyPlaylist) listView.getAdapter().getItem(position);
+//            PlaylistDetailFragment playlistDetailFragment = PlaylistDetailFragment.newInstance(khanAcademyPlaylist);
+//
+//            FragmentController fragmentController = (FragmentController) getActivity();
+//            fragmentController.changeFragment(playlistDetailFragment, true);
+//
+//        } else {
+//            throw new IllegalArgumentException("Your activity must implement the FragmentController interface");
+//        }
+//
+//    }
 
     @Override
     public void onSuccess(JSONArray response) {
         if (isAdded()) {
             List<KhanAcademyPlaylist> redditEntries = KhanAcademyJSONParser.parseJSONObject(response);
-            searchResultsListAdapter.clear();
-            searchResultsListAdapter.addAll(redditEntries);
+            searchResultsAdapter.clear();
+            searchResultsAdapter.addAll(redditEntries);
         }
     }
 

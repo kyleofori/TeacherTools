@@ -13,9 +13,9 @@ import com.detroitlabs.kyleofori.teachertools.models.KhanAcademyPlaylist;
 /**
  * Created by bobbake4 on 11/13/14.
  */
-public class SearchResultsListAdapter extends ArrayAdapter<KhanAcademyPlaylist> {
+public class SearchResultsAdapter extends ArrayAdapter<KhanAcademyPlaylist> {
 
-    public SearchResultsListAdapter(Context context) {
+    public SearchResultsAdapter(Context context) {
         super(context, R.layout.list_item_playlist_row);
     }
 
