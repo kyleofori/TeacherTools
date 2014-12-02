@@ -1,5 +1,6 @@
 package com.detroitlabs.kyleofori.teachertools.fragments;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -55,7 +56,10 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
     private KhanAcademyApi khanAcademyApi = KhanAcademyApi.getKhanAcademyApi();
     private Timer refreshTimer;
 
-
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -66,29 +70,16 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-//        searchResultsAdapter = new SearchResultsAdapter(getActivity());
-//        ListView listView = (ListView) view.findViewById(R.id.itm_search_results);
-//        listView.setAdapter(searchResultsAdapter);
-//        listView.setOnItemClickListener(this);
+        searchResultsAdapter = new SearchResultsAdapter(getActivity());
+        ListView listView = (ListView) view.findViewById(R.id.itm_search_results);
+        listView.setAdapter(searchResultsAdapter);
+        listView.setOnItemClickListener(this);
         Button btnPrevious = (Button) view.findViewById(R.id.btn_previous);
         btnPrevious.setOnClickListener(this);
         final Button btnNext = (Button) view.findViewById(R.id.btn_next);
         btnNext.setOnClickListener(this);
         loadRedditEntries();
 
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("LessonPlan");
-/*        query.getInBackground("6OM5a34Qdp", new GetCallback<ParseObject>() {
-            public void done(ParseObject object, ParseException e) {
-                if (e == null) {
-                    // object will be your game score
-                    String newText = object.getString("author");
-                    btnNext.setText(newText);
-                } else {
-                    // something went wrong
-                    btnNext.setText("uh-oh");
-                }
-            }
-        })*/
 
         ParseObject lessonPlan = new ParseObject("LessonPlan");
         lessonPlan.put("author", "Danzig Leonidas");
@@ -97,10 +88,11 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
                 "Danzig or the time of the movie 300, I forget which");
         lessonPlan.put("subject", "Social Studies");
         lessonPlan.put("url", "http://www.leonidas.com");
-        lessonPlan.put("hostingSite","LessonPlunnet");
+        lessonPlan.put("hostingSite","LessonPlahnet");
         lessonPlan.put("gradeLevels", "9th-12th");
         lessonPlan.saveInBackground();
 
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("LessonPlan");
         try {
             ParseObject objectA = query.getFirst();
             btnPrevious.setText(objectA.getString("hostingSite"));
@@ -116,6 +108,7 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
                 if(getActivity() instanceof FragmentController) {
                     KhanAcademyPlaylist khanAcademyPlaylist = (KhanAcademyPlaylist) adapterView.getAdapter().getItem(i);
                     PlaylistDetailFragment playlistDetailFragment = PlaylistDetailFragment.newInstance(khanAcademyPlaylist);
+
                     FragmentController fragmentController = (FragmentController) getActivity();
                     fragmentController.changeFragment(playlistDetailFragment, true);
                 } else {
@@ -130,12 +123,12 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
             case R.id.btn_previous:
                 if(startEntry >= 10) {
                     startEntry-=10;
-//                    updateEntriesShown(redditEntries);
+                    updateEntriesShown(redditEntries);
                 }
                 break;
             case R.id.btn_next:
                 startEntry+=10;
-//                updateEntriesShown(redditEntries);
+                updateEntriesShown(redditEntries);
                 break;
         }
     }
@@ -156,7 +149,7 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
     public void onSuccess(JSONArray response) {
         if (isAdded()) {
             redditEntries = KhanAcademyJSONParser.parseJSONObject(response);
-//            updateEntriesShown(redditEntries);
+            updateEntriesShown(redditEntries);
         }
     }
 
