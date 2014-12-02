@@ -55,6 +55,9 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
     private SearchResultsAdapter searchResultsAdapter;
     private KhanAcademyApi khanAcademyApi = KhanAcademyApi.getKhanAcademyApi();
     private Timer refreshTimer;
+    private Button btnPrevious;
+    private Button btnNext;
+
 
     @Override
     public void onAttach(Activity activity) {
@@ -74,9 +77,9 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
         ListView listView = (ListView) view.findViewById(R.id.itm_search_results);
         listView.setAdapter(searchResultsAdapter);
         listView.setOnItemClickListener(this);
-        Button btnPrevious = (Button) view.findViewById(R.id.btn_previous);
+        btnPrevious = (Button) view.findViewById(R.id.btn_previous);
         btnPrevious.setOnClickListener(this);
-        final Button btnNext = (Button) view.findViewById(R.id.btn_next);
+        btnNext = (Button) view.findViewById(R.id.btn_next);
         btnNext.setOnClickListener(this);
         loadRedditEntries();
 
@@ -124,11 +127,17 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
                 if(startEntry >= 10) {
                     startEntry-=10;
                     updateEntriesShown(redditEntries);
+                    if(startEntry == 0) {
+                        btnPrevious.setEnabled(false);
+                    }
                 }
                 break;
             case R.id.btn_next:
                 startEntry+=10;
                 updateEntriesShown(redditEntries);
+                if(!btnPrevious.isEnabled()) {
+                    btnPrevious.setEnabled(true);
+                }
                 break;
         }
     }
