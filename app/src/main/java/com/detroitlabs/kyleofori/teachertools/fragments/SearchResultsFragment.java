@@ -38,6 +38,7 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
     private static final String ARG_SEARCH_TERM = "arg_search_term";
     private static final long REFRESH_INTERVAL = TimeUnit.SECONDS.toMillis(30);
     private static final int NUM_ENTRIES = 10;
+    private FragmentController fragmentController;
     public static Integer startEntry = 0;
     private List<KhanAcademyPlaylist> redditEntries;
 
@@ -62,6 +63,13 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+        if(activity instanceof FragmentController) {
+            fragmentController = (FragmentController) activity;
+        } else {
+            throw new IllegalArgumentException(getString(R.string.fragment_controller_interface_error));
+        }
+
+
     }
 
     @Override
@@ -111,15 +119,9 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         switch (adapterView.getId()) {
             case R.id.itm_search_results:
-                if(getActivity() instanceof FragmentController) {
                     KhanAcademyPlaylist khanAcademyPlaylist = (KhanAcademyPlaylist) adapterView.getAdapter().getItem(i);
                     PlaylistDetailFragment playlistDetailFragment = PlaylistDetailFragment.newInstance(khanAcademyPlaylist);
-
-                    FragmentController fragmentController = (FragmentController) getActivity();
                     fragmentController.changeFragment(playlistDetailFragment, true);
-                } else {
-                    throw new IllegalArgumentException(getString(R.string.fragment_controller_interface_error));
-                }
         }
     }
 
