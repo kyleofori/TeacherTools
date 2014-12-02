@@ -1,6 +1,5 @@
 package com.detroitlabs.kyleofori.teachertools.parsers;
 
-import com.detroitlabs.kyleofori.teachertools.fragments.SearchResultsFragment;
 import com.detroitlabs.kyleofori.teachertools.models.KhanAcademyPlaylist;
 
 import org.json.JSONArray;

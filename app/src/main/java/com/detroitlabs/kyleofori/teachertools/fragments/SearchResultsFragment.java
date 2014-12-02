@@ -115,22 +115,6 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
         stopRefreshTimer();
     }
 
-//    @Override
-//    public void onListItemClick(ListView listView, View row, int position, long id) {
-//
-//        if (getActivity() instanceof FragmentController) {
-
-//            KhanAcademyPlaylist khanAcademyPlaylist = (KhanAcademyPlaylist) listView.getAdapter().getItem(position);
-//            PlaylistDetailFragment playlistDetailFragment = PlaylistDetailFragment.newInstance(khanAcademyPlaylist);
-//            FragmentController fragmentController = (FragmentController) getActivity();
-//            fragmentController.changeFragment(playlistDetailFragment, true);
-//
-//        } else {
-//            throw new IllegalArgumentException("Your activity must implement the FragmentController interface");
-//        }
-//
-//    }
-
     @Override
     public void onSuccess(JSONArray response) {
         if (isAdded()) {
