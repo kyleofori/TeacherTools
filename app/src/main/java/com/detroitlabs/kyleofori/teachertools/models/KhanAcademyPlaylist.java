@@ -57,33 +57,4 @@ public class KhanAcademyPlaylist implements Parcelable {
             return new KhanAcademyPlaylist[size];
         }
     };
-
-
-    /*public static List<KhanAcademyPlaylist> parseJSONObject(JSONArray jsonArray) {
-
-        try {
-            JSONArray playlistsArray = jsonArray.getJSONArray(0);
-
-            List<KhanAcademyPlaylist> khanAcademyPlaylists = new ArrayList<KhanAcademyPlaylist>();
-
-            for (int index = 0; index < playlistsArray.length(); index++) {
-
-                JSONObject playlistObject = playlistsArray.getJSONObject(index);
-
-                KhanAcademyPlaylist newKhanAcademyPlaylist = new KhanAcademyPlaylist(playlistObject);
-
-                khanAcademyPlaylists.add(newKhanAcademyPlaylist);
-            }
-
-            return khanAcademyPlaylists;
-        } catch (JSONException e) {
-            return new ArrayList<KhanAcademyPlaylist>();
-        }
-    }*/
-
-
-/*    public KhanAcademyPlaylist(JSONObject playlistObject) throws JSONException {
-        kaUrl = playlistObject.optString("url", "Unknown URL");
-        title = playlistObject.optString("title", "Unknown Title");
-        description = playlistObject.optString("description", "Unknown Description");*/
-    }
+}

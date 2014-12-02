@@ -35,7 +35,7 @@ import java.util.concurrent.TimeUnit;
 public class SearchResultsFragment extends Fragment implements KhanAcademyApiCallback, View.OnClickListener, AdapterView.OnItemClickListener {
 
     private static final String ARG_SEARCH_TERM = "arg_search_term";
-    private static final long REFRESH_INTERVAL = TimeUnit.SECONDS.toMillis(6);
+    private static final long REFRESH_INTERVAL = TimeUnit.SECONDS.toMillis(30);
     private static final int NUM_ENTRIES = 10;
     public static Integer startEntry = 0;
     private List<KhanAcademyPlaylist> redditEntries;
@@ -66,10 +66,10 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        searchResultsAdapter = new SearchResultsAdapter(getActivity());
-        ListView listView = (ListView) view.findViewById(R.id.itm_search_results);
-        listView.setAdapter(searchResultsAdapter);
-        listView.setOnItemClickListener(this);
+//        searchResultsAdapter = new SearchResultsAdapter(getActivity());
+//        ListView listView = (ListView) view.findViewById(R.id.itm_search_results);
+//        listView.setAdapter(searchResultsAdapter);
+//        listView.setOnItemClickListener(this);
         Button btnPrevious = (Button) view.findViewById(R.id.btn_previous);
         btnPrevious.setOnClickListener(this);
         final Button btnNext = (Button) view.findViewById(R.id.btn_next);
@@ -77,7 +77,7 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
         loadRedditEntries();
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("LessonPlan");
-        query.getInBackground("6OM5a34Qdp", new GetCallback<ParseObject>() {
+/*        query.getInBackground("6OM5a34Qdp", new GetCallback<ParseObject>() {
             public void done(ParseObject object, ParseException e) {
                 if (e == null) {
                     // object will be your game score
@@ -88,10 +88,25 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
                     btnNext.setText("uh-oh");
                 }
             }
-        });
+        })*/
 
+        ParseObject lessonPlan = new ParseObject("LessonPlan");
+        lessonPlan.put("author", "Danzig Leonidas");
+        lessonPlan.put("title", "The History of My People");
+        lessonPlan.put("description", "This resource concerns the history of the city of Free " +
+                "Danzig or the time of the movie 300, I forget which");
+        lessonPlan.put("subject", "Social Studies");
+        lessonPlan.put("url", "http://www.leonidas.com");
+        lessonPlan.put("hostingSite","LessonPlunnet");
+        lessonPlan.put("gradeLevels", "9th-12th");
+        lessonPlan.saveInBackground();
 
-
+        try {
+            ParseObject objectA = query.getFirst();
+            btnPrevious.setText(objectA.getString("hostingSite"));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -115,12 +130,12 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
             case R.id.btn_previous:
                 if(startEntry >= 10) {
                     startEntry-=10;
-                    updateEntriesShown(redditEntries);
+//                    updateEntriesShown(redditEntries);
                 }
                 break;
             case R.id.btn_next:
                 startEntry+=10;
-                updateEntriesShown(redditEntries);
+//                updateEntriesShown(redditEntries);
                 break;
         }
     }
@@ -141,7 +156,7 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
     public void onSuccess(JSONArray response) {
         if (isAdded()) {
             redditEntries = KhanAcademyJSONParser.parseJSONObject(response);
-            updateEntriesShown(redditEntries);
+//            updateEntriesShown(redditEntries);
         }
     }
 
