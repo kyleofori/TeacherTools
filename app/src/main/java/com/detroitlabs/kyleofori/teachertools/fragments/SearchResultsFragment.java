@@ -29,7 +29,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by bobbake4 on 11/13/14.
  */
-public class SearchResultsFragment extends Fragment implements KhanAcademyApiCallback, View.OnClickListener {
+public class SearchResultsFragment extends Fragment implements KhanAcademyApiCallback, View.OnClickListener, AdapterView.OnItemClickListener {
 
     private static final String ARG_SEARCH_TERM = "arg_search_term";
     private static final long REFRESH_INTERVAL = TimeUnit.SECONDS.toMillis(6);
@@ -62,28 +62,29 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         searchResultsAdapter = new SearchResultsAdapter(getActivity());
-
-        final ListView listView = (ListView) view.findViewById(R.id.itm_search_results);
+        ListView listView = (ListView) view.findViewById(R.id.itm_search_results);
         listView.setAdapter(searchResultsAdapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Log.i("Yes, I clicked", "oh yes he did");
+        listView.setOnItemClickListener(this);
+        Button btnPrevious = (Button) view.findViewById(R.id.btn_previous);
+        btnPrevious.setOnClickListener(this);
+        Button btnNext = (Button) view.findViewById(R.id.btn_next);
+        btnNext.setOnClickListener(this);
+        loadRedditEntries();
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        switch (adapterView.getId()) {
+            case R.id.itm_search_results:
                 if(getActivity() instanceof FragmentController) {
-                    KhanAcademyPlaylist khanAcademyPlaylist = (KhanAcademyPlaylist) listView.getAdapter().getItem(i);
+                    KhanAcademyPlaylist khanAcademyPlaylist = (KhanAcademyPlaylist) adapterView.getAdapter().getItem(i);
                     PlaylistDetailFragment playlistDetailFragment = PlaylistDetailFragment.newInstance(khanAcademyPlaylist);
                     FragmentController fragmentController = (FragmentController) getActivity();
                     fragmentController.changeFragment(playlistDetailFragment, true);
                 } else {
                     throw new IllegalArgumentException(getString(R.string.fragment_controller_interface_error));
                 }
-            }
-        });
-        Button btnPrevious = (Button) view.findViewById(R.id.btn_previous);
-        btnPrevious.setOnClickListener(this);
-        Button btnNext = (Button) view.findViewById(R.id.btn_next);
-        btnNext.setOnClickListener(this);
-        loadRedditEntries();
+        }
     }
 
     @Override
