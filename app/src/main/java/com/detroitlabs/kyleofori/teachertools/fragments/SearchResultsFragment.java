@@ -78,6 +78,9 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
         listView.setAdapter(searchResultsAdapter);
         listView.setOnItemClickListener(this);
         btnPrevious = (Button) view.findViewById(R.id.btn_previous);
+        if(startEntry == 0) {
+            btnPrevious.setEnabled(false);
+        }
         btnPrevious.setOnClickListener(this);
         btnNext = (Button) view.findViewById(R.id.btn_next);
         btnNext.setOnClickListener(this);
