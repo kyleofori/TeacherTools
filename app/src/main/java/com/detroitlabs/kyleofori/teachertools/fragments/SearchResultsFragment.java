@@ -2,7 +2,6 @@ package com.detroitlabs.kyleofori.teachertools.fragments;
 
 import android.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +17,10 @@ import com.detroitlabs.kyleofori.teachertools.khanacademyapi.KhanAcademyApi;
 import com.detroitlabs.kyleofori.teachertools.khanacademyapi.KhanAcademyApiCallback;
 import com.detroitlabs.kyleofori.teachertools.models.KhanAcademyPlaylist;
 import com.detroitlabs.kyleofori.teachertools.parsers.KhanAcademyJSONParser;
+import com.parse.GetCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
 import org.json.JSONArray;
 
@@ -52,6 +55,8 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
     private KhanAcademyApi khanAcademyApi = KhanAcademyApi.getKhanAcademyApi();
     private Timer refreshTimer;
 
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_search_results, container, false);
@@ -67,9 +72,26 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
         listView.setOnItemClickListener(this);
         Button btnPrevious = (Button) view.findViewById(R.id.btn_previous);
         btnPrevious.setOnClickListener(this);
-        Button btnNext = (Button) view.findViewById(R.id.btn_next);
+        final Button btnNext = (Button) view.findViewById(R.id.btn_next);
         btnNext.setOnClickListener(this);
         loadRedditEntries();
+
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("LessonPlan");
+        query.getInBackground("6OM5a34Qdp", new GetCallback<ParseObject>() {
+            public void done(ParseObject object, ParseException e) {
+                if (e == null) {
+                    // object will be your game score
+                    String newText = object.getString("author");
+                    btnNext.setText(newText);
+                } else {
+                    // something went wrong
+                    btnNext.setText("uh-oh");
+                }
+            }
+        });
+
+
+
     }
 
     @Override
