@@ -10,6 +10,7 @@ import org.json.JSONException;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 
@@ -48,7 +49,7 @@ public class KhanAcademyApi {
     }
 
     private JSONArray getJSONObjectFromUri(Uri uri) throws IOException, JSONException {
-        URLConnection httpURLConnection = new URL(uri.toString()).openConnection();
+        HttpURLConnection httpURLConnection = (HttpURLConnection) new URL(uri.toString()).openConnection();
 
         InputStream inputStream = httpURLConnection.getInputStream();
         BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
@@ -60,6 +61,8 @@ public class KhanAcademyApi {
             stringBuilder.append((char)bytesRead);
         }
 
+        bufferedInputStream.close();
+        httpURLConnection.disconnect();
         return new JSONArray(stringBuilder.toString());
     }
 
