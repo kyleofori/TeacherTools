@@ -16,12 +16,9 @@ import com.detroitlabs.kyleofori.teachertools.adapters.SearchResultsAdapter;
 import com.detroitlabs.kyleofori.teachertools.interfaces.FragmentController;
 import com.detroitlabs.kyleofori.teachertools.khanacademyapi.KhanAcademyApi;
 import com.detroitlabs.kyleofori.teachertools.khanacademyapi.KhanAcademyApiCallback;
+import com.detroitlabs.kyleofori.teachertools.khanacademyapi.ParseDataset;
 import com.detroitlabs.kyleofori.teachertools.models.KhanAcademyPlaylist;
 import com.detroitlabs.kyleofori.teachertools.parsers.KhanAcademyJSONParser;
-import com.parse.GetCallback;
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
 
 import org.json.JSONArray;
 
@@ -56,6 +53,7 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
     private SearchResultsAdapter searchResultsAdapter;
     private KhanAcademyApi khanAcademyApi = KhanAcademyApi.getKhanAcademyApi();
     private Timer refreshTimer;
+    private ParseDataset parseDataset = new ParseDataset();
     private Button btnPrevious;
     private Button btnNext;
 
@@ -93,17 +91,7 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
         btnNext = (Button) view.findViewById(R.id.btn_next);
         btnNext.setOnClickListener(this);
         loadRedditEntries();
-
-//        ParseObject lessonPlan = new ParseObject("LessonPlan");
-//        lessonPlan.put("author", "Danzig Leonidas");
-//        lessonPlan.put("title", "The History of My People");
-//        lessonPlan.put("description", "This resource concerns the history of the city of Free " +
-//                "Danzig or the time of the movie 300, I forget which");
-//        lessonPlan.put("subject", "Social Studies");
-//        lessonPlan.put("url", "http://www.leonidas.com");
-//        lessonPlan.put("hostingSite","LessonPlahnet");
-//        lessonPlan.put("gradeLevels", "9th-12th");
-//        lessonPlan.saveInBackground();
+        parseDataset.prepopulateParseDataset();
     }
 
     @Override
