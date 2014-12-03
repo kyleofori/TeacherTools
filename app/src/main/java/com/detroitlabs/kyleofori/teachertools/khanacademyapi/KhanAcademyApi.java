@@ -35,14 +35,16 @@ public class KhanAcademyApi {
     private KhanAcademyApi() {
     }
 
-    public void getSubredditEntries(String subreddit, KhanAcademyApiCallback callback) {
+    public void getSubredditEntries(String searchTerm, KhanAcademyApiCallback callback) {
 
         Uri uri = new Uri.Builder()
                 .scheme("http")
                 .authority(ROOT_URL)
                 .appendPath("api")
                 .appendPath("v1")
-                .appendPath(subreddit)
+                .appendPath("playlists")
+                .appendPath(searchTerm)
+                .appendPath("videos")
                 .build();
 
         new LoadDataInBackground(callback).execute(uri);
