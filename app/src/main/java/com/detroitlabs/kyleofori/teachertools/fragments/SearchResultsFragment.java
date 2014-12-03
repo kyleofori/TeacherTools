@@ -178,6 +178,9 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
         for (int index = startEntry; index < indexLimit; index++) {
             searchResultsAdapter.add(redditEntries.get(index));
         }
+        if(startEntry + NUM_ENTRIES > redditEntries.size()) {
+            btnNext.setEnabled(false);
+        }
     }
 
     @Override
