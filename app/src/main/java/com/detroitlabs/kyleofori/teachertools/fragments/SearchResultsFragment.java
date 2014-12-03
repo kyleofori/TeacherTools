@@ -172,14 +172,12 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
         int indexLimit;
         if (startEntry + NUM_ENTRIES > redditEntries.size()) {
             indexLimit = redditEntries.size();
+            btnNext.setEnabled(false);
         } else {
             indexLimit = startEntry + NUM_ENTRIES;
         }
         for (int index = startEntry; index < indexLimit; index++) {
             searchResultsAdapter.add(redditEntries.get(index));
-        }
-        if(startEntry + NUM_ENTRIES > redditEntries.size()) {
-            btnNext.setEnabled(false);
         }
     }
 
