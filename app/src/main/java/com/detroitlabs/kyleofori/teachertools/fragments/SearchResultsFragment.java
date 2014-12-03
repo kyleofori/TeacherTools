@@ -94,25 +94,16 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
         btnNext.setOnClickListener(this);
         loadRedditEntries();
 
-
-        ParseObject lessonPlan = new ParseObject("LessonPlan");
-        lessonPlan.put("author", "Danzig Leonidas");
-        lessonPlan.put("title", "The History of My People");
-        lessonPlan.put("description", "This resource concerns the history of the city of Free " +
-                "Danzig or the time of the movie 300, I forget which");
-        lessonPlan.put("subject", "Social Studies");
-        lessonPlan.put("url", "http://www.leonidas.com");
-        lessonPlan.put("hostingSite","LessonPlahnet");
-        lessonPlan.put("gradeLevels", "9th-12th");
-        lessonPlan.saveInBackground();
-
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("LessonPlan");
-        try {
-            ParseObject objectA = query.getFirst();
-            btnPrevious.setText(objectA.getString("hostingSite"));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+//        ParseObject lessonPlan = new ParseObject("LessonPlan");
+//        lessonPlan.put("author", "Danzig Leonidas");
+//        lessonPlan.put("title", "The History of My People");
+//        lessonPlan.put("description", "This resource concerns the history of the city of Free " +
+//                "Danzig or the time of the movie 300, I forget which");
+//        lessonPlan.put("subject", "Social Studies");
+//        lessonPlan.put("url", "http://www.leonidas.com");
+//        lessonPlan.put("hostingSite","LessonPlahnet");
+//        lessonPlan.put("gradeLevels", "9th-12th");
+//        lessonPlan.saveInBackground();
     }
 
     @Override
