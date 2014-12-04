@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -45,6 +46,7 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
     private Button btnPrevious;
     private Button btnNext;
     private Integer startEntry = 0;
+    private EditText edtSearchResults;
 
     public static SearchResultsFragment newInstance(String searchTerm) {
 
@@ -89,8 +91,9 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
         btnPrevious.setOnClickListener(this);
         btnNext = (Button) view.findViewById(R.id.btn_next);
         btnNext.setOnClickListener(this);
+        edtSearchResults = (EditText) view.findViewById(R.id.edt_search_results);
         loadRedditEntries();
-        parseDataset.prepopulateParseDataset();
+//        parseDataset.prepopulateParseDataset();
     }
 
     @Override
