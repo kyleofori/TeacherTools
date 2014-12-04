@@ -35,9 +35,16 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
     private static final String ARG_SEARCH_TERM = "arg_search_term";
     private static final long REFRESH_INTERVAL = TimeUnit.SECONDS.toMillis(30);
     private static final int NUM_ENTRIES = 10;
+
     private FragmentController fragmentController;
-    public static Integer startEntry = 0;
+    private SearchResultsAdapter searchResultsAdapter;
+    private KhanAcademyApi khanAcademyApi = KhanAcademyApi.getKhanAcademyApi();
+    private Timer refreshTimer;
+    private ParseDataset parseDataset = new ParseDataset();
     private List<KhanAcademyPlaylist> redditEntries;
+    private Button btnPrevious;
+    private Button btnNext;
+    private Integer startEntry = 0;
 
     public static SearchResultsFragment newInstance(String searchTerm) {
 
@@ -49,14 +56,6 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
 
         return searchResultsFragment;
     }
-
-    private SearchResultsAdapter searchResultsAdapter;
-    private KhanAcademyApi khanAcademyApi = KhanAcademyApi.getKhanAcademyApi();
-    private Timer refreshTimer;
-    private ParseDataset parseDataset = new ParseDataset();
-    private Button btnPrevious;
-    private Button btnNext;
-
 
     @Override
     public void onAttach(Activity activity) {
