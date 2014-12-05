@@ -10,24 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/row_text_height"/>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/btn_previous"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/previous"/>
-
-        <Button
-            android:id="@+id/btn_next"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/next"/>
-    </LinearLayout>
-
     <ListView
         android:id="@+id/itm_search_results"
         android:layout_width="match_parent"

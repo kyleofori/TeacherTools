@@ -31,11 +31,10 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by bobbake4 on 11/13/14.
  */
-public class SearchResultsFragment extends Fragment implements KhanAcademyApiCallback, View.OnClickListener, AdapterView.OnItemClickListener {
+public class SearchResultsFragment extends Fragment implements KhanAcademyApiCallback, AdapterView.OnItemClickListener {
 
     private static final String ARG_SEARCH_TERM = "arg_search_term";
-    private static final long REFRESH_INTERVAL = TimeUnit.SECONDS.toMillis(30);
-    private static final int NUM_ENTRIES = 10;
+    private static final long REFRESH_INTERVAL = TimeUnit.SECONDS.toMillis(8);
 
     private FragmentController fragmentController;
     private SearchResultsAdapter searchResultsAdapter;
@@ -43,9 +42,6 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
     private Timer refreshTimer;
     private ParseDataset parseDataset = new ParseDataset();
     private List<KhanAcademyPlaylist> redditEntries;
-    private Button btnPrevious;
-    private Button btnNext;
-    private Integer startEntry = 0;
     private EditText edtSearchResults;
 
     public static SearchResultsFragment newInstance(String searchTerm) {
@@ -84,13 +80,6 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
         ListView listView = (ListView) view.findViewById(R.id.itm_search_results);
         listView.setAdapter(searchResultsAdapter);
         listView.setOnItemClickListener(this);
-        btnPrevious = (Button) view.findViewById(R.id.btn_previous);
-        if(startEntry == 0) {
-            btnPrevious.setEnabled(false);
-        }
-        btnPrevious.setOnClickListener(this);
-        btnNext = (Button) view.findViewById(R.id.btn_next);
-        btnNext.setOnClickListener(this);
         edtSearchResults = (EditText) view.findViewById(R.id.edt_search_results);
         loadRedditEntries();
 //        parseDataset.prepopulateParseDataset();
@@ -103,28 +92,6 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
                     KhanAcademyPlaylist khanAcademyPlaylist = (KhanAcademyPlaylist) adapterView.getAdapter().getItem(i);
                     PlaylistDetailFragment playlistDetailFragment = PlaylistDetailFragment.newInstance(khanAcademyPlaylist);
                     fragmentController.changeFragment(playlistDetailFragment, true);
-        }
-    }
-
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.btn_previous:
-                if(startEntry >= 10) {
-                    startEntry-=10;
-                    updateEntriesShown(redditEntries);
-                    if(startEntry == 0) {
-                        btnPrevious.setEnabled(false);
-                    }
-                }
-                break;
-            case R.id.btn_next:
-                startEntry+=10;
-                updateEntriesShown(redditEntries);
-                if(!btnPrevious.isEnabled()) {
-                    btnPrevious.setEnabled(true);
-                }
-                break;
         }
     }
 
@@ -150,16 +117,7 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
 
     public void updateEntriesShown(List<KhanAcademyPlaylist> redditEntries) {
         searchResultsAdapter.clear();
-        int indexLimit;
-        if (startEntry + NUM_ENTRIES > redditEntries.size()) {
-            indexLimit = redditEntries.size();
-            btnNext.setEnabled(false);
-        } else {
-            indexLimit = startEntry + NUM_ENTRIES;
-        }
-        for (int index = startEntry; index < indexLimit; index++) {
-            searchResultsAdapter.add(redditEntries.get(index));
-        }
+        searchResultsAdapter.addAll(redditEntries);
     }
 
     @Override
