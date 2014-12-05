@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -41,7 +40,7 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
     private KhanAcademyApi khanAcademyApi = KhanAcademyApi.getKhanAcademyApi();
     private Timer refreshTimer;
     private ParseDataset parseDataset = new ParseDataset();
-    private List<KhanAcademyPlaylist> redditEntries;
+    private List<KhanAcademyPlaylist> khanAcademyPlaylists;
     private EditText edtSearchResults;
 
     public static SearchResultsFragment newInstance(String searchTerm) {
@@ -110,14 +109,17 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
     @Override
     public void onSuccess(JSONArray response) {
         if (isAdded()) {
-            redditEntries = KhanAcademyJSONParser.parseJSONObject(response);
-            updateEntriesShown(redditEntries);
+            khanAcademyPlaylists = KhanAcademyJSONParser.parseJSONObject(response);
+            searchResultsAdapter.clear();
+            searchResultsAdapter.setPlaylistsInAdapter(khanAcademyPlaylists);
+            searchResultsAdapter.notifyDataSetChanged();
+//            updateEntriesShown(khanAcademyPlaylists);
         }
     }
 
-    public void updateEntriesShown(List<KhanAcademyPlaylist> redditEntries) {
-        searchResultsAdapter.clear();
-        searchResultsAdapter.addAll(redditEntries);
+    public void updateEntriesShown(List<KhanAcademyPlaylist> khanAcademyPlaylists) {
+//        searchResultsAdapter.clear();
+//        searchResultsAdapter.addAll(khanAcademyPlaylists);
     }
 
     @Override
