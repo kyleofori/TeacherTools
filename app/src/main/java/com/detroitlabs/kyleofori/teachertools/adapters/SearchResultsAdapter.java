@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import com.detroitlabs.kyleofori.teachertools.R;
@@ -16,7 +18,7 @@ import java.util.List;
 /**
  * Created by bobbake4 on 11/13/14.
  */
-public class SearchResultsAdapter extends BaseAdapter {
+public class SearchResultsAdapter extends BaseAdapter implements Filterable {
 
     private Context context;
     private List<KhanAcademyPlaylist> khanAcademyPlaylists = new ArrayList<>();
@@ -79,6 +81,8 @@ public class SearchResultsAdapter extends BaseAdapter {
         return convertView;
     }
 
+
+
     private static class ViewHolder {
 
         private TextView titleTextView;
@@ -92,5 +96,38 @@ public class SearchResultsAdapter extends BaseAdapter {
 
         }
 
+    }
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                FilterResults results = new FilterResults();
+                ArrayList<String> FilteredList = new ArrayList<String>();
+                if (constraint == null || constraint.length() == 0) {
+                    results.values = khanAcademyPlaylists;
+                    results.count = khanAcademyPlaylists.size();
+                } else {
+                    for (int i = 0; i < getCount(); i++) {
+                        String data = getItem(i).getTitle();
+                        if (data.toLowerCase().contains(constraint.toString())) {
+                            FilteredList.add(data);
+                        }
+                    }
+                    results.values = FilteredList;
+                    results.count = FilteredList.size();
+                }
+                return results;
+            }
+
+
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                temporaryPlaylists = (List<KhanAcademyPlaylist>) filterResults.values;
+                notifyDataSetChanged();
+            }
+        };
     }
 }
