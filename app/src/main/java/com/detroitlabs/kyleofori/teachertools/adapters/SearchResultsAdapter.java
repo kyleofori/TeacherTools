@@ -21,12 +21,12 @@ import java.util.List;
 public class SearchResultsAdapter extends BaseAdapter implements Filterable {
 
     private Context context;
-    private List<KhanAcademyPlaylist> khanAcademyPlaylists = new ArrayList<>();
-    private List<KhanAcademyPlaylist> temporaryPlaylists = new ArrayList<>();
+    private List<KhanAcademyPlaylist> originalPlaylists = new ArrayList<>();
+    private List<KhanAcademyPlaylist> filteredPlaylists = new ArrayList<>();
 
     public void setPlaylistsInAdapter(List<KhanAcademyPlaylist> khanAcademyPlaylists) {
-        this.khanAcademyPlaylists = khanAcademyPlaylists;
-        temporaryPlaylists.addAll(khanAcademyPlaylists);
+        this.originalPlaylists = khanAcademyPlaylists;
+        this.filteredPlaylists = khanAcademyPlaylists;
     }
 
     public SearchResultsAdapter(Context context) {
@@ -39,17 +39,18 @@ public class SearchResultsAdapter extends BaseAdapter implements Filterable {
     }
 
     public void clear() {
-        khanAcademyPlaylists.clear();
+        originalPlaylists.clear();
+        filteredPlaylists.clear();
     }
 
     @Override
     public int getCount() {
-        return khanAcademyPlaylists.size();
+        return filteredPlaylists.size();
     }
 
     @Override
     public KhanAcademyPlaylist getItem(int i) {
-        return khanAcademyPlaylists.get(i);
+        return filteredPlaylists.get(i);
     }
 
     @Override
@@ -103,15 +104,15 @@ public class SearchResultsAdapter extends BaseAdapter implements Filterable {
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
                 FilterResults results = new FilterResults();
-                ArrayList<KhanAcademyPlaylist> filteredList = new ArrayList<KhanAcademyPlaylist>();
                 if (constraint == null || constraint.length() == 0) {
-                    results.values = khanAcademyPlaylists;
-                    results.count = khanAcademyPlaylists.size();
+                    results.values = originalPlaylists;
+                    results.count = originalPlaylists.size();
                 } else {
-                    for (int i = 0; i < khanAcademyPlaylists.size(); i++) {
-                        KhanAcademyPlaylist data = getItem(i);
-                        if (data.getTitle().toLowerCase().contains(constraint.toString().toLowerCase())) {
-                            filteredList.add(data);
+                    ArrayList<KhanAcademyPlaylist> filteredList = new ArrayList<KhanAcademyPlaylist>();
+
+                    for (KhanAcademyPlaylist khanAcademyPlaylist : originalPlaylists) {
+                        if (khanAcademyPlaylist.getTitle() != null && khanAcademyPlaylist.getTitle().toLowerCase().contains(constraint.toString().toLowerCase())) {
+                            filteredList.add(khanAcademyPlaylist);
                         }
                     }
                     results.values = filteredList;
@@ -124,7 +125,7 @@ public class SearchResultsAdapter extends BaseAdapter implements Filterable {
 
             @Override
             protected void publishResults(CharSequence charSequence, FilterResults results) {
-                khanAcademyPlaylists = (ArrayList<KhanAcademyPlaylist>) results.values;
+                filteredPlaylists = (ArrayList<KhanAcademyPlaylist>) results.values;
                 notifyDataSetChanged();
             }
         };
