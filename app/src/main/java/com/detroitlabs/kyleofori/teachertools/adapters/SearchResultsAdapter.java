@@ -20,22 +20,27 @@ public class SearchResultsAdapter extends BaseAdapter {
 
     private Context context;
     private List<KhanAcademyPlaylist> khanAcademyPlaylists = new ArrayList<>();
+    private List<KhanAcademyPlaylist> temporaryPlaylists = new ArrayList<>();
 
     public void setPlaylistsInAdapter(List<KhanAcademyPlaylist> khanAcademyPlaylists) {
         this.khanAcademyPlaylists = khanAcademyPlaylists;
     }
 
-    public void clear() {
-        khanAcademyPlaylists.clear();
-    }
     public SearchResultsAdapter(Context context) {
         super();
         this.context = context;
+        this.khanAcademyPlaylists = khanAcademyPlaylists;
+        temporaryPlaylists = khanAcademyPlaylists;
     }
 
     public void putPlaylistsIntoView() {
         //THIS DOES NOTHING BUT NEEDS TO DO SOMETHING
     }
+
+    public void clear() {
+        khanAcademyPlaylists.clear();
+    }
+
     @Override
     public int getCount() {
         return khanAcademyPlaylists.size();
