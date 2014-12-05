@@ -43,8 +43,8 @@ public class KhanAcademyApi {
                 .appendPath("api")
                 .appendPath("v1")
                 .appendPath("playlists")
-                .appendPath(searchTerm)
-                .appendPath("videos")
+//                .appendPath(searchTerm)
+//                .appendPath("videos")
                 .build();
 
         new LoadDataInBackground(callback).execute(uri);

@@ -34,7 +34,7 @@ import java.util.concurrent.TimeUnit;
 public class SearchResultsFragment extends Fragment implements KhanAcademyApiCallback, AdapterView.OnItemClickListener {
 
     private static final String ARG_SEARCH_TERM = "arg_search_term";
-    private static final long REFRESH_INTERVAL = TimeUnit.SECONDS.toMillis(8);
+    private static final long REFRESH_INTERVAL = TimeUnit.SECONDS.toMillis(30);
 
     private FragmentController fragmentController;
     private SearchResultsAdapter searchResultsAdapter;
