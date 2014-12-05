@@ -26,13 +26,12 @@ public class SearchResultsAdapter extends BaseAdapter implements Filterable {
 
     public void setPlaylistsInAdapter(List<KhanAcademyPlaylist> khanAcademyPlaylists) {
         this.khanAcademyPlaylists = khanAcademyPlaylists;
+        temporaryPlaylists.addAll(khanAcademyPlaylists);
     }
 
     public SearchResultsAdapter(Context context) {
         super();
         this.context = context;
-        this.khanAcademyPlaylists = khanAcademyPlaylists;
-        temporaryPlaylists = khanAcademyPlaylists;
     }
 
     public void putPlaylistsIntoView() {
@@ -104,19 +103,19 @@ public class SearchResultsAdapter extends BaseAdapter implements Filterable {
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
                 FilterResults results = new FilterResults();
-                ArrayList<String> FilteredList = new ArrayList<String>();
+                ArrayList<KhanAcademyPlaylist> filteredList = new ArrayList<KhanAcademyPlaylist>();
                 if (constraint == null || constraint.length() == 0) {
                     results.values = khanAcademyPlaylists;
                     results.count = khanAcademyPlaylists.size();
                 } else {
-                    for (int i = 0; i < getCount(); i++) {
-                        String data = getItem(i).getTitle();
-                        if (data.toLowerCase().contains(constraint.toString())) {
-                            FilteredList.add(data);
+                    for (int i = 0; i < khanAcademyPlaylists.size(); i++) {
+                        KhanAcademyPlaylist data = getItem(i);
+                        if (data.getTitle().toLowerCase().contains(constraint.toString().toLowerCase())) {
+                            filteredList.add(data);
                         }
                     }
-                    results.values = FilteredList;
-                    results.count = FilteredList.size();
+                    results.values = filteredList;
+                    results.count = filteredList.size();
                 }
                 return results;
             }
@@ -124,8 +123,8 @@ public class SearchResultsAdapter extends BaseAdapter implements Filterable {
 
 
             @Override
-            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-                temporaryPlaylists = (List<KhanAcademyPlaylist>) filterResults.values;
+            protected void publishResults(CharSequence charSequence, FilterResults results) {
+                khanAcademyPlaylists = (ArrayList<KhanAcademyPlaylist>) results.values;
                 notifyDataSetChanged();
             }
         };

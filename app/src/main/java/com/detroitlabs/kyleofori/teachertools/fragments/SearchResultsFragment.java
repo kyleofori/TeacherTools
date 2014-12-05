@@ -3,6 +3,8 @@ package com.detroitlabs.kyleofori.teachertools.fragments;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,7 +43,7 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
     private Timer refreshTimer;
     private ParseDataset parseDataset = new ParseDataset();
     private List<KhanAcademyPlaylist> khanAcademyPlaylists;
-    private EditText edtSearchResults;
+    private EditText edtInputSearch;
 
     public static SearchResultsFragment newInstance(String searchTerm) {
 
@@ -79,8 +81,23 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
         ListView listView = (ListView) view.findViewById(R.id.itm_search_results);
         listView.setAdapter(searchResultsAdapter);
         listView.setOnItemClickListener(this);
-        edtSearchResults = (EditText) view.findViewById(R.id.edt_search_results);
         loadRedditEntries();
+        edtInputSearch = (EditText) view.findViewById(R.id.edt_input_search);
+        edtInputSearch.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
+                searchResultsAdapter.getFilter().filter(cs);
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable arg0) {
+            }
+        });
 //        parseDataset.prepopulateParseDataset();
     }
 

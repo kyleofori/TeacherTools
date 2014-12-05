@@ -6,7 +6,7 @@
               android:layout_height="match_parent">
 
     <EditText
-        android:id="@+id/edt_search_results"
+        android:id="@+id/edt_input_search"
         android:layout_width="match_parent"
         android:layout_height="@dimen/row_text_height"/>
 
