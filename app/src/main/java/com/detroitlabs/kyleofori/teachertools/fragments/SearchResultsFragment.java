@@ -2,6 +2,7 @@ package com.detroitlabs.kyleofori.teachertools.fragments;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -44,6 +45,8 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
     private ParseDataset parseDataset = new ParseDataset();
     private List<KhanAcademyPlaylist> khanAcademyPlaylists;
     private EditText edtInputSearch;
+    private Intent intent;
+    private String searchKeyword;
 
     public static SearchResultsFragment newInstance(String searchTerm) {
 
@@ -82,6 +85,7 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
         listView.setAdapter(searchResultsAdapter);
         listView.setOnItemClickListener(this);
         loadRedditEntries();
+        intent = getActivity().getIntent();
         edtInputSearch = (EditText) view.findViewById(R.id.edt_input_search);
         edtInputSearch.addTextChangedListener(new TextWatcher() {
 

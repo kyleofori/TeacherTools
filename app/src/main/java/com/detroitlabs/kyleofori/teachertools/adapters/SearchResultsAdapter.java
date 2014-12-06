@@ -1,6 +1,7 @@
 package com.detroitlabs.kyleofori.teachertools.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ public class SearchResultsAdapter extends BaseAdapter implements Filterable {
     private Context context;
     private List<KhanAcademyPlaylist> originalPlaylists = new ArrayList<>();
     private List<KhanAcademyPlaylist> filteredPlaylists = new ArrayList<>();
+    private Intent intent;
 
     public void setPlaylistsInAdapter(List<KhanAcademyPlaylist> khanAcademyPlaylists) {
         this.originalPlaylists = khanAcademyPlaylists;

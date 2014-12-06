@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
 
 import com.detroitlabs.kyleofori.teachertools.R;
 import com.detroitlabs.kyleofori.teachertools.fragments.SearchResultsFragment;
@@ -25,7 +23,7 @@ public class ResultsActivity extends Activity implements FragmentController {
         Parse.initialize(this, "t7JTeQx4arA61XvUhQa1CjJhA2VrKWv9mMj3p44G", "jzKFoFbkf2FYwMf9sNwIegGFPt5oNBWwbsffNqa3");
 
         setContentView(R.layout.activity_results);
-        loadSubredditFragment();
+        loadSearchResultsFragment();
     }
 
     @Override
@@ -49,19 +47,19 @@ public class ResultsActivity extends Activity implements FragmentController {
         fragmentTransaction.commit();
     }
 
-    private void loadSubredditFragment() {
-        String subreddit = getIntent().getStringExtra(EXTRA_SEARCH_KEYWORD);
+    private void loadSearchResultsFragment() {
+        String searchKeyword = getIntent().getStringExtra(EXTRA_SEARCH_KEYWORD);
 
-        if (subreddit != null) {
+        if (searchKeyword != null) {
 
-            SearchResultsFragment searchResultsFragment = SearchResultsFragment.newInstance(subreddit);
+            SearchResultsFragment searchResultsFragment = SearchResultsFragment.newInstance(searchKeyword);
 
             getFragmentManager().beginTransaction()
                     .replace(R.id.fragment_container, searchResultsFragment)
                     .commit();
 
         } else {
-            throw new IllegalStateException("Must supply a subreddit to RedditNavigationActivity");
+            throw new IllegalStateException("Must supply a search term to ResultsActivity");
         }
     }
 
