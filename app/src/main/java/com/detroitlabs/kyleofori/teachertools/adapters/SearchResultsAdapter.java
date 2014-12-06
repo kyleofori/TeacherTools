@@ -36,10 +36,6 @@ public class SearchResultsAdapter extends BaseAdapter implements Filterable {
         this.context = context;
     }
 
-    public void putPlaylistsIntoView() {
-        //THIS DOES NOTHING BUT NEEDS TO DO SOMETHING
-    }
-
     public void clear() {
         originalPlaylists.clear();
         filteredPlaylists.clear();
@@ -83,8 +79,6 @@ public class SearchResultsAdapter extends BaseAdapter implements Filterable {
         return convertView;
     }
 
-
-
     private static class ViewHolder {
 
         private TextView titleTextView;
@@ -95,9 +89,7 @@ public class SearchResultsAdapter extends BaseAdapter implements Filterable {
             this.titleTextView = (TextView) rootView.findViewById(R.id.titleTextView);
             this.kaUrlTextView = (TextView) rootView.findViewById(R.id.kaUrlTextView);
             this.descriptionTextView = (TextView) rootView.findViewById(R.id.descriptionTextView);
-
         }
-
     }
 
     @Override
@@ -122,8 +114,6 @@ public class SearchResultsAdapter extends BaseAdapter implements Filterable {
                 }
                 return results;
             }
-
-
 
             @Override
             protected void publishResults(CharSequence charSequence, FilterResults results) {

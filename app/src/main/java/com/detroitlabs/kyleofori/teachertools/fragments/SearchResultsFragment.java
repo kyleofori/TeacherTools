@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +36,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class SearchResultsFragment extends Fragment implements KhanAcademyApiCallback, AdapterView.OnItemClickListener {
 
-    private static final String ARG_SEARCH_TERM = "arg_search_term";
+    private static final String EXTRA_SEARCH_KEYWORD = "extra_search_keyword";
     private static final long REFRESH_INTERVAL = TimeUnit.SECONDS.toMillis(30);
 
     private FragmentController fragmentController;
@@ -45,13 +46,12 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
     private ParseDataset parseDataset = new ParseDataset();
     private List<KhanAcademyPlaylist> khanAcademyPlaylists;
     private EditText edtInputSearch;
-    private Intent intent;
     private String searchKeyword;
 
-    public static SearchResultsFragment newInstance(String searchTerm) {
+    public static SearchResultsFragment newInstance(String searchKeyword) {
 
         Bundle args = new Bundle();
-        args.putString(ARG_SEARCH_TERM, searchTerm);
+        args.putString(EXTRA_SEARCH_KEYWORD, searchKeyword);
 
         SearchResultsFragment searchResultsFragment = new SearchResultsFragment();
         searchResultsFragment.setArguments(args);
@@ -67,8 +67,6 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
         } else {
             throw new IllegalArgumentException(getString(R.string.fragment_controller_interface_error));
         }
-
-
     }
 
     @Override
@@ -85,8 +83,10 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
         listView.setAdapter(searchResultsAdapter);
         listView.setOnItemClickListener(this);
         loadRedditEntries();
-        intent = getActivity().getIntent();
+        searchKeyword = getArguments().getString(EXTRA_SEARCH_KEYWORD);
+        Log.i("You have the search keyword? ", searchKeyword);
         edtInputSearch = (EditText) view.findViewById(R.id.edt_input_search);
+        edtInputSearch.setText(searchKeyword);
         edtInputSearch.addTextChangedListener(new TextWatcher() {
 
             @Override
@@ -134,13 +134,7 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
             searchResultsAdapter.clear();
             searchResultsAdapter.setPlaylistsInAdapter(khanAcademyPlaylists);
             searchResultsAdapter.notifyDataSetChanged();
-//            updateEntriesShown(khanAcademyPlaylists);
         }
-    }
-
-    public void updateEntriesShown(List<KhanAcademyPlaylist> khanAcademyPlaylists) {
-//        searchResultsAdapter.clear();
-//        searchResultsAdapter.addAll(khanAcademyPlaylists);
     }
 
     @Override
@@ -182,7 +176,7 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
     }
 
     private void loadRedditEntries() {
-        String searchTerm = getArguments().getString(ARG_SEARCH_TERM);
+        String searchTerm = getArguments().getString(EXTRA_SEARCH_KEYWORD);
 
         if (searchTerm != null) {
             khanAcademyApi.getSubredditEntries(searchTerm, this);
@@ -190,6 +184,4 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
             throw new IllegalStateException("Must supply a search term to SearchResultsListFragment");
         }
     }
-
-
 }
