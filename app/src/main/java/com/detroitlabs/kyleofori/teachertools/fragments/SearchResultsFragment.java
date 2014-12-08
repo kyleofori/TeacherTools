@@ -2,7 +2,6 @@ package com.detroitlabs.kyleofori.teachertools.fragments;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -82,9 +81,11 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
         ListView listView = (ListView) view.findViewById(R.id.itm_search_results);
         listView.setAdapter(searchResultsAdapter);
         listView.setOnItemClickListener(this);
-        loadRedditEntries();
+
+        loadKhanAcademyPlaylists();
         searchKeyword = getArguments().getString(EXTRA_SEARCH_KEYWORD);
         Log.i("You have the search keyword? ", searchKeyword);
+
         edtInputSearch = (EditText) view.findViewById(R.id.edt_input_search);
         edtInputSearch.setText(searchKeyword);
         edtInputSearch.addTextChangedListener(new TextWatcher() {
@@ -172,17 +173,21 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
                 }
             });
 
-            loadRedditEntries();
+            loadKhanAcademyPlaylists();
         }
     }
 
-    private void loadRedditEntries() {
+    private void loadKhanAcademyPlaylists() {
         String searchTerm = getArguments().getString(EXTRA_SEARCH_KEYWORD);
 
         if (searchTerm != null) {
-            khanAcademyApi.getSubredditEntries(searchTerm, this);
+            khanAcademyApi.getKhanAcademyPlaylists(searchTerm, this);
         } else {
             throw new IllegalStateException("Must supply a search term to SearchResultsListFragment");
         }
+    }
+
+    private void loadParseLessonPlans() {
+        
     }
 }

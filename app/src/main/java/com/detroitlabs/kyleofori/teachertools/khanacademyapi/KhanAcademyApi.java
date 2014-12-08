@@ -35,7 +35,7 @@ public class KhanAcademyApi {
     private KhanAcademyApi() {
     }
 
-    public void getSubredditEntries(String searchTerm, KhanAcademyApiCallback callback) {
+    public void getKhanAcademyPlaylists(String searchTerm, KhanAcademyApiCallback callback) {
 
         Uri uri = new Uri.Builder()
                 .scheme("http")
@@ -43,8 +43,6 @@ public class KhanAcademyApi {
                 .appendPath("api")
                 .appendPath("v1")
                 .appendPath("playlists")
-//                .appendPath(searchTerm)
-//                .appendPath("videos")
                 .build();
 
         new LoadDataInBackground(callback).execute(uri);
