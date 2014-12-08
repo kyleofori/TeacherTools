@@ -1,5 +1,14 @@
 package com.detroitlabs.kyleofori.teachertools.khanacademyapi;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
+import android.content.Context;
+import android.content.Intent;
+
+import com.detroitlabs.kyleofori.teachertools.R;
+import com.detroitlabs.kyleofori.teachertools.activities.ResultsActivity;
 import com.parse.ParseObject;
 
 /**
@@ -10,11 +19,11 @@ public class ParseDataset {
         ParseObject lessonPlan0 = new ParseObject("LessonPlan");
         lessonPlan0.put("author", "Tish Raff");
         lessonPlan0.put("title", "The Civil Rights Movement");
-                lessonPlan0.put("description", "Students will understand the following: 1. Beyond the famous leaders of the Civil Rights Movement, ordinary men and women struggled for their beliefs. 2. All the participants—famous and not so famous—deserve to have their stories told. 3. Older people have a responsibility to pass on these stories to younger people.");
+        lessonPlan0.put("description", "Students will understand the following: 1. Beyond the famous leaders of the Civil Rights Movement, ordinary men and women struggled for their beliefs. 2. All the participants—famous and not so famous—deserve to have their stories told. 3. Older people have a responsibility to pass on these stories to younger people.");
         lessonPlan0.put("subject", "U.S. History");
         lessonPlan0.put("lessonUrl", "http://www.discoveryeducation.com/teachers/free-lesson-plans/the-civil-rights-movement.cfm");
         lessonPlan0.put("hostingSite", "Discovery Education");
-                lessonPlan0.put("gradeLevels", "6-8");
+        lessonPlan0.put("gradeLevels", "6-8");
         lessonPlan0.pinInBackground();
 
         ParseObject lessonPlan1 = new ParseObject("LessonPlan");
@@ -24,7 +33,7 @@ public class ParseDataset {
         lessonPlan1.put("subject", "Math");
         lessonPlan1.put("lessonUrl", "http://www.discoveryeducation.com/teachers/free-lesson-plans/rational-number-concepts.cfm");
         lessonPlan1.put("hostingSite", "Discovery Education");
-                lessonPlan1.put("gradeLevels", "9-12");
+        lessonPlan1.put("gradeLevels", "9-12");
         lessonPlan1.pinInBackground();
 
         ParseObject lessonPlan2 = new ParseObject("LessonPlan");
@@ -34,7 +43,7 @@ public class ParseDataset {
         lessonPlan2.put("subject", "Math");
         lessonPlan2.put("lessonUrl", "http://www.sharemylesson.com/teaching-resource/order-of-operations-day-1-of-2-50009300/");
         lessonPlan2.put("hostingSite", "Share My Lesson");
-                lessonPlan2.put("gradeLevels", "6");
+        lessonPlan2.put("gradeLevels", "6");
         lessonPlan2.pinInBackground();
 
         ParseObject lessonPlan3 = new ParseObject("LessonPlan");
@@ -44,7 +53,7 @@ public class ParseDataset {
         lessonPlan3.put("subject", "Chemistry");
         lessonPlan3.put("lessonUrl", "http://www.sharemylesson.com/teaching-resource/covalent-bonds-handout-6082208/");
         lessonPlan3.put("hostingSite", "Share My Lesson");
-                lessonPlan3.put("gradeLevels", "9-12");
+        lessonPlan3.put("gradeLevels", "9-12");
         lessonPlan3.pinInBackground();
 
         ParseObject lessonPlan4 = new ParseObject("LessonPlan");
@@ -54,7 +63,7 @@ public class ParseDataset {
         lessonPlan4.put("subject", "English Language Arts");
         lessonPlan4.put("lessonUrl", "http://www.sharemylesson.com/teaching-resource/covalent-bonds-handout-6082208/");
         lessonPlan4.put("hostingSite", "Share My Lesson");
-                lessonPlan4.put("gradeLevels", "9-12");
+        lessonPlan4.put("gradeLevels", "9-12");
         lessonPlan4.pinInBackground();
 
         ParseObject lessonPlan5 = new ParseObject("LessonPlan");
@@ -64,7 +73,7 @@ public class ParseDataset {
         lessonPlan5.put("subject", "Social Studies & History");
         lessonPlan5.put("lessonUrl", "http://www.sharemylesson.com/teaching-resource/booker-t-washington-vs-web-dubois-and-rappers-50008908/");
         lessonPlan5.put("hostingSite", "Share My Lesson");
-                lessonPlan5.put("gradeLevels", "11");
+        lessonPlan5.put("gradeLevels", "11");
         lessonPlan5.pinInBackground();
 
         ParseObject lessonPlan6 = new ParseObject("LessonPlan");
@@ -74,7 +83,7 @@ public class ParseDataset {
         lessonPlan6.put("subject", "Social Studies & History");
         lessonPlan6.put("lessonUrl", "http://www.lessonplanet.com/teachers/a-lesson-before-dying-symbols");
         lessonPlan6.put("hostingSite", "Lesson Planet");
-                lessonPlan6.put("gradeLevels", "9-12");
+        lessonPlan6.put("gradeLevels", "9-12");
         lessonPlan6.pinInBackground();
 
         ParseObject lessonPlan7 = new ParseObject("LessonPlan");
@@ -84,7 +93,7 @@ public class ParseDataset {
         lessonPlan7.put("subject", "English Language Arts");
         lessonPlan7.put("lessonUrl", "http://www.lessonplanet.com/teachers/summer-journal-ideas");
         lessonPlan7.put("hostingSite", "Lesson Planet");
-                lessonPlan7.put("gradeLevels", "2-12");
+        lessonPlan7.put("gradeLevels", "2-12");
         lessonPlan7.pinInBackground();
 
         ParseObject lessonPlan8 = new ParseObject("LessonPlan");
@@ -94,7 +103,7 @@ public class ParseDataset {
         lessonPlan8.put("subject", "Social Studies & History");
         lessonPlan8.put("lessonUrl", "http://www.lessonplanet.com/teachers/aint-i-a-woman");
         lessonPlan8.put("hostingSite", "Lesson Planet");
-                lessonPlan8.put("gradeLevels", "5-8");
+        lessonPlan8.put("gradeLevels", "5-8");
         lessonPlan8.pinInBackground();
 
         ParseObject lessonPlan9 = new ParseObject("LessonPlan");
@@ -104,7 +113,7 @@ public class ParseDataset {
         lessonPlan9.put("subject", "Social Studies & History");
         lessonPlan9.put("lessonUrl", "http://www.lessonplanet.com/teachers/true-blue-on-being-australian");
         lessonPlan9.put("hostingSite", "Lesson Planet");
-                lessonPlan9.put("gradeLevels", "11-12");
+        lessonPlan9.put("gradeLevels", "11-12");
         lessonPlan9.pinInBackground();
 
     }
