@@ -1,6 +1,12 @@
 package com.detroitlabs.kyleofori.teachertools.parsers;
 
+import android.util.Log;
+
 import com.detroitlabs.kyleofori.teachertools.models.LessonModel;
+import com.parse.CountCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -14,27 +20,31 @@ import java.util.List;
  */
 public class ParseObjectParser {
 
-    /*public static List<LessonModel> parseParseObject(JSONArray jsonArray) {
+    public List<LessonModel> parseParseObject(List<ParseObject> parseObjects) {
 
         try {
             List<LessonModel> lessonModels = new ArrayList<>();
 
-            for (int index = 0; index < jsonArray.length(); index++) {
+            Log.i("ParseObjectsParser How big is the parseObjects list? ", String.valueOf(parseObjects.size()));
+            for (int index = 0; index < parseObjects.size(); index++) {
 
-                JSONObject playlistObject = jsonArray.getJSONObject(index);
-                String title = playlistObject.optString("title", "unknown title");
-                String kaUrl = playlistObject.optString("ka_url", "unknown url");
-                String description = playlistObject.optString("description", "unknown description");
+                //get the Parse object that matches the index
+                ParseObject currentParseObject = parseObjects.get(index);
+                //save the title as String title
+                String title = currentParseObject.getString("title");
+                String lessonUrl = currentParseObject.getString("lessonUrl");
+                String description = currentParseObject.getString("description");
 
-                LessonModel currentLessonModel = new LessonModel(title, kaUrl, description);
+                LessonModel currentLessonModel = new LessonModel(title, lessonUrl, description);
 
                 lessonModels.add(currentLessonModel);
             }
 
             return lessonModels;
-        } catch (JSONException e) {
+        } catch (NullPointerException e) {
+            Log.e("ParseObjectParser", "There was a problem parsing the ParseObject into a LessonModel.");
             return new ArrayList<>();
         }
-    }*/
+    }
 
 }

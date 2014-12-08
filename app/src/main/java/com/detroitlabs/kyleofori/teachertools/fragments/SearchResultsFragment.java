@@ -22,6 +22,11 @@ import com.detroitlabs.kyleofori.teachertools.khanacademyapi.KhanAcademyApiCallb
 import com.detroitlabs.kyleofori.teachertools.khanacademyapi.ParseDataset;
 import com.detroitlabs.kyleofori.teachertools.models.LessonModel;
 import com.detroitlabs.kyleofori.teachertools.parsers.KhanAcademyJSONParser;
+import com.detroitlabs.kyleofori.teachertools.parsers.ParseObjectParser;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
 import org.json.JSONArray;
 
@@ -45,6 +50,8 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
     private Timer refreshTimer;
     private ParseDataset parseDataset = new ParseDataset();
     private List<LessonModel> lessonModels = new ArrayList<>();
+    private List<ParseObject> parseObjects = new ArrayList<>();
+    private ParseObjectParser parseObjectParser;
     private EditText edtInputSearch;
     private String searchKeyword;
 
@@ -57,6 +64,14 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
         searchResultsFragment.setArguments(args);
 
         return searchResultsFragment;
+    }
+
+    public List<ParseObject> getParseObjects() {
+        return parseObjects;
+    }
+
+    public void setParseObjects(List<ParseObject> parseObjects) {
+        this.parseObjects = parseObjects;
     }
 
     @Override
@@ -84,6 +99,16 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
         listView.setOnItemClickListener(this);
 
         loadKhanAcademyPlaylists();
+        retrieveParseObjectsFromDatastore(); //slow method. I won't get results in time to use.
+        parseObjectParser = new ParseObjectParser();
+        ArrayList<LessonModel> testList = new ArrayList<>();
+        Log.i("SearchResultsFragment How big is the parseObjects list? ", String.valueOf(parseObjects.size()));
+        Log.i("SearchResultsFragment How big is the getParseObjects list? ", String.valueOf(getParseObjects().size()));
+        List<LessonModel> parsedLessonModels = parseObjectParser.parseParseObject(getParseObjects());
+//        testList.addAll(parsedLessonModels);
+//        Log.d("Test", testList.get(0).getDescription());
+
+
         searchKeyword = getArguments().getString(EXTRA_SEARCH_KEYWORD);
         Log.i("You have the search keyword? ", searchKeyword);
 
@@ -107,7 +132,7 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
 
         LessonModel exampleLessonModel = new LessonModel("TeacherTools", "http://www.example.com", "You know what it is");
         lessonModels.add(exampleLessonModel);
-//        parseDataset.prepopulateParseDataset();
+        parseDataset.prepopulateParseDataset();
     }
 
     @Override
@@ -123,13 +148,13 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
     @Override
     public void onResume() {
         super.onResume();
-        startRefreshTimer();
+//        startRefreshTimer();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        stopRefreshTimer();
+//        stopRefreshTimer();
     }
 
     @Override
@@ -191,17 +216,20 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
         }
     }
 
-    /*private void loadParseLessonPlans() {
+    private void retrieveParseObjectsFromDatastore() {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("LessonPlan");
         query.fromLocalDatastore();
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> objects, ParseException e) {
                 if (e == null) {
-                    // object will be your game score
+                    setParseObjects(objects);
+                    Log.d("SearchResultsFragment", "List of Parse objects created successfully");
+                    Log.d("SearchResultsFragment", objects.get(0).getString("title"));
+                    Log.d(this.getClass().getSimpleName(), getParseObjects().get(0).getString("title"));
                 } else {
-                    // something went wrong
+                    Log.d("SearchResultsFragment","No Parse objects were found");
                 }
             }
         });
-    }*/
+    }
 }
