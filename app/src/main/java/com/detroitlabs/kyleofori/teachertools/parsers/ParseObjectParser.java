@@ -12,9 +12,9 @@ import java.util.List;
 /**
  * Created by kyleofori on 11/26/14.
  */
-public class KhanAcademyJSONParser {
+public class ParseObjectParser {
 
-    public static List<LessonModel> parseJSONObject(JSONArray jsonArray) {
+    /*public static List<LessonModel> parseParseObject(JSONArray jsonArray) {
 
         try {
             List<LessonModel> lessonModels = new ArrayList<>();
@@ -35,6 +35,6 @@ public class KhanAcademyJSONParser {
         } catch (JSONException e) {
             return new ArrayList<>();
         }
-    }
+    }*/
 
 }

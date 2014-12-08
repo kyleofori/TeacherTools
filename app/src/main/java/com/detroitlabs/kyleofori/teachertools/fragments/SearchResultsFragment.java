@@ -20,11 +20,12 @@ import com.detroitlabs.kyleofori.teachertools.interfaces.FragmentController;
 import com.detroitlabs.kyleofori.teachertools.khanacademyapi.KhanAcademyApi;
 import com.detroitlabs.kyleofori.teachertools.khanacademyapi.KhanAcademyApiCallback;
 import com.detroitlabs.kyleofori.teachertools.khanacademyapi.ParseDataset;
-import com.detroitlabs.kyleofori.teachertools.models.KhanAcademyPlaylist;
+import com.detroitlabs.kyleofori.teachertools.models.LessonModel;
 import com.detroitlabs.kyleofori.teachertools.parsers.KhanAcademyJSONParser;
 
 import org.json.JSONArray;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -43,7 +44,7 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
     private KhanAcademyApi khanAcademyApi = KhanAcademyApi.getKhanAcademyApi();
     private Timer refreshTimer;
     private ParseDataset parseDataset = new ParseDataset();
-    private List<KhanAcademyPlaylist> khanAcademyPlaylists;
+    private List<LessonModel> lessonModels = new ArrayList<>();
     private EditText edtInputSearch;
     private String searchKeyword;
 
@@ -104,6 +105,8 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
             }
         });
 
+        LessonModel exampleLessonModel = new LessonModel("TeacherTools", "http://www.example.com", "You know what it is");
+        lessonModels.add(exampleLessonModel);
 //        parseDataset.prepopulateParseDataset();
     }
 
@@ -111,9 +114,9 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         switch (adapterView.getId()) {
             case R.id.itm_search_results:
-                    KhanAcademyPlaylist khanAcademyPlaylist = (KhanAcademyPlaylist) adapterView.getAdapter().getItem(i);
-                    PlaylistDetailFragment playlistDetailFragment = PlaylistDetailFragment.newInstance(khanAcademyPlaylist);
-                    fragmentController.changeFragment(playlistDetailFragment, true);
+                    LessonModel lessonModel = (LessonModel) adapterView.getAdapter().getItem(i);
+                    DetailFragment detailFragment = DetailFragment.newInstance(lessonModel);
+                    fragmentController.changeFragment(detailFragment, true);
         }
     }
 
@@ -132,9 +135,10 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
     @Override
     public void onSuccess(JSONArray response) {
         if (isAdded()) {
-            khanAcademyPlaylists = KhanAcademyJSONParser.parseJSONObject(response);
+            List<LessonModel> khanAcademyLessonModels = KhanAcademyJSONParser.parseJSONObject(response);
+            lessonModels.addAll(khanAcademyLessonModels);
             searchResultsAdapter.clear();
-            searchResultsAdapter.setPlaylistsInAdapter(khanAcademyPlaylists);
+            searchResultsAdapter.setLessonsInAdapter(lessonModels);
             searchResultsAdapter.notifyDataSetChanged();
         }
     }
@@ -187,7 +191,17 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
         }
     }
 
-    private void loadParseLessonPlans() {
-        
-    }
+    /*private void loadParseLessonPlans() {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("LessonPlan");
+        query.fromLocalDatastore();
+        query.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> objects, ParseException e) {
+                if (e == null) {
+                    // object will be your game score
+                } else {
+                    // something went wrong
+                }
+            }
+        });
+    }*/
 }

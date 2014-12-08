@@ -6,13 +6,13 @@ import android.os.Parcelable;
 /**
  * Created by bobbake4 on 11/13/14.
  */
-public class KhanAcademyPlaylist implements Parcelable {
+public class LessonModel implements Parcelable {
 
-    private String title, kaUrl, description;
+    private String title, lessonUrl, description;
 
-    public KhanAcademyPlaylist(String title, String kaUrl, String description){
+    public LessonModel(String title, String lessonUrl, String description){
         this.title = title;
-        this.kaUrl = kaUrl;
+        this.lessonUrl = lessonUrl;
         this.description = description;
     }
 
@@ -20,8 +20,8 @@ public class KhanAcademyPlaylist implements Parcelable {
         return title;
     }
 
-    public String getKaUrl() {
-        return kaUrl;
+    public String getLessonUrl() {
+        return lessonUrl;
     }
 
     public String getDescription() {
@@ -38,23 +38,23 @@ public class KhanAcademyPlaylist implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.title);
-        dest.writeString(this.kaUrl);
+        dest.writeString(this.lessonUrl);
         dest.writeString(this.description);
     }
 
-    private KhanAcademyPlaylist(Parcel in) {
+    private LessonModel(Parcel in) {
         this.title = in.readString();
-        this.kaUrl = in.readString();
+        this.lessonUrl = in.readString();
         this.description = in.readString();
     }
 
-    public static final Creator<KhanAcademyPlaylist> CREATOR = new Creator<KhanAcademyPlaylist>() {
-        public KhanAcademyPlaylist createFromParcel(Parcel source) {
-            return new KhanAcademyPlaylist(source);
+    public static final Creator<LessonModel> CREATOR = new Creator<LessonModel>() {
+        public LessonModel createFromParcel(Parcel source) {
+            return new LessonModel(source);
         }
 
-        public KhanAcademyPlaylist[] newArray(int size) {
-            return new KhanAcademyPlaylist[size];
+        public LessonModel[] newArray(int size) {
+            return new LessonModel[size];
         }
     };
 }

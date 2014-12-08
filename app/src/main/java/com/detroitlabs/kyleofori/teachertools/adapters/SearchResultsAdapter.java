@@ -11,7 +11,7 @@ import android.widget.Filterable;
 import android.widget.TextView;
 
 import com.detroitlabs.kyleofori.teachertools.R;
-import com.detroitlabs.kyleofori.teachertools.models.KhanAcademyPlaylist;
+import com.detroitlabs.kyleofori.teachertools.models.LessonModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,13 +22,13 @@ import java.util.List;
 public class SearchResultsAdapter extends BaseAdapter implements Filterable {
 
     private Context context;
-    private List<KhanAcademyPlaylist> originalPlaylists = new ArrayList<>();
-    private List<KhanAcademyPlaylist> filteredPlaylists = new ArrayList<>();
+    private List<LessonModel> originalLessons = new ArrayList<>();
+    private List<LessonModel> filteredLessons = new ArrayList<>();
     private Intent intent;
 
-    public void setPlaylistsInAdapter(List<KhanAcademyPlaylist> khanAcademyPlaylists) {
-        this.originalPlaylists = khanAcademyPlaylists;
-        this.filteredPlaylists = khanAcademyPlaylists;
+    public void setLessonsInAdapter(List<LessonModel> lessonModels) {
+        this.originalLessons = lessonModels;
+        this.filteredLessons = lessonModels;
     }
 
     public SearchResultsAdapter(Context context) {
@@ -37,18 +37,18 @@ public class SearchResultsAdapter extends BaseAdapter implements Filterable {
     }
 
     public void clear() {
-        originalPlaylists.clear();
-        filteredPlaylists.clear();
+        originalLessons.clear();
+        filteredLessons.clear();
     }
 
     @Override
     public int getCount() {
-        return filteredPlaylists.size();
+        return filteredLessons.size();
     }
 
     @Override
-    public KhanAcademyPlaylist getItem(int i) {
-        return filteredPlaylists.get(i);
+    public LessonModel getItem(int i) {
+        return filteredLessons.get(i);
     }
 
     @Override
@@ -62,7 +62,7 @@ public class SearchResultsAdapter extends BaseAdapter implements Filterable {
         ViewHolder viewHolder;
 
         if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.list_item_playlist_row, parent, false);
+            convertView = LayoutInflater.from(context).inflate(R.layout.list_item_entry, parent, false);
 
             viewHolder = new ViewHolder(convertView);
             convertView.setTag(viewHolder);
@@ -70,11 +70,11 @@ public class SearchResultsAdapter extends BaseAdapter implements Filterable {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        KhanAcademyPlaylist khanAcademyPlaylist = getItem(position);
+        LessonModel lessonModel = getItem(position);
 
-        viewHolder.titleTextView.setText(khanAcademyPlaylist.getTitle());
-        viewHolder.kaUrlTextView.setText(khanAcademyPlaylist.getKaUrl());
-        viewHolder.descriptionTextView.setText(khanAcademyPlaylist.getDescription());
+        viewHolder.titleTextView.setText(lessonModel.getTitle());
+        viewHolder.lessonUrlTextView.setText(lessonModel.getLessonUrl());
+        viewHolder.descriptionTextView.setText(lessonModel.getDescription());
 
         return convertView;
     }
@@ -82,12 +82,12 @@ public class SearchResultsAdapter extends BaseAdapter implements Filterable {
     private static class ViewHolder {
 
         private TextView titleTextView;
-        private TextView kaUrlTextView;
+        private TextView lessonUrlTextView;
         private TextView descriptionTextView;
 
         public ViewHolder(View rootView) {
             this.titleTextView = (TextView) rootView.findViewById(R.id.titleTextView);
-            this.kaUrlTextView = (TextView) rootView.findViewById(R.id.kaUrlTextView);
+            this.lessonUrlTextView = (TextView) rootView.findViewById(R.id.kaUrlTextView);
             this.descriptionTextView = (TextView) rootView.findViewById(R.id.descriptionTextView);
         }
     }
@@ -99,14 +99,14 @@ public class SearchResultsAdapter extends BaseAdapter implements Filterable {
             protected FilterResults performFiltering(CharSequence constraint) {
                 FilterResults results = new FilterResults();
                 if (constraint == null || constraint.length() == 0) {
-                    results.values = originalPlaylists;
-                    results.count = originalPlaylists.size();
+                    results.values = originalLessons;
+                    results.count = originalLessons.size();
                 } else {
-                    ArrayList<KhanAcademyPlaylist> filteredList = new ArrayList<KhanAcademyPlaylist>();
+                    ArrayList<LessonModel> filteredList = new ArrayList<LessonModel>();
 
-                    for (KhanAcademyPlaylist khanAcademyPlaylist : originalPlaylists) {
-                        if (khanAcademyPlaylist.getTitle() != null && khanAcademyPlaylist.getTitle().toLowerCase().contains(constraint.toString().toLowerCase())) {
-                            filteredList.add(khanAcademyPlaylist);
+                    for (LessonModel lessonModel : originalLessons) {
+                        if (lessonModel.getTitle() != null && lessonModel.getTitle().toLowerCase().contains(constraint.toString().toLowerCase())) {
+                            filteredList.add(lessonModel);
                         }
                     }
                     results.values = filteredList;
@@ -117,7 +117,7 @@ public class SearchResultsAdapter extends BaseAdapter implements Filterable {
 
             @Override
             protected void publishResults(CharSequence charSequence, FilterResults results) {
-                filteredPlaylists = (ArrayList<KhanAcademyPlaylist>) results.values;
+                filteredLessons = (ArrayList<LessonModel>) results.values;
                 notifyDataSetChanged();
             }
         };

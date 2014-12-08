@@ -5,35 +5,34 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.detroitlabs.kyleofori.teachertools.R;
-import com.detroitlabs.kyleofori.teachertools.models.KhanAcademyPlaylist;
+import com.detroitlabs.kyleofori.teachertools.models.LessonModel;
 
 /**
  * Created by bobbake4 on 11/13/14.
  */
-public class PlaylistDetailFragment extends Fragment {
+public class DetailFragment extends Fragment {
 
     private static final String ARG_PLAYLIST = "arg_khan_academy_playlist";
 
-    public static PlaylistDetailFragment newInstance(KhanAcademyPlaylist khanAcademyPlaylist) {
+    public static DetailFragment newInstance(LessonModel lessonModel) {
 
         Bundle args = new Bundle();
-        args.putParcelable(ARG_PLAYLIST, khanAcademyPlaylist);
+        args.putParcelable(ARG_PLAYLIST, lessonModel);
 
-        PlaylistDetailFragment playlistDetailFragment = new PlaylistDetailFragment();
-        playlistDetailFragment.setArguments(args);
+        DetailFragment detailFragment = new DetailFragment();
+        detailFragment.setArguments(args);
 
-        return playlistDetailFragment;
+        return detailFragment;
     }
 
     private TextView txtTitle, txtKaUrl, txtDescription;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_playlist_detail, container, false);
+        View view = inflater.inflate(R.layout.fragment_detail, container, false);
 
         txtTitle = (TextView) view.findViewById(R.id.titleTextView);
         txtKaUrl = (TextView) view.findViewById(R.id.kaUrlTextView);
@@ -46,13 +45,13 @@ public class PlaylistDetailFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        KhanAcademyPlaylist khanAcademyPlaylist = getArguments().getParcelable(ARG_PLAYLIST);
+        LessonModel lessonModel = getArguments().getParcelable(ARG_PLAYLIST);
 
-        if (khanAcademyPlaylist != null) {
+        if (lessonModel != null) {
 
-            txtTitle.setText(khanAcademyPlaylist.getTitle());
-            txtKaUrl.setText(khanAcademyPlaylist.getKaUrl());
-            txtDescription.setText(khanAcademyPlaylist.getDescription());
+            txtTitle.setText(lessonModel.getTitle());
+            txtKaUrl.setText(lessonModel.getLessonUrl());
+            txtDescription.setText(lessonModel.getDescription());
 
         } else {
             throw new IllegalStateException("Must supply a KhanAcademyPlaylist to PlaylistDetailFragment");
