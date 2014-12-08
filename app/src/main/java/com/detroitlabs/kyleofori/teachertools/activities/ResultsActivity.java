@@ -39,6 +39,7 @@ public class ResultsActivity extends Activity implements FragmentController, Vie
             case R.id.btn_see_favorites:
                 Intent intent = new Intent(this, FavoritesActivity.class);
                 startActivity(intent);
+                break;
         }
 
     }
