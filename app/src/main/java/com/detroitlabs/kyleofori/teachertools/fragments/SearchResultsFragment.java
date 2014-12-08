@@ -66,14 +66,6 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
         return searchResultsFragment;
     }
 
-    public List<ParseObject> getParseObjects() {
-        return parseObjects;
-    }
-
-    public void setParseObjects(List<ParseObject> parseObjects) {
-        this.parseObjects = parseObjects;
-    }
-
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -125,7 +117,7 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
 
         LessonModel exampleLessonModel = new LessonModel("TeacherTools", "http://www.example.com", "You know what it is");
         lessonModels.add(exampleLessonModel);
-        parseDataset.prepopulateParseDataset();
+//        parseDataset.prepopulateParseDataset();
     }
 
     @Override
@@ -215,27 +207,25 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> objects, ParseException e) {
                 if (e == null) {
-                    setParseObjects(objects);
                     Log.d("SearchResultsFragment", "List of Parse objects created successfully");
                     Log.d("SearchResultsFragment", objects.get(0).getString("title"));
-                    Log.d(this.getClass().getSimpleName(), getParseObjects().get(0).getString("title"));
-                    onCompletion(getParseObjects());
+                    onCompletion(objects);
                 } else {
-                    Log.d("SearchResultsFragment","No Parse objects were found");
+                    Log.d("SearchResultsFragment", "No Parse objects were found");
                 }
             }
         });
     }
 
-    public void onCompletion(List<ParseObject> parseObjects) {
+    public void onCompletion(List<ParseObject> objects) {
         if(isAdded()) {
             parseObjectParser = new ParseObjectParser();
             ArrayList<LessonModel> testList = new ArrayList<>();
-            Log.i("SearchResultsFragment How big is the parseObjects list? ", String.valueOf(parseObjects.size()));
-            Log.i("SearchResultsFragment How big is the getParseObjects list? ", String.valueOf(getParseObjects().size()));
-            List<LessonModel> parsedLessonModels = parseObjectParser.parseParseObject(getParseObjects());
+            Log.i("SearchResultsFragment How big is the objects list? ", String.valueOf(objects.size()));
+            List<LessonModel> parsedLessonModels = parseObjectParser.parseParseObject(objects);
             testList.addAll(parsedLessonModels);
             Log.d("Test", testList.get(0).getDescription());
+            lessonModels.addAll(testList);
         }
     }
 }
