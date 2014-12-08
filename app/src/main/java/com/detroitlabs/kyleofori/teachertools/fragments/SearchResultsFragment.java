@@ -102,6 +102,7 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
             public void afterTextChanged(Editable arg0) {
             }
         });
+
 //        parseDataset.prepopulateParseDataset();
     }
 
