@@ -100,13 +100,6 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
 
         loadKhanAcademyPlaylists();
         retrieveParseObjectsFromDatastore(); //slow method. I won't get results in time to use.
-        parseObjectParser = new ParseObjectParser();
-        ArrayList<LessonModel> testList = new ArrayList<>();
-        Log.i("SearchResultsFragment How big is the parseObjects list? ", String.valueOf(parseObjects.size()));
-        Log.i("SearchResultsFragment How big is the getParseObjects list? ", String.valueOf(getParseObjects().size()));
-        List<LessonModel> parsedLessonModels = parseObjectParser.parseParseObject(getParseObjects());
-//        testList.addAll(parsedLessonModels);
-//        Log.d("Test", testList.get(0).getDescription());
 
 
         searchKeyword = getArguments().getString(EXTRA_SEARCH_KEYWORD);
@@ -226,10 +219,23 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
                     Log.d("SearchResultsFragment", "List of Parse objects created successfully");
                     Log.d("SearchResultsFragment", objects.get(0).getString("title"));
                     Log.d(this.getClass().getSimpleName(), getParseObjects().get(0).getString("title"));
+                    onCompletion(getParseObjects());
                 } else {
                     Log.d("SearchResultsFragment","No Parse objects were found");
                 }
             }
         });
+    }
+
+    public void onCompletion(List<ParseObject> parseObjects) {
+        if(isAdded()) {
+            parseObjectParser = new ParseObjectParser();
+            ArrayList<LessonModel> testList = new ArrayList<>();
+            Log.i("SearchResultsFragment How big is the parseObjects list? ", String.valueOf(parseObjects.size()));
+            Log.i("SearchResultsFragment How big is the getParseObjects list? ", String.valueOf(getParseObjects().size()));
+            List<LessonModel> parsedLessonModels = parseObjectParser.parseParseObject(getParseObjects());
+            testList.addAll(parsedLessonModels);
+            Log.d("Test", testList.get(0).getDescription());
+        }
     }
 }
