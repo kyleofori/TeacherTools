@@ -64,17 +64,6 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
     private EditText edtInputSearch;
     private String searchKeyword;
 
-    public static SearchResultsFragment newInstance(String searchKeyword) {
-
-        Bundle args = new Bundle();
-        args.putString(EXTRA_SEARCH_KEYWORD, searchKeyword);
-
-        SearchResultsFragment searchResultsFragment = new SearchResultsFragment();
-        searchResultsFragment.setArguments(args);
-
-        return searchResultsFragment;
-    }
-
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -99,16 +88,11 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
         listView.setAdapter(searchResultsAdapter);
         listView.setOnItemClickListener(this);
 
-        loadKhanAcademyPlaylists();
+        khanAcademyApi.getKhanAcademyPlaylists(this);
         retrieveParseObjectsFromCloud();
         //retrieveParseObjectsFromDatastore or unpinParseObjectFromDatastore were here.
 
-
-        searchKeyword = getArguments().getString(EXTRA_SEARCH_KEYWORD);
-        Log.i("You have the search keyword? ", searchKeyword);
-
         edtInputSearch = (EditText) view.findViewById(R.id.edt_input_search);
-        edtInputSearch.setText(searchKeyword);
         edtInputSearch.addTextChangedListener(new TextWatcher() {
 
             @Override
@@ -204,7 +188,7 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
         String searchTerm = getArguments().getString(EXTRA_SEARCH_KEYWORD);
 
         if (searchTerm != null) {
-            khanAcademyApi.getKhanAcademyPlaylists(searchTerm, this);
+            khanAcademyApi.getKhanAcademyPlaylists(this);
         } else {
             throw new IllegalStateException("Must supply a search term to SearchResultsListFragment");
         }

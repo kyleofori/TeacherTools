@@ -35,7 +35,7 @@ public class KhanAcademyApi {
     private KhanAcademyApi() {
     }
 
-    public void getKhanAcademyPlaylists(String searchTerm, KhanAcademyApiCallback callback) {
+    public void getKhanAcademyPlaylists(KhanAcademyApiCallback callback) {
 
         Uri uri = new Uri.Builder()
                 .scheme("http")

@@ -11,14 +11,11 @@ import android.widget.Button;
 import com.detroitlabs.kyleofori.teachertools.R;
 import com.detroitlabs.kyleofori.teachertools.fragments.SearchResultsFragment;
 import com.detroitlabs.kyleofori.teachertools.interfaces.FragmentController;
-import com.parse.Parse;
 
 /**
  * Created by kyleofori on 11/30/14.
  */
 public class ResultsActivity extends Activity implements FragmentController, View.OnClickListener {
-
-    public static final String EXTRA_SEARCH_KEYWORD = "search keyword";
 
     private Button btnSeeFavorites;
 
@@ -29,7 +26,9 @@ public class ResultsActivity extends Activity implements FragmentController, Vie
         setContentView(R.layout.activity_results);
         btnSeeFavorites = (Button) findViewById(R.id.btn_see_favorites);
         btnSeeFavorites.setOnClickListener(this);
-        loadSearchResultsFragment();
+        getFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, new SearchResultsFragment())
+                .commit();
     }
 
     @Override
@@ -40,7 +39,6 @@ public class ResultsActivity extends Activity implements FragmentController, Vie
                 startActivity(intent);
                 break;
         }
-
     }
 
     @Override
@@ -64,19 +62,4 @@ public class ResultsActivity extends Activity implements FragmentController, Vie
         fragmentTransaction.commit();
     }
 
-    private void loadSearchResultsFragment() {
-        String searchKeyword = getIntent().getStringExtra(EXTRA_SEARCH_KEYWORD);
-
-        if (searchKeyword != null) {
-
-            SearchResultsFragment searchResultsFragment = SearchResultsFragment.newInstance(searchKeyword);
-
-            getFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, searchResultsFragment)
-                    .commit();
-
-        } else {
-            throw new IllegalStateException("Must supply a search term to ResultsActivity");
-        }
-    }
 }

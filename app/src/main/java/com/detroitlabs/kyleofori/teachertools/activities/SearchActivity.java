@@ -18,9 +18,7 @@ import com.parse.Parse;
  */
 public class SearchActivity extends Activity implements View.OnClickListener {
 
-    private EditText edtSearchBar;
     private Button btnSearch;
-    private static final String EXTRA_SEARCH_KEYWORD = "search keyword";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +26,6 @@ public class SearchActivity extends Activity implements View.OnClickListener {
         Parse.enableLocalDatastore(this);
         Parse.initialize(this, "t7JTeQx4arA61XvUhQa1CjJhA2VrKWv9mMj3p44G", "jzKFoFbkf2FYwMf9sNwIegGFPt5oNBWwbsffNqa3");
         setContentView(R.layout.activity_search);
-        edtSearchBar = (EditText) findViewById(R.id.edt_search_bar);
         btnSearch = (Button) findViewById(R.id.btn_search);
         btnSearch.setOnClickListener(this);
     }
@@ -47,23 +44,13 @@ public class SearchActivity extends Activity implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_search:
-                trySearchTermSubmit();
+                openSearchResultsListFragment();
                 break;
         }
     }
 
-    public void trySearchTermSubmit() {
-        String searchKeyword = edtSearchBar.getText().toString().trim();
-        if(searchKeyword.isEmpty()) {
-            Toast.makeText(this, R.string.toast_search_error, Toast.LENGTH_SHORT).show();
-        } else {
-            openSearchResultsListFragment(searchKeyword);
-        }
-    }
-
-    public void openSearchResultsListFragment(String searchKeyword) {
+    public void openSearchResultsListFragment() {
         Intent toResultsActivity = new Intent(this, ResultsActivity.class);
-        toResultsActivity.putExtra(EXTRA_SEARCH_KEYWORD, searchKeyword);
         startActivity(toResultsActivity);
     }
 }
