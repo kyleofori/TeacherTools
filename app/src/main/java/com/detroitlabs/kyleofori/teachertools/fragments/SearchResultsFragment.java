@@ -1,5 +1,6 @@
 package com.detroitlabs.kyleofori.teachertools.fragments;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.Notification;
@@ -8,6 +9,7 @@ import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -237,12 +239,13 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
         }
     }
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     public void notifyUser() {
         Notification.Builder mBuilder =
                 new Notification.Builder(getActivity())
                         .setSmallIcon(R.drawable.ic_launcher)
-                        .setContentTitle("My notification")
-                        .setContentText("Hello World!");
+                        .setContentTitle("New lesson plans added")
+                        .setContentText("x more n-subject lesson plans are available in TeacherTools.");
 // Creates an explicit intent for an Activity in your app
         Intent resultIntent = new Intent(getActivity(), ResultsActivity.class);
 
