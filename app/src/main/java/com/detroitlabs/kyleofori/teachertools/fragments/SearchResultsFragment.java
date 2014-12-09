@@ -100,7 +100,7 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
         listView.setOnItemClickListener(this);
 
         loadKhanAcademyPlaylists();
-        retrieveParseObjectsFromDatastore(); //slow method. I won't get results in time to use.
+        retrieveParseObjectsFromDatastore();
 
 
         searchKeyword = getArguments().getString(EXTRA_SEARCH_KEYWORD);
@@ -124,8 +124,7 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
             }
         });
 
-        LessonModel exampleLessonModel = new LessonModel("TeacherTools", "http://www.example.com", "You know what it is");
-        lessonModels.add(exampleLessonModel);
+        
 //        parseDataset.prepopulateParseDataset();
     }
 
