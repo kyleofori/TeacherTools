@@ -100,7 +100,7 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
         listView.setOnItemClickListener(this);
 
         loadKhanAcademyPlaylists();
-        retrieveParseObjectsFromDatastore();
+        unpinParseObjectsFromDatastore();
 
 
         searchKeyword = getArguments().getString(EXTRA_SEARCH_KEYWORD);
@@ -124,7 +124,7 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
             }
         });
 
-        
+
 //        parseDataset.prepopulateParseDataset();
     }
 
@@ -220,6 +220,22 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
                     onCompletion(objects);
                 } else {
                     Log.d("SearchResultsFragment", "No Parse objects were found");
+                }
+            }
+        });
+    }
+
+    private void unpinParseObjectsFromDatastore() {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("LessonPlan");
+        query.fromLocalDatastore();
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+                if (e == null) {
+                    ParseObject.unpinAllInBackground(objects);
+                } else {
+                    Log.d("SearchResultsFragment", "No Parse objects to unpin from local storage.");
+
                 }
             }
         });
