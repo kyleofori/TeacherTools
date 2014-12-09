@@ -100,7 +100,8 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
         listView.setOnItemClickListener(this);
 
         loadKhanAcademyPlaylists();
-        unpinParseObjectsFromDatastore();
+        retrieveParseObjectsFromCloud();
+        //retrieveParseObjectsFromDatastore or unpinParseObjectFromDatastore were here.
 
 
         searchKeyword = getArguments().getString(EXTRA_SEARCH_KEYWORD);
@@ -209,9 +210,18 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
         }
     }
 
+    private void retrieveParseObjectsFromCloud() {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("LessonPlan");
+        retrieveParseObjects(query);
+    }
+
     private void retrieveParseObjectsFromDatastore() {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("LessonPlan");
         query.fromLocalDatastore();
+        retrieveParseObjects(query);
+    }
+
+    private void retrieveParseObjects(ParseQuery<ParseObject> query) {
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> objects, ParseException e) {
                 if (e == null) {
@@ -223,6 +233,7 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
                 }
             }
         });
+
     }
 
     private void unpinParseObjectsFromDatastore() {
