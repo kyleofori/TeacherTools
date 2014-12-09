@@ -35,7 +35,7 @@ public class DetailFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_detail, container, false);
 
         txtTitle = (TextView) view.findViewById(R.id.titleTextView);
-        txtKaUrl = (TextView) view.findViewById(R.id.kaUrlTextView);
+        txtKaUrl = (TextView) view.findViewById(R.id.lessonUrlTextView);
         txtDescription = (TextView) view.findViewById(R.id.descriptionTextView);
 
         return view;

@@ -87,7 +87,7 @@ public class SearchResultsAdapter extends BaseAdapter implements Filterable {
 
         public ViewHolder(View rootView) {
             this.titleTextView = (TextView) rootView.findViewById(R.id.titleTextView);
-            this.lessonUrlTextView = (TextView) rootView.findViewById(R.id.kaUrlTextView);
+            this.lessonUrlTextView = (TextView) rootView.findViewById(R.id.lessonUrlTextView);
             this.descriptionTextView = (TextView) rootView.findViewById(R.id.descriptionTextView);
         }
     }

@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.detroitlabs.kyleofori.teachertools.R;
+import com.parse.Parse;
 
 /**
  * Created by kyleofori on 11/30/14.
@@ -24,6 +25,8 @@ public class SearchActivity extends Activity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Parse.enableLocalDatastore(this);
+        Parse.initialize(this, "t7JTeQx4arA61XvUhQa1CjJhA2VrKWv9mMj3p44G", "jzKFoFbkf2FYwMf9sNwIegGFPt5oNBWwbsffNqa3");
         setContentView(R.layout.activity_search);
         edtSearchBar = (EditText) findViewById(R.id.edt_search_bar);
         btnSearch = (Button) findViewById(R.id.btn_search);

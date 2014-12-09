@@ -28,9 +28,7 @@ public class ParseObjectParser {
             Log.i("ParseObjectsParser How big is the parseObjects list? ", String.valueOf(parseObjects.size()));
             for (int index = 0; index < parseObjects.size(); index++) {
 
-                //get the Parse object that matches the index
                 ParseObject currentParseObject = parseObjects.get(index);
-                //save the title as String title
                 String title = currentParseObject.getString("title");
                 String lessonUrl = currentParseObject.getString("lessonUrl");
                 String description = currentParseObject.getString("description");
