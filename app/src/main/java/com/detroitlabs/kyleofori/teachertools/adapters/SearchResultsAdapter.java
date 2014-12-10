@@ -62,7 +62,7 @@ public class SearchResultsAdapter extends BaseAdapter implements Filterable {
         ViewHolder viewHolder;
 
         if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.list_item_entry, parent, false);
+            convertView = LayoutInflater.from(context).inflate(R.layout.list_item_lesson_plan, parent, false);
 
             viewHolder = new ViewHolder(convertView);
             convertView.setTag(viewHolder);
