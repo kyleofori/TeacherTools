@@ -124,6 +124,7 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
         }
     }
 
+
     @Override
     public void onResume() {
         super.onResume();

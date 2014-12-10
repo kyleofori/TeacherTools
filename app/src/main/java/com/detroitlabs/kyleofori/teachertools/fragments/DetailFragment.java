@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.detroitlabs.kyleofori.teachertools.R;
 import com.detroitlabs.kyleofori.teachertools.models.LessonModel;
+import com.detroitlabs.kyleofori.teachertools.utils.SharedPreference;
 
 /**
  * Created by bobbake4 on 11/13/14.
@@ -31,6 +32,9 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
     }
 
     private TextView txtTitle, txtKaUrl, txtDescription;
+    private SharedPreference sharedPreference = new SharedPreference();
+    private LessonModel lessonModel;
+    private Button btnAddToFavorites;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -47,10 +51,10 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Button btnAddToFavorites = (Button) view.findViewById(R.id.btn_add_to_favorites);
+        btnAddToFavorites = (Button) view.findViewById(R.id.btn_add_to_favorites);
         btnAddToFavorites.setOnClickListener(this);
 
-        LessonModel lessonModel = getArguments().getParcelable(ARG_PLAYLIST);
+        lessonModel = getArguments().getParcelable(ARG_PLAYLIST);
 
         if (lessonModel != null) {
 
@@ -59,7 +63,7 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
             txtDescription.setText(lessonModel.getDescription());
 
         } else {
-            throw new IllegalStateException("Must supply a KhanAcademyPlaylist to PlaylistDetailFragment");
+            throw new IllegalStateException("Must supply a KhanAcademyPlaylist to DetailFragment");
         }
     }
 
@@ -68,6 +72,8 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
         switch (view.getId()) {
             case R.id.btn_add_to_favorites:
                 Toast.makeText(getActivity(), R.string.toast_favorite_added, Toast.LENGTH_SHORT).show();
+                sharedPreference.addFavorite(getActivity(), lessonModel);
+                btnAddToFavorites.setEnabled(false);
                 break;
         }
     }
