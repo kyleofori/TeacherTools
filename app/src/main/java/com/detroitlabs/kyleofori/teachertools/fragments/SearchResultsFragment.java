@@ -63,6 +63,7 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
     private ParseObjectParser parseObjectParser;
     private EditText edtInputSearch;
     private String searchKeyword;
+    private int preResourceCount, postResourceCount;
 
     @Override
     public void onAttach(Activity activity) {
@@ -209,28 +210,11 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> objects, ParseException e) {
                 if (e == null) {
-                    Log.d("SearchResultsFragment", "List of Parse objects created successfully");
+                    Log.d("SearchResultsFragment", "Parse objects found");
                     Log.d("SearchResultsFragment", objects.get(0).getString("title"));
                     onCompletion(objects);
                 } else {
                     Log.d("SearchResultsFragment", "No Parse objects were found");
-                }
-            }
-        });
-
-    }
-
-    private void unpinParseObjectsFromDatastore() {
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("LessonPlan");
-        query.fromLocalDatastore();
-        query.findInBackground(new FindCallback<ParseObject>() {
-            @Override
-            public void done(List<ParseObject> objects, ParseException e) {
-                if (e == null) {
-                    ParseObject.unpinAllInBackground(objects);
-                } else {
-                    Log.d("SearchResultsFragment", "No Parse objects to unpin from local storage.");
-
                 }
             }
         });
@@ -249,9 +233,27 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
         }
     }
 
+
+    private void unpinParseObjectsFromDatastore() {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("LessonPlan");
+        query.fromLocalDatastore();
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+                if (e == null) {
+                    ParseObject.unpinAllInBackground(objects);
+                } else {
+                    Log.d("SearchResultsFragment", "No Parse objects to unpin from local storage.");
+
+                }
+            }
+        });
+    }
+
+
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     public void notifyUser() {
-        Notification.Builder mBuilder =
+        Notification.Builder builder =
                 new Notification.Builder(getActivity())
                         .setSmallIcon(R.drawable.ic_launcher)
                         .setContentTitle("New lesson plans added")
@@ -273,10 +275,10 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
                         0,
                         PendingIntent.FLAG_UPDATE_CURRENT
                 );
-        mBuilder.setContentIntent(resultPendingIntent);
+        builder.setContentIntent(resultPendingIntent);
         NotificationManager mNotificationManager =
                 (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
 // mId allows you to update the notification later on.
-        mNotificationManager.notify(getId(), mBuilder.build());
+        mNotificationManager.notify(getId(), builder.build());
     }
 }
