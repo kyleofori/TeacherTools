@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.detroitlabs.kyleofori.teachertools.R;
 import com.detroitlabs.kyleofori.teachertools.models.LessonModel;
@@ -13,7 +15,7 @@ import com.detroitlabs.kyleofori.teachertools.models.LessonModel;
 /**
  * Created by bobbake4 on 11/13/14.
  */
-public class DetailFragment extends Fragment {
+public class DetailFragment extends Fragment implements View.OnClickListener {
 
     private static final String ARG_PLAYLIST = "arg_khan_academy_playlist";
 
@@ -45,6 +47,9 @@ public class DetailFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        Button btnAddToFavorites = (Button) view.findViewById(R.id.btn_add_to_favorites);
+        btnAddToFavorites.setOnClickListener(this);
+
         LessonModel lessonModel = getArguments().getParcelable(ARG_PLAYLIST);
 
         if (lessonModel != null) {
@@ -55,6 +60,15 @@ public class DetailFragment extends Fragment {
 
         } else {
             throw new IllegalStateException("Must supply a KhanAcademyPlaylist to PlaylistDetailFragment");
+        }
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.btn_add_to_favorites:
+                Toast.makeText(getActivity(), R.string.toast_favorite_added, Toast.LENGTH_SHORT).show();
+                break;
         }
     }
 }

@@ -244,7 +244,6 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
                     ParseObject.unpinAllInBackground(objects);
                 } else {
                     Log.d("SearchResultsFragment", "No Parse objects to unpin from local storage.");
-
                 }
             }
         });

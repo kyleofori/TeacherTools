@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.detroitlabs.kyleofori.teachertools.R;
 import com.detroitlabs.kyleofori.teachertools.fragments.SearchResultsFragment;
@@ -17,14 +18,12 @@ import com.detroitlabs.kyleofori.teachertools.interfaces.FragmentController;
  */
 public class ResultsActivity extends Activity implements FragmentController, View.OnClickListener {
 
-    private Button btnSeeFavorites;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_results);
-        btnSeeFavorites = (Button) findViewById(R.id.btn_see_favorites);
+        Button btnSeeFavorites = (Button) findViewById(R.id.btn_see_favorites);
         btnSeeFavorites.setOnClickListener(this);
         getFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, new SearchResultsFragment())
