@@ -10,6 +10,7 @@
     <string name="favorites">Favorites</string>
     <string name="add_to_favorites">Add to favorites</string>
     <string name="see_favorites">See favorites</string>
+    <string name="remove_favorite">Remove from favorites</string>
     <string name="delete">Delete</string>
     <string name="downloads">Downloads</string>
     <string name="search">Search</string>
@@ -27,4 +28,6 @@
 
     <string name="fragment_controller_interface_error">Your activity must implement the Fragment Controller interface.</string>
     <string name="toast_favorite_added">This lesson plan has been added to your Favorites.</string>
+    <string name="no_favorites_items">No favorites</string>
+    <string name="no_favorites_msg">Long press on items to add to favorites.</string>
 </resources>
