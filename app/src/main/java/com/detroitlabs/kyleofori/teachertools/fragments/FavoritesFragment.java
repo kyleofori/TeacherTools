@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -25,7 +27,7 @@ import com.detroitlabs.kyleofori.teachertools.utils.SharedPreference;
 /**
  * Created by kyleofori on 12/10/14.
  */
-public class FavoritesListFragment extends Fragment {
+public class FavoritesFragment extends Fragment implements CompoundButton.OnCheckedChangeListener {
 
         public static final String ARG_ITEM_ID = "favorite_list";
 
@@ -45,9 +47,10 @@ public class FavoritesListFragment extends Fragment {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            //(KDO) The view below is the same as that shown in the regular search results list.
             View view = inflater.inflate(R.layout.fragment_favorites, container,
                     false);
+            CheckBox checkBox = (CheckBox) view.findViewById(R.id.chk_favorite);
+            checkBox.setOnCheckedChangeListener(this);
             // Get favorite items from SharedPreferences.
             sharedPreference = new SharedPreference();
             favorites = sharedPreference.getFavorites(activity);
@@ -148,6 +151,11 @@ public class FavoritesListFragment extends Fragment {
             getActivity().getActionBar().setTitle(R.string.favorites);
             super.onResume();
         }
+
+    @Override
+    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+        
     }
+}
 
 

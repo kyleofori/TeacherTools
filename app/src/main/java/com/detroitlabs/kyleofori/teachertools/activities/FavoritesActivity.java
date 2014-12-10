@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.detroitlabs.kyleofori.teachertools.R;
-import com.detroitlabs.kyleofori.teachertools.fragments.FavoritesListFragment;
+import com.detroitlabs.kyleofori.teachertools.fragments.FavoritesFragment;
 import com.detroitlabs.kyleofori.teachertools.interfaces.FragmentController;
 
 /**
@@ -28,7 +28,7 @@ public class FavoritesActivity extends Activity implements FragmentController, V
 
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, new FavoritesListFragment())
+                .replace(R.id.fragment_container, new FavoritesFragment())
                 .commit();
     }
 
