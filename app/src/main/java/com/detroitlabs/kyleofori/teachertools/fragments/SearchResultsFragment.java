@@ -2,12 +2,14 @@ package com.detroitlabs.kyleofori.teachertools.fragments;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,12 +20,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.detroitlabs.kyleofori.teachertools.R;
 import com.detroitlabs.kyleofori.teachertools.activities.ResultsActivity;
+import com.detroitlabs.kyleofori.teachertools.adapters.FavoritesAdapter;
 import com.detroitlabs.kyleofori.teachertools.adapters.SearchResultsAdapter;
 import com.detroitlabs.kyleofori.teachertools.interfaces.FragmentController;
 import com.detroitlabs.kyleofori.teachertools.khanacademyapi.KhanAcademyApi;
@@ -32,6 +37,7 @@ import com.detroitlabs.kyleofori.teachertools.khanacademyapi.ParseDataset;
 import com.detroitlabs.kyleofori.teachertools.models.LessonModel;
 import com.detroitlabs.kyleofori.teachertools.parsers.KhanAcademyJSONParser;
 import com.detroitlabs.kyleofori.teachertools.parsers.ParseObjectParser;
+import com.detroitlabs.kyleofori.teachertools.utils.SharedPreference;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -48,7 +54,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by bobbake4 on 11/13/14.
  */
-public class SearchResultsFragment extends Fragment implements KhanAcademyApiCallback, AdapterView.OnItemClickListener {
+public class SearchResultsFragment extends Fragment implements KhanAcademyApiCallback, AdapterView.OnItemClickListener, View.OnClickListener {
 
     private static final String EXTRA_SEARCH_KEYWORD = "extra_search_keyword";
     private static final long REFRESH_INTERVAL = TimeUnit.SECONDS.toMillis(30);
@@ -65,6 +71,17 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
     private String searchKeyword;
     private int preResourceCount, postResourceCount;
 
+
+    public static final String ARG_ITEM_ID = "favorite_list";
+
+    private CheckBox chkFavorites;
+    private ListView favoriteList;
+    private SharedPreference sharedPreference;
+    private List<LessonModel> favorites;
+
+    Activity activity;
+    FavoritesAdapter favoritesAdapter;
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -76,9 +93,87 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        activity = getActivity();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_search_results, container, false);
-        return rootView;
+        View view = inflater.inflate(R.layout.fragment_search_results, container, false);
+
+        /*chkFavorites = (CheckBox) view.findViewById(R.id.chk_favorite);
+        chkFavorites.setOnCheckedChangeListener(this);
+        Button btnDelete = (Button) view.findViewById(R.id.btn_delete);
+        btnDelete.setOnClickListener(this);*/
+        // Get favorite items from SharedPreferences.
+        sharedPreference = new SharedPreference();
+        favorites = sharedPreference.getFavorites(activity);
+
+        if (favorites == null) {
+            showAlert(getResources().getString(R.string.no_favorites_items),
+                    getResources().getString(R.string.no_favorites_msg));
+        } else {
+
+            if (favorites.size() == 0) {
+                showAlert(
+                        getResources().getString(R.string.no_favorites_items),
+                        getResources().getString(R.string.no_favorites_msg));
+            }
+
+            favoriteList = (ListView) view.findViewById(R.id.itm_favorites);
+            if (favorites != null) {
+/*
+                favoritesAdapter = new FavoritesAdapter(activity, favorites);
+                favoriteList.setAdapter(favoritesAdapter);
+
+                favoriteList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                    public void onItemClick(AdapterView<?> parent, View arg1,
+                                            int position, long arg3) {
+
+                    }
+                });
+
+                favoriteList
+                        .setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+
+                            @Override
+                            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                                ImageView button = (ImageView) view.findViewById(R.id.imgbtn_favorite);
+
+                                String tag = button.getTag().toString();
+                                if (tag.equalsIgnoreCase("grey")) {
+                                    sharedPreference.addFavorite(activity,
+                                            favorites.get(position));
+                                    Toast.makeText(
+                                            activity,
+                                            activity.getResources().getString(
+                                                    R.string.add_to_favorites),
+                                            Toast.LENGTH_SHORT).show();
+
+                                    button.setTag("red");
+                                    button.setImageResource(R.drawable.favestar);
+                                } else {
+                                    sharedPreference.removeFavorite(activity,
+                                            favorites.get(position));
+                                    button.setTag("grey");
+                                    button.setImageResource(R.drawable.star_none);
+                                    favoritesAdapter.remove(favorites
+                                            .get(position));
+                                    Toast.makeText(
+                                            activity,
+                                            activity.getResources().getString(
+                                                    R.string.remove_favorite),
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                                return true;
+                            }
+                        });
+*/
+            }
+        }
+        return view;
     }
 
     @Override
@@ -128,6 +223,8 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
     @Override
     public void onResume() {
         super.onResume();
+        getActivity().setTitle(R.string.favorites);
+        getActivity().getActionBar().setTitle(R.string.favorites);
 //        startRefreshTimer();
     }
 
@@ -250,6 +347,40 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
         });
     }
 
+    public void showAlert(String title, String message) {
+        if (activity != null && !activity.isFinishing()) {
+            AlertDialog alertDialog = new AlertDialog.Builder(activity)
+                    .create();
+            alertDialog.setTitle(title);
+            alertDialog.setMessage(message);
+            alertDialog.setCancelable(false);
+
+            // setting OK Button
+            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK",
+                    new DialogInterface.OnClickListener() {
+
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            // activity.finish();
+                            getFragmentManager().popBackStackImmediate();
+                        }
+                    });
+            alertDialog.show();
+        }
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.btn_delete:
+                if (chkFavorites.isChecked()) {
+                    //delete the thing from favorites
+                    Log.i(this.getClass().getSimpleName(), "A checkbox is checked");
+                }
+                break;
+        }
+
+    }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     public void notifyUser() {
