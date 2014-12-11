@@ -13,7 +13,8 @@
     <string name="removed_from_favorites">Star just turned gray for now anyway</string>
     <string name="clear_favorites">Clear favorites</string>
     <string name="downloads">Downloads</string>
-    <string name="search">Search</string>
+    <string name="search_on_success">Search the Lesson plans!</string>
+    <string name="search_on_error">Search the Lesson plans anyway.</string>
     <string name="Teacher_Tools">Teacher Tools</string>
     <string name="preview">preview\:</string>
     <string name="description">description\:</string>
