@@ -229,24 +229,23 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
     public boolean onItemLongClick(AdapterView<?> arg0, View view,
                                    int position, long arg3) {
         ImageView button = (ImageView) view.findViewById(R.id.imgbtn_favorite);
-        button.setTag(TAG_OFF);
 
         String tag = button.getTag().toString();
         if (tag.equalsIgnoreCase(TAG_OFF)) {
             sharedPreference.addFavorite(activity, lessonModels.get(position));
             Toast.makeText(activity,
-                    activity.getResources().getString(R.string.add_to_favorites),
+                    activity.getResources().getString(R.string.added_to_favorites),
                     Toast.LENGTH_SHORT).show();
 
             button.setTag(TAG_ON);
             button.setImageResource(R.drawable.favestar);
         } else {
             sharedPreference.removeFavorite(activity, lessonModels.get(position));
+            Toast.makeText(activity,
+                    activity.getResources().getString(R.string.removed_from_favorites),
+                    Toast.LENGTH_SHORT).show();
             button.setTag(TAG_OFF);
             button.setImageResource(R.drawable.star_none);
-            Toast.makeText(activity,
-                    activity.getResources().getString(R.string.remove_favorite),
-                    Toast.LENGTH_SHORT).show();
         }
 
         return true;

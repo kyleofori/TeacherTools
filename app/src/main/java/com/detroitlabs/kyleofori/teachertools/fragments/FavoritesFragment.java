@@ -97,7 +97,7 @@ public class FavoritesFragment extends Fragment implements CompoundButton.OnChec
                                     Toast.makeText(
                                             activity,
                                             activity.getResources().getString(
-                                                    R.string.add_to_favorites),
+                                                    R.string.added_to_favorites),
                                             Toast.LENGTH_SHORT).show();
 
                                     button.setTag("red");
@@ -112,7 +112,7 @@ public class FavoritesFragment extends Fragment implements CompoundButton.OnChec
                                     Toast.makeText(
                                             activity,
                                             activity.getResources().getString(
-                                                    R.string.remove_favorite),
+                                                    R.string.removed_from_favorites),
                                             Toast.LENGTH_SHORT).show();
                                 }
                                 return true;

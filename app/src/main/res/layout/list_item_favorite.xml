@@ -41,6 +41,7 @@
 
         <ImageView
             android:id="@+id/imgbtn_favorite"
+            android:tag="@string/off"
             android:layout_width="match_parent"
             android:layout_height="20dp"
             android:layout_alignBottom="@+id/txt_description_fav"
