@@ -88,7 +88,7 @@ public class FavoritesFragment extends Fragment implements CompoundButton.OnChec
 
                             @Override
                             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                                ImageView button = (ImageView) view.findViewById(R.id.imgbtn_favorite);
+                                ImageView button = (ImageView) view.findViewById(R.id.img_star);
 
                                 String tag = button.getTag().toString();
                                 if (tag.equalsIgnoreCase("grey")) {

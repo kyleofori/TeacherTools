@@ -74,6 +74,7 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
     private EditText edtInputSearch;
     private String searchKeyword;
     private int preResourceCount, postResourceCount;
+    private ImageView button;
 
 
     public static final String ARG_ITEM_ID = "favorite_list";
@@ -107,6 +108,7 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search_results, container, false);
 
+        button = (ImageView) view.findViewById(R.id.img_star);
         /*chkFavorites = (CheckBox) view.findViewById(R.id.chk_favorite);
         chkFavorites.setOnCheckedChangeListener(this);
         Button btnDelete = (Button) view.findViewById(R.id.btn_delete);
@@ -228,7 +230,7 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
     @Override
     public boolean onItemLongClick(AdapterView<?> arg0, View view,
                                    int position, long arg3) {
-        ImageView button = (ImageView) view.findViewById(R.id.imgbtn_favorite);
+        button = (ImageView) view.findViewById(R.id.img_star);
 
         String tag = button.getTag().toString();
         if (tag.equalsIgnoreCase(TAG_OFF)) {

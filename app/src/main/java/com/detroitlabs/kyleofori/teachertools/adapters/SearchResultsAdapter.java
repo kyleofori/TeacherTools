@@ -2,12 +2,14 @@ package com.detroitlabs.kyleofori.teachertools.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.detroitlabs.kyleofori.teachertools.R;
@@ -75,6 +77,8 @@ public class SearchResultsAdapter extends BaseAdapter implements Filterable {
         viewHolder.txtTitleFav.setText(lessonModel.getTitle());
         viewHolder.txtLessonUrlFav.setText(lessonModel.getLessonUrl());
         viewHolder.txtDescriptionFav.setText(lessonModel.getDescription());
+        Drawable starNone = context.getResources().getDrawable(R.drawable.star_none);
+        viewHolder.imgStarFav.setImageDrawable(starNone);
 
         return convertView;
     }
@@ -84,11 +88,13 @@ public class SearchResultsAdapter extends BaseAdapter implements Filterable {
         private TextView txtTitleFav;
         private TextView txtLessonUrlFav;
         private TextView txtDescriptionFav;
+        private ImageView imgStarFav;
 
         public ViewHolder(View rootView) {
             this.txtTitleFav = (TextView) rootView.findViewById(R.id.txt_title_fav);
             this.txtLessonUrlFav = (TextView) rootView.findViewById(R.id.txt_lessonUrl_fav);
             this.txtDescriptionFav = (TextView) rootView.findViewById(R.id.txt_description_fav);
+            this.imgStarFav = (ImageView) rootView.findViewById(R.id.img_star);
         }
     }
 

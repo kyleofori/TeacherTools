@@ -40,7 +40,7 @@
             android:padding="6dp" />
 
         <ImageView
-            android:id="@+id/imgbtn_favorite"
+            android:id="@+id/img_star"
             android:tag="@string/off"
             android:layout_width="match_parent"
             android:layout_height="20dp"

@@ -68,7 +68,7 @@ public class FavoritesAdapter extends ArrayAdapter<LessonModel> {
             holder.txtDescriptionFavorite = (TextView) convertView
                     .findViewById(R.id.txt_lessonUrl_fav);
             holder.favoriteImg = (ImageView) convertView
-                    .findViewById(R.id.imgbtn_favorite);
+                    .findViewById(R.id.img_star);
 
             convertView.setTag(holder);
         } else {
