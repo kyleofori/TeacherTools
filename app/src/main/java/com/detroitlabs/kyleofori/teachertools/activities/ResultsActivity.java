@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.detroitlabs.kyleofori.teachertools.R;
 import com.detroitlabs.kyleofori.teachertools.fragments.SearchResultsFragment;
 import com.detroitlabs.kyleofori.teachertools.interfaces.FragmentController;
+import com.detroitlabs.kyleofori.teachertools.tags.GlobalTags;
 import com.parse.Parse;
 
 /**
@@ -25,6 +26,7 @@ public class ResultsActivity extends Activity implements FragmentController, Vie
         setContentView(R.layout.activity_results);
         Button btnSeeFavorites = (Button) findViewById(R.id.btn_see_favorites);
         btnSeeFavorites.setOnClickListener(this);
+
         getFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, new SearchResultsFragment())
                 .commit();

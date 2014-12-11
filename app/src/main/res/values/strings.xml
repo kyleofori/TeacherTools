@@ -36,4 +36,5 @@
     <string name="cancel">Cancel</string>
     <string name="dialog_clear_favorites_message">This action cannot be undone.</string>
     <string name="dialog_clear_favorites_title">Clear favorites?</string>
+    <string name="welcome">Welcome to Teacher Tools! We\'re now loading your resources.</string>
 </resources>

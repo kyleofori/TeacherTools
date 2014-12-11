@@ -14,7 +14,6 @@ import android.widget.TextView;
 
 import com.detroitlabs.kyleofori.teachertools.R;
 import com.detroitlabs.kyleofori.teachertools.models.LessonModel;
-import com.detroitlabs.kyleofori.teachertools.tags.GlobalTags;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -132,8 +131,10 @@ public class SearchResultsAdapter extends BaseAdapter implements Filterable {
         Drawable star;
         if(lessonModel.isFavorited()) {
             star = context.getResources().getDrawable(R.drawable.favestar);
+            notifyDataSetChanged();
         } else {
             star = context.getResources().getDrawable(R.drawable.star_none);
+            notifyDataSetChanged();
         }
         return star;
     }

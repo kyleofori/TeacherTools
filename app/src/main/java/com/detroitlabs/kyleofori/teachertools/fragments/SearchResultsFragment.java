@@ -28,6 +28,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.detroitlabs.kyleofori.teachertools.R;
+import com.detroitlabs.kyleofori.teachertools.activities.HomepageActivity;
 import com.detroitlabs.kyleofori.teachertools.activities.ResultsActivity;
 import com.detroitlabs.kyleofori.teachertools.adapters.FavoritesAdapter;
 import com.detroitlabs.kyleofori.teachertools.adapters.SearchResultsAdapter;
@@ -46,6 +47,7 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,19 +62,16 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
         AdapterView.OnItemClickListener, View.OnClickListener, AdapterView.OnItemLongClickListener {
 
 
-    private static final String EXTRA_SEARCH_KEYWORD = "extra_search_keyword";
-    private static final long REFRESH_INTERVAL = TimeUnit.SECONDS.toMillis(30);
-
     private FragmentController fragmentController;
     private SearchResultsAdapter searchResultsAdapter;
-    private KhanAcademyApi khanAcademyApi = KhanAcademyApi.getKhanAcademyApi();
+    //    private KhanAcademyApi khanAcademyApi = KhanAcademyApi.getKhanAcademyApi();
     private Timer refreshTimer;
     private ParseDataset parseDataset = new ParseDataset();
     private List<LessonModel> lessonModels = new ArrayList<>();
     private List<ParseObject> parseObjects = new ArrayList<>();
     private ParseObjectParser parseObjectParser;
     private EditText edtInputSearch;
-    private String searchKeyword;
+    private String response;
     private int preResourceCount, postResourceCount;
     private ImageView imgStar;
 
@@ -87,6 +86,7 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
 
     Activity activity;
     FavoritesAdapter favoritesAdapter;
+
 
     @Override
     public void onAttach(Activity activity) {
@@ -112,10 +112,6 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
         imgStar = (ImageView) view.findViewById(R.id.img_star);
         loadingDialog = new ProgressDialog(getActivity());
         loadingDialog.show();
-        /*chkFavorites = (CheckBox) view.findViewById(R.id.chk_favorite);
-        chkFavorites.setOnCheckedChangeListener(this);
-        Button btnDelete = (Button) view.findViewById(R.id.btn_delete);
-        btnDelete.setOnClickListener(this);*/
         // Get favorite items from SharedPreferences.
         sharedPreference = new SharedPreference();
         favorites = sharedPreference.getFavorites(activity);
@@ -132,56 +128,6 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
             }
 
             favoriteList = (ListView) view.findViewById(R.id.list_favorites);
-            if (favorites != null) {
-/*
-                favoritesAdapter = new FavoritesAdapter(activity, favorites);
-                favoriteList.setAdapter(favoritesAdapter);
-
-                favoriteList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-                    public void onItemClick(AdapterView<?> parent, View arg1,
-                                            int position, long arg3) {
-
-                    }
-                });
-
-                favoriteList
-                        .setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-
-                            @Override
-                            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                                ImageView imgStar = (ImageView) view.findViewById(R.id.imgbtn_favorite);
-
-                                String tag = imgStar.getTag().toString();
-                                if (tag.equalsIgnoreCase("grey")) {
-                                    sharedPreference.addFavorite(activity,
-                                            favorites.get(position));
-                                    Toast.makeText(
-                                            activity,
-                                            activity.getResources().getString(
-                                                    R.string.add_to_favorites),
-                                            Toast.LENGTH_SHORT).show();
-
-                                    imgStar.setTag("red");
-                                    imgStar.setImageResource(R.drawable.favestar);
-                                } else {
-                                    sharedPreference.removeFavorite(activity,
-                                            favorites.get(position));
-                                    imgStar.setTag("grey");
-                                    imgStar.setImageResource(R.drawable.star_none);
-                                    favoritesAdapter.remove(favorites
-                                            .get(position));
-                                    Toast.makeText(
-                                            activity,
-                                            activity.getResources().getString(
-                                                    R.string.remove_favorite),
-                                            Toast.LENGTH_SHORT).show();
-                                }
-                                return true;
-                            }
-                        });
-*/
-            }
         }
         return view;
     }
@@ -195,7 +141,17 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
         listView.setOnItemClickListener(this);
         listView.setOnItemLongClickListener(this);
 
-        khanAcademyApi.getKhanAcademyPlaylists(this);
+        if (isAdded()) {
+            List<LessonModel> khanAcademyLessonModels = HomepageActivity.khanAcademyLessonModels;
+            lessonModels.addAll(khanAcademyLessonModels);
+            loadingDialog.dismiss();
+            searchResultsAdapter.clear();
+            searchResultsAdapter.setLessonsInAdapter(lessonModels);
+            searchResultsAdapter.notifyDataSetChanged();
+        }
+
+
+//        khanAcademyApi.getKhanAcademyPlaylists(this);
         retrieveParseObjectsFromCloud();
         //retrieveParseObjectsFromDatastore or unpinParseObjectFromDatastore were here.
 
@@ -224,9 +180,9 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         switch (adapterView.getId()) {
             case R.id.list_search_results:
-                    LessonModel lessonModel = (LessonModel) adapterView.getAdapter().getItem(i);
-                    DetailFragment detailFragment = DetailFragment.newInstance(lessonModel);
-                    fragmentController.changeFragment(detailFragment, true);
+                LessonModel lessonModel = (LessonModel) adapterView.getAdapter().getItem(i);
+                DetailFragment detailFragment = DetailFragment.newInstance(lessonModel);
+                fragmentController.changeFragment(detailFragment, true);
         }
     }
 
@@ -244,6 +200,7 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
             imgStar.setTag(GlobalTags.TAG_OFF);
             imgStar.setImageResource(R.drawable.star_none);
             lessonModels.get(position).setFavorited(false);
+            searchResultsAdapter.notifyDataSetChanged();
             Log.i(getClass().getSimpleName(), "isFavorited() is now " + lessonModels.get(position).isFavorited());
         } else {
             Log.i(getClass().getSimpleName(), "isFavorited() was " + lessonModels.get(position).isFavorited());
@@ -255,10 +212,10 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
             imgStar.setTag(GlobalTags.TAG_ON);
             imgStar.setImageResource(R.drawable.favestar);
             lessonModels.get(position).setFavorited(true);
+            searchResultsAdapter.notifyDataSetChanged();
             Log.i(getClass().getSimpleName(), "isFavorited() is now " + lessonModels.get(position).isFavorited());
 
         }
-
         return true;
     }
 
@@ -268,13 +225,11 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
         super.onResume();
         getActivity().setTitle(R.string.favorites);
         getActivity().getActionBar().setTitle(R.string.favorites);
-//        startRefreshTimer();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-//        stopRefreshTimer();
     }
 
     @Override
@@ -294,47 +249,6 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
     public void onError() {
         if (isAdded()) {
             Toast.makeText(getActivity(), "Error loading search results list", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private void startRefreshTimer() {
-        TimerTask timerTask = new TimerTask() {
-            @Override
-            public void run() {
-                autoRefreshList();
-            }
-        };
-
-        refreshTimer = new Timer();
-        refreshTimer.schedule(timerTask, REFRESH_INTERVAL, REFRESH_INTERVAL);
-    }
-
-    private void stopRefreshTimer() {
-        refreshTimer.cancel();
-        refreshTimer = null;
-    }
-
-    private void autoRefreshList() {
-        if (isAdded()) {
-
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    Toast.makeText(getActivity(), "Auto refreshing list", Toast.LENGTH_SHORT).show();
-                }
-            });
-
-            loadKhanAcademyPlaylists();
-        }
-    }
-
-    private void loadKhanAcademyPlaylists() {
-        String searchTerm = getArguments().getString(EXTRA_SEARCH_KEYWORD);
-
-        if (searchTerm != null) {
-            khanAcademyApi.getKhanAcademyPlaylists(this);
-        } else {
-            throw new IllegalStateException("Must supply a search term to SearchResultsListFragment");
         }
     }
 
