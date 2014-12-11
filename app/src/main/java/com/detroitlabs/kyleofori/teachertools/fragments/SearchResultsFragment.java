@@ -21,7 +21,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -33,7 +32,6 @@ import com.detroitlabs.kyleofori.teachertools.activities.ResultsActivity;
 import com.detroitlabs.kyleofori.teachertools.adapters.FavoritesAdapter;
 import com.detroitlabs.kyleofori.teachertools.adapters.SearchResultsAdapter;
 import com.detroitlabs.kyleofori.teachertools.interfaces.FragmentController;
-import com.detroitlabs.kyleofori.teachertools.khanacademyapi.KhanAcademyApi;
 import com.detroitlabs.kyleofori.teachertools.khanacademyapi.KhanAcademyApiCallback;
 import com.detroitlabs.kyleofori.teachertools.khanacademyapi.ParseDataset;
 import com.detroitlabs.kyleofori.teachertools.models.LessonModel;
@@ -64,28 +62,18 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
 
     private FragmentController fragmentController;
     private SearchResultsAdapter searchResultsAdapter;
-    //    private KhanAcademyApi khanAcademyApi = KhanAcademyApi.getKhanAcademyApi();
-    private Timer refreshTimer;
     private ParseDataset parseDataset = new ParseDataset();
     private List<LessonModel> lessonModels = new ArrayList<>();
     private List<ParseObject> parseObjects = new ArrayList<>();
     private ParseObjectParser parseObjectParser;
     private EditText edtInputSearch;
-    private String response;
-    private int preResourceCount, postResourceCount;
     private ImageView imgStar;
 
     private ProgressDialog loadingDialog;
-
-    public static final String ARG_ITEM_ID = "favorite_list";
-
-    private CheckBox chkFavorites;
-    private ListView favoriteList;
     private SharedPreference sharedPreference;
     private List<LessonModel> favorites;
 
     Activity activity;
-    FavoritesAdapter favoritesAdapter;
 
 
     @Override
@@ -127,7 +115,7 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
                         getResources().getString(R.string.no_favorites_msg));
             }
 
-            favoriteList = (ListView) view.findViewById(R.id.list_favorites);
+            ListView favoriteList = (ListView) view.findViewById(R.id.list_favorites);
         }
         return view;
     }
@@ -151,9 +139,7 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
         }
 
 
-//        khanAcademyApi.getKhanAcademyPlaylists(this);
         retrieveParseObjectsFromCloud();
-        //retrieveParseObjectsFromDatastore or unpinParseObjectFromDatastore were here.
 
         edtInputSearch = (EditText) view.findViewById(R.id.edt_input_search);
         edtInputSearch.addTextChangedListener(new TextWatcher() {
@@ -320,7 +306,7 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
 
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
-                            // activity.finish();
+//                            activity.finish();
                             getFragmentManager().popBackStackImmediate();
                         }
                     });
@@ -331,12 +317,7 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.btn_clear_favorites:
-                if (chkFavorites.isChecked()) {
-                    //delete the thing from favorites
-                    Log.i(this.getClass().getSimpleName(), "A checkbox is checked");
-                }
-                break;
+
         }
 
     }
@@ -348,17 +329,9 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
                         .setSmallIcon(R.drawable.ic_launcher)
                         .setContentTitle("New lesson plans added")
                         .setContentText("x more n-subject lesson plans are available in TeacherTools.");
-// Creates an explicit intent for an Activity in your app
         Intent resultIntent = new Intent(getActivity(), ResultsActivity.class);
-
-// The stack builder object will contain an artificial back stack for the
-// started Activity.
-// This ensures that navigating backward from the Activity leads out of
-// your application to the Home screen.
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(getActivity());
-// Adds the back stack for the Intent (but not the Intent itself)
         stackBuilder.addParentStack(ResultsActivity.class);
-// Adds the Intent that starts the Activity to the top of the stack
         stackBuilder.addNextIntent(resultIntent);
         PendingIntent resultPendingIntent =
                 stackBuilder.getPendingIntent(
@@ -368,7 +341,6 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
         builder.setContentIntent(resultPendingIntent);
         NotificationManager mNotificationManager =
                 (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
-// mId allows you to update the notification later on.
         mNotificationManager.notify(getId(), builder.build());
     }
 }
