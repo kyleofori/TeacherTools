@@ -7,6 +7,7 @@ import android.app.Fragment;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -73,8 +74,9 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
     private EditText edtInputSearch;
     private String searchKeyword;
     private int preResourceCount, postResourceCount;
-    private ImageView button;
+    private ImageView imgStar;
 
+    private ProgressDialog loadingDialog;
 
     public static final String ARG_ITEM_ID = "favorite_list";
 
@@ -107,7 +109,9 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search_results, container, false);
 
-        button = (ImageView) view.findViewById(R.id.img_star);
+        imgStar = (ImageView) view.findViewById(R.id.img_star);
+        loadingDialog = new ProgressDialog(getActivity());
+        loadingDialog.show();
         /*chkFavorites = (CheckBox) view.findViewById(R.id.chk_favorite);
         chkFavorites.setOnCheckedChangeListener(this);
         Button btnDelete = (Button) view.findViewById(R.id.btn_delete);
@@ -146,9 +150,9 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
 
                             @Override
                             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                                ImageView button = (ImageView) view.findViewById(R.id.imgbtn_favorite);
+                                ImageView imgStar = (ImageView) view.findViewById(R.id.imgbtn_favorite);
 
-                                String tag = button.getTag().toString();
+                                String tag = imgStar.getTag().toString();
                                 if (tag.equalsIgnoreCase("grey")) {
                                     sharedPreference.addFavorite(activity,
                                             favorites.get(position));
@@ -158,13 +162,13 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
                                                     R.string.add_to_favorites),
                                             Toast.LENGTH_SHORT).show();
 
-                                    button.setTag("red");
-                                    button.setImageResource(R.drawable.favestar);
+                                    imgStar.setTag("red");
+                                    imgStar.setImageResource(R.drawable.favestar);
                                 } else {
                                     sharedPreference.removeFavorite(activity,
                                             favorites.get(position));
-                                    button.setTag("grey");
-                                    button.setImageResource(R.drawable.star_none);
+                                    imgStar.setTag("grey");
+                                    imgStar.setImageResource(R.drawable.star_none);
                                     favoritesAdapter.remove(favorites
                                             .get(position));
                                     Toast.makeText(
@@ -229,23 +233,29 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
     @Override
     public boolean onItemLongClick(AdapterView<?> arg0, View view,
                                    int position, long arg3) {
-        button = (ImageView) view.findViewById(R.id.img_star);
+        imgStar = (ImageView) view.findViewById(R.id.img_star);
 
         if (lessonModels.get(position).isFavorited()) {
+            Log.i(getClass().getSimpleName(), "isFavorited() was " + lessonModels.get(position).isFavorited());
             sharedPreference.removeFavorite(activity, lessonModels.get(position));
             Toast.makeText(activity,
                     activity.getResources().getString(R.string.removed_from_favorites),
                     Toast.LENGTH_SHORT).show();
-            button.setTag(GlobalTags.TAG_OFF);
-            button.setImageResource(R.drawable.star_none);
+            imgStar.setTag(GlobalTags.TAG_OFF);
+            imgStar.setImageResource(R.drawable.star_none);
+            lessonModels.get(position).setFavorited(false);
+            Log.i(getClass().getSimpleName(), "isFavorited() is now " + lessonModels.get(position).isFavorited());
         } else {
+            Log.i(getClass().getSimpleName(), "isFavorited() was " + lessonModels.get(position).isFavorited());
             sharedPreference.addFavorite(activity, lessonModels.get(position));
             Toast.makeText(activity,
                     activity.getResources().getString(R.string.added_to_favorites),
                     Toast.LENGTH_SHORT).show();
 
-            button.setTag(GlobalTags.TAG_ON);
-            button.setImageResource(R.drawable.favestar);
+            imgStar.setTag(GlobalTags.TAG_ON);
+            imgStar.setImageResource(R.drawable.favestar);
+            lessonModels.get(position).setFavorited(true);
+            Log.i(getClass().getSimpleName(), "isFavorited() is now " + lessonModels.get(position).isFavorited());
 
         }
 
@@ -272,6 +282,8 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
         if (isAdded()) {
             List<LessonModel> khanAcademyLessonModels = KhanAcademyJSONParser.parseJSONObject(response);
             lessonModels.addAll(khanAcademyLessonModels);
+            loadingDialog.dismiss();
+
             searchResultsAdapter.clear();
             searchResultsAdapter.setLessonsInAdapter(lessonModels);
             searchResultsAdapter.notifyDataSetChanged();

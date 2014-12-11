@@ -8,9 +8,9 @@
     <string name="previous">Previous</string>
     <string name="next">Next</string>
     <string name="favorites">Favorites</string>
-    <string name="added_to_favorites">Added to favorites</string>
+    <string name="added_to_favorites">Star just turned gold for now anyway</string>
     <string name="see_favorites">See favorites</string>
-    <string name="removed_from_favorites">Removed from favorites</string>
+    <string name="removed_from_favorites">Star just turned gray for now anyway</string>
     <string name="clear_favorites">Clear favorites</string>
     <string name="downloads">Downloads</string>
     <string name="search">Search</string>

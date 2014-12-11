@@ -37,6 +37,10 @@ public class LessonModel implements Parcelable {
         return isFavorited;
     }
 
+    public void setFavorited(boolean isFavorited) {
+        this.isFavorited = isFavorited;
+    }
+
     protected LessonModel(Parcel in) {
         title = in.readString();
         lessonUrl = in.readString();
