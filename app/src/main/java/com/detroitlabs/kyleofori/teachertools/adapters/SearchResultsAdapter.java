@@ -62,7 +62,7 @@ public class SearchResultsAdapter extends BaseAdapter implements Filterable {
         ViewHolder viewHolder;
 
         if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.list_item_lesson_plan, parent, false);
+            convertView = LayoutInflater.from(context).inflate(R.layout.list_item_favorite, parent, false);
 
             viewHolder = new ViewHolder(convertView);
             convertView.setTag(viewHolder);
@@ -72,23 +72,23 @@ public class SearchResultsAdapter extends BaseAdapter implements Filterable {
 
         LessonModel lessonModel = getItem(position);
 
-        viewHolder.titleTextView.setText(lessonModel.getTitle());
-        viewHolder.lessonUrlTextView.setText(lessonModel.getLessonUrl());
-        viewHolder.descriptionTextView.setText(lessonModel.getDescription());
+        viewHolder.txtTitleFav.setText(lessonModel.getTitle());
+        viewHolder.txtLessonUrlFav.setText(lessonModel.getLessonUrl());
+        viewHolder.txtDescriptionFav.setText(lessonModel.getDescription());
 
         return convertView;
     }
 
     private static class ViewHolder {
 
-        private TextView titleTextView;
-        private TextView lessonUrlTextView;
-        private TextView descriptionTextView;
+        private TextView txtTitleFav;
+        private TextView txtLessonUrlFav;
+        private TextView txtDescriptionFav;
 
         public ViewHolder(View rootView) {
-            this.titleTextView = (TextView) rootView.findViewById(R.id.titleTextView);
-            this.lessonUrlTextView = (TextView) rootView.findViewById(R.id.lessonUrlTextView);
-            this.descriptionTextView = (TextView) rootView.findViewById(R.id.descriptionTextView);
+            this.txtTitleFav = (TextView) rootView.findViewById(R.id.txt_title_fav);
+            this.txtLessonUrlFav = (TextView) rootView.findViewById(R.id.txt_lessonUrl_fav);
+            this.txtDescriptionFav = (TextView) rootView.findViewById(R.id.txt_description_fav);
         }
     }
 
