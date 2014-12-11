@@ -6,14 +6,19 @@ import android.os.Parcelable;
 /**
  * Created by bobbake4 on 11/13/14.
  */
+
 public class LessonModel implements Parcelable {
 
-    private String title, lessonUrl, description;
+    private String title;
+    private String lessonUrl;
+    private String description;
+    private boolean isFavorited;
 
-    public LessonModel(String title, String lessonUrl, String description){
+    public LessonModel(String title, String lessonUrl, String description, boolean isFavorited){
         this.title = title;
         this.lessonUrl = lessonUrl;
         this.description = description;
+        this.isFavorited = isFavorited;
     }
 
     public String getTitle() {
@@ -28,7 +33,16 @@ public class LessonModel implements Parcelable {
         return description;
     }
 
+    public boolean isFavorited() {
+        return isFavorited;
+    }
 
+    protected LessonModel(Parcel in) {
+        title = in.readString();
+        lessonUrl = in.readString();
+        description = in.readString();
+        isFavorited = in.readByte() != 0x00;
+    }
 
     @Override
     public int describeContents() {
@@ -37,22 +51,20 @@ public class LessonModel implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.title);
-        dest.writeString(this.lessonUrl);
-        dest.writeString(this.description);
+        dest.writeString(title);
+        dest.writeString(lessonUrl);
+        dest.writeString(description);
+        dest.writeByte((byte) (isFavorited ? 0x01 : 0x00));
     }
 
-    private LessonModel(Parcel in) {
-        this.title = in.readString();
-        this.lessonUrl = in.readString();
-        this.description = in.readString();
-    }
-
-    public static final Creator<LessonModel> CREATOR = new Creator<LessonModel>() {
-        public LessonModel createFromParcel(Parcel source) {
-            return new LessonModel(source);
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<LessonModel> CREATOR = new Parcelable.Creator<LessonModel>() {
+        @Override
+        public LessonModel createFromParcel(Parcel in) {
+            return new LessonModel(in);
         }
 
+        @Override
         public LessonModel[] newArray(int size) {
             return new LessonModel[size];
         }

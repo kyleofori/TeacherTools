@@ -26,6 +26,8 @@ public class SharedPreference {
     }
 
     // This four methods are used for maintaining favorites.
+
+    //Converts List<LessonModel> favorites to JSON string
     public void saveFavorites(Context context, List<LessonModel> favorites) {
         SharedPreferences settings;
         Editor editor;
@@ -58,6 +60,7 @@ public class SharedPreference {
         }
     }
 
+    //Converts JSON string to List<LessonModel> favorites
     public ArrayList<LessonModel> getFavorites(Context context) {
         SharedPreferences settings;
         List<LessonModel> favorites;
@@ -77,5 +80,18 @@ public class SharedPreference {
             return null;
 
         return (ArrayList<LessonModel>) favorites;
+    }
+
+    public void clearSharedPreferencesWhichClearsAdapterIHope(Context context) {
+        SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        Editor editor;
+        editor = settings.edit();
+
+        if(settings.contains(FAVORITES)) {
+            String jsonFavorites = settings.getString(FAVORITES, null);
+            jsonFavorites = null;
+            editor.putString(FAVORITES, jsonFavorites);
+            editor.commit();
+        }
     }
 }

@@ -15,16 +15,13 @@ import com.detroitlabs.kyleofori.teachertools.interfaces.FragmentController;
 /**
  * Created by kyleofori on 12/7/14.
  */
-public class FavoritesActivity extends Activity implements FragmentController, View.OnClickListener {
+public class FavoritesActivity extends Activity implements FragmentController {
 
-    private Button btnDeleteFavorites;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorites);
-        btnDeleteFavorites = (Button) findViewById(R.id.btn_delete);
-        btnDeleteFavorites.setOnClickListener(this);
 
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction()
@@ -51,15 +48,6 @@ public class FavoritesActivity extends Activity implements FragmentController, V
 
         fragmentTransaction.replace(R.id.fragment_container, fragment);
         fragmentTransaction.commit();
-    }
-
-    @Override
-    public void onClick(View view) {
-        switch(view.getId()) {
-            case R.id.btn_delete:
-                break;
-        }
-
     }
 }
 

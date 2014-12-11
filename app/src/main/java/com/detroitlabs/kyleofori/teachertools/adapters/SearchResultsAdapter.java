@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.detroitlabs.kyleofori.teachertools.R;
 import com.detroitlabs.kyleofori.teachertools.models.LessonModel;
+import com.detroitlabs.kyleofori.teachertools.tags.GlobalTags;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +27,6 @@ public class SearchResultsAdapter extends BaseAdapter implements Filterable {
     private Context context;
     private List<LessonModel> originalLessons = new ArrayList<>();
     private List<LessonModel> filteredLessons = new ArrayList<>();
-    private Intent intent;
 
     public void setLessonsInAdapter(List<LessonModel> lessonModels) {
         this.originalLessons = lessonModels;
@@ -77,8 +77,7 @@ public class SearchResultsAdapter extends BaseAdapter implements Filterable {
         viewHolder.txtTitleFav.setText(lessonModel.getTitle());
         viewHolder.txtLessonUrlFav.setText(lessonModel.getLessonUrl());
         viewHolder.txtDescriptionFav.setText(lessonModel.getDescription());
-        Drawable starNone = context.getResources().getDrawable(R.drawable.star_none);
-        viewHolder.imgStarFav.setImageDrawable(starNone);
+        viewHolder.imgStarFav.setImageDrawable(getStar(lessonModel));
 
         return convertView;
     }
@@ -128,4 +127,15 @@ public class SearchResultsAdapter extends BaseAdapter implements Filterable {
             }
         };
     }
+
+    private Drawable getStar(LessonModel lessonModel) {
+        Drawable star;
+        if(lessonModel.isFavorited()) {
+            star = context.getResources().getDrawable(R.drawable.favestar);
+        } else {
+            star = context.getResources().getDrawable(R.drawable.star_none);
+        }
+        return star;
+    }
+
 }

@@ -26,7 +26,7 @@ public class KhanAcademyJSONParser {
                 String kaUrl = playlistObject.optString("ka_url", "unknown url");
                 String description = playlistObject.optString("description", "unknown description");
 
-                LessonModel currentLessonModel = new LessonModel(title, kaUrl, description);
+                LessonModel currentLessonModel = new LessonModel(title, kaUrl, description, false);
 
                 lessonModels.add(currentLessonModel);
             }

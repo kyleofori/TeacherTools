@@ -11,7 +11,7 @@
     <string name="added_to_favorites">Added to favorites</string>
     <string name="see_favorites">See favorites</string>
     <string name="removed_from_favorites">Removed from favorites</string>
-    <string name="delete">Delete</string>
+    <string name="clear_favorites">Clear favorites</string>
     <string name="downloads">Downloads</string>
     <string name="search">Search</string>
     <string name="Teacher_Tools">Teacher Tools</string>
@@ -32,4 +32,8 @@
     <string name="toast_favorite_added">This lesson plan has been added to your Favorites.</string>
     <string name="no_favorites_items">No favorites</string>
     <string name="no_favorites_msg">Long press on items to add to favorites.</string>
+    <string name="clear">Clear</string>
+    <string name="cancel">Cancel</string>
+    <string name="dialog_clear_favorites_message">This action cannot be undone.</string>
+    <string name="dialog_clear_favorites_title">Clear favorites?</string>
 </resources>

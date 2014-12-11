@@ -37,6 +37,7 @@ import com.detroitlabs.kyleofori.teachertools.khanacademyapi.ParseDataset;
 import com.detroitlabs.kyleofori.teachertools.models.LessonModel;
 import com.detroitlabs.kyleofori.teachertools.parsers.KhanAcademyJSONParser;
 import com.detroitlabs.kyleofori.teachertools.parsers.ParseObjectParser;
+import com.detroitlabs.kyleofori.teachertools.tags.GlobalTags;
 import com.detroitlabs.kyleofori.teachertools.utils.SharedPreference;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -59,8 +60,6 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
 
 
     private static final String EXTRA_SEARCH_KEYWORD = "extra_search_keyword";
-    private static final String TAG_ON = "on";
-    private static final String TAG_OFF = "off";
     private static final long REFRESH_INTERVAL = TimeUnit.SECONDS.toMillis(30);
 
     private FragmentController fragmentController;
@@ -232,22 +231,22 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
                                    int position, long arg3) {
         button = (ImageView) view.findViewById(R.id.img_star);
 
-        String tag = button.getTag().toString();
-        if (tag.equalsIgnoreCase(TAG_OFF)) {
+        if (lessonModels.get(position).isFavorited()) {
+            sharedPreference.removeFavorite(activity, lessonModels.get(position));
+            Toast.makeText(activity,
+                    activity.getResources().getString(R.string.removed_from_favorites),
+                    Toast.LENGTH_SHORT).show();
+            button.setTag(GlobalTags.TAG_OFF);
+            button.setImageResource(R.drawable.star_none);
+        } else {
             sharedPreference.addFavorite(activity, lessonModels.get(position));
             Toast.makeText(activity,
                     activity.getResources().getString(R.string.added_to_favorites),
                     Toast.LENGTH_SHORT).show();
 
-            button.setTag(TAG_ON);
+            button.setTag(GlobalTags.TAG_ON);
             button.setImageResource(R.drawable.favestar);
-        } else {
-            sharedPreference.removeFavorite(activity, lessonModels.get(position));
-            Toast.makeText(activity,
-                    activity.getResources().getString(R.string.removed_from_favorites),
-                    Toast.LENGTH_SHORT).show();
-            button.setTag(TAG_OFF);
-            button.setImageResource(R.drawable.star_none);
+
         }
 
         return true;
@@ -406,7 +405,7 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.btn_delete:
+            case R.id.btn_clear_favorites:
                 if (chkFavorites.isChecked()) {
                     //delete the thing from favorites
                     Log.i(this.getClass().getSimpleName(), "A checkbox is checked");

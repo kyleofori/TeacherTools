@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.detroitlabs.kyleofori.teachertools.R;
 import com.detroitlabs.kyleofori.teachertools.fragments.SearchResultsFragment;
 import com.detroitlabs.kyleofori.teachertools.interfaces.FragmentController;
+import com.parse.Parse;
 
 /**
  * Created by kyleofori on 11/30/14.
@@ -21,7 +22,6 @@ public class ResultsActivity extends Activity implements FragmentController, Vie
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_results);
         Button btnSeeFavorites = (Button) findViewById(R.id.btn_see_favorites);
         btnSeeFavorites.setOnClickListener(this);

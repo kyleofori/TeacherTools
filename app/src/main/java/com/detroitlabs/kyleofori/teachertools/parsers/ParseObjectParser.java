@@ -33,7 +33,7 @@ public class ParseObjectParser {
                 String lessonUrl = currentParseObject.getString("lessonUrl");
                 String description = currentParseObject.getString("description");
 
-                LessonModel currentLessonModel = new LessonModel(title, lessonUrl, description);
+                LessonModel currentLessonModel = new LessonModel(title, lessonUrl, description, false);
 
                 lessonModels.add(currentLessonModel);
             }

@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -23,6 +24,7 @@ import android.widget.Toast;
 import com.detroitlabs.kyleofori.teachertools.R;
 import com.detroitlabs.kyleofori.teachertools.adapters.FavoritesAdapter;
 import com.detroitlabs.kyleofori.teachertools.models.LessonModel;
+import com.detroitlabs.kyleofori.teachertools.tags.GlobalTags;
 import com.detroitlabs.kyleofori.teachertools.utils.SharedPreference;
 
 /**
@@ -32,10 +34,11 @@ public class FavoritesFragment extends Fragment implements CompoundButton.OnChec
 
     public static final String ARG_ITEM_ID = "favorite_list";
 
-    private CheckBox chkFavorites;
     private ListView favoriteList;
     private SharedPreference sharedPreference;
     private List<LessonModel> favorites;
+    private Button btnClearFavorites;
+
 
     Activity activity;
     FavoritesAdapter favoritesAdapter;
@@ -51,10 +54,10 @@ public class FavoritesFragment extends Fragment implements CompoundButton.OnChec
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_favorites, container,
                 false);
-        /*chkFavorites = (CheckBox) view.findViewById(R.id.chk_favorite);
-        chkFavorites.setOnCheckedChangeListener(this);
-        Button btnDelete = (Button) view.findViewById(R.id.btn_delete);
-        btnDelete.setOnClickListener(this);*/
+
+        btnClearFavorites = (Button) view.findViewById(R.id.btn_clear_favorites);
+        btnClearFavorites.setOnClickListener(this);
+
         // Get favorite items from SharedPreferences.
         sharedPreference = new SharedPreference();
         favorites = sharedPreference.getFavorites(activity);
@@ -91,7 +94,7 @@ public class FavoritesFragment extends Fragment implements CompoundButton.OnChec
                                 ImageView button = (ImageView) view.findViewById(R.id.img_star);
 
                                 String tag = button.getTag().toString();
-                                if (tag.equalsIgnoreCase("grey")) {
+                                if (tag.equalsIgnoreCase(GlobalTags.TAG_OFF)) {
                                     sharedPreference.addFavorite(activity,
                                             favorites.get(position));
                                     Toast.makeText(
@@ -100,12 +103,12 @@ public class FavoritesFragment extends Fragment implements CompoundButton.OnChec
                                                     R.string.added_to_favorites),
                                             Toast.LENGTH_SHORT).show();
 
-                                    button.setTag("red");
+                                    button.setTag(GlobalTags.TAG_ON);
                                     button.setImageResource(R.drawable.favestar);
                                 } else {
                                     sharedPreference.removeFavorite(activity,
                                             favorites.get(position));
-                                    button.setTag("grey");
+                                    button.setTag(GlobalTags.TAG_OFF);
                                     button.setImageResource(R.drawable.star_none);
                                     favoritesAdapter.remove(favorites
                                             .get(position));
@@ -160,13 +163,14 @@ public class FavoritesFragment extends Fragment implements CompoundButton.OnChec
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.btn_delete:
-                if (chkFavorites.isChecked()) {
-                //delete the thing from favorites
-                    Log.i(this.getClass().getSimpleName(), "A checkbox is checked");
-            }
+            case R.id.btn_clear_favorites:
+                favoritesAdapter.clear();
+                sharedPreference.clearSharedPreferencesWhichClearsAdapterIHope(activity);
+                favoritesAdapter.notifyDataSetChanged();
                 break;
         }
+
+
 
     }
 }

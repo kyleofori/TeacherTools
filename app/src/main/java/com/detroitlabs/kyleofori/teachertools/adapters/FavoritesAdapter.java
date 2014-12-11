@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.detroitlabs.kyleofori.teachertools.R;
 import com.detroitlabs.kyleofori.teachertools.models.LessonModel;
+import com.detroitlabs.kyleofori.teachertools.tags.GlobalTags;
 import com.detroitlabs.kyleofori.teachertools.utils.SharedPreference;
 
 /**
@@ -79,14 +80,12 @@ public class FavoritesAdapter extends ArrayAdapter<LessonModel> {
         holder.txtLessonUrlFavorite.setText(lessonModel.getLessonUrl());
         holder.txtDescriptionFavorite.setText(lessonModel.getDescription() + "");
 
-        /*If a lessonModel exists in shared preferences then set heart_red drawable
-         * and set a tag*/
         if (checkFavoriteItem(lessonModel)) {
             holder.favoriteImg.setImageResource(R.drawable.favestar);
-            holder.favoriteImg.setTag("red");
+            holder.favoriteImg.setTag(GlobalTags.TAG_ON);
         } else {
             holder.favoriteImg.setImageResource(R.drawable.star_none);
-            holder.favoriteImg.setTag("grey");
+            holder.favoriteImg.setTag(GlobalTags.TAG_OFF);
         }
 
         return convertView;
