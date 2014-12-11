@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -71,7 +70,7 @@ public class FavoritesFragment extends Fragment implements CompoundButton.OnChec
                         getResources().getString(R.string.no_favorites_msg));
             }
 
-            favoriteList = (ListView) view.findViewById(R.id.itm_favorites);
+            favoriteList = (ListView) view.findViewById(R.id.list_favorites);
             if (favorites != null) {
                 favoritesAdapter = new FavoritesAdapter(activity, favorites);
                 favoriteList.setAdapter(favoritesAdapter);

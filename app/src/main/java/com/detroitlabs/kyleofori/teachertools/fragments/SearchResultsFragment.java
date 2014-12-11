@@ -54,9 +54,13 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by bobbake4 on 11/13/14.
  */
-public class SearchResultsFragment extends Fragment implements KhanAcademyApiCallback, AdapterView.OnItemClickListener, View.OnClickListener {
+public class SearchResultsFragment extends Fragment implements KhanAcademyApiCallback,
+        AdapterView.OnItemClickListener, View.OnClickListener, AdapterView.OnItemLongClickListener {
+
 
     private static final String EXTRA_SEARCH_KEYWORD = "extra_search_keyword";
+    private static final String TAG_ON = "on";
+    private static final String TAG_OFF = "off";
     private static final long REFRESH_INTERVAL = TimeUnit.SECONDS.toMillis(30);
 
     private FragmentController fragmentController;
@@ -96,6 +100,7 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activity = getActivity();
+        sharedPreference = new SharedPreference();
     }
 
     @Override
@@ -121,7 +126,7 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
                         getResources().getString(R.string.no_favorites_msg));
             }
 
-            favoriteList = (ListView) view.findViewById(R.id.itm_favorites);
+            favoriteList = (ListView) view.findViewById(R.id.list_favorites);
             if (favorites != null) {
 /*
                 favoritesAdapter = new FavoritesAdapter(activity, favorites);
@@ -180,9 +185,10 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         searchResultsAdapter = new SearchResultsAdapter(getActivity());
-        ListView listView = (ListView) view.findViewById(R.id.itm_search_results);
+        ListView listView = (ListView) view.findViewById(R.id.list_search_results);
         listView.setAdapter(searchResultsAdapter);
         listView.setOnItemClickListener(this);
+        listView.setOnItemLongClickListener(this);
 
         khanAcademyApi.getKhanAcademyPlaylists(this);
         retrieveParseObjectsFromCloud();
@@ -212,11 +218,38 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         switch (adapterView.getId()) {
-            case R.id.itm_search_results:
+            case R.id.list_search_results:
                     LessonModel lessonModel = (LessonModel) adapterView.getAdapter().getItem(i);
                     DetailFragment detailFragment = DetailFragment.newInstance(lessonModel);
                     fragmentController.changeFragment(detailFragment, true);
         }
+    }
+
+    @Override
+    public boolean onItemLongClick(AdapterView<?> arg0, View view,
+                                   int position, long arg3) {
+        ImageView button = (ImageView) view.findViewById(R.id.imgbtn_favorite);
+        button.setTag(TAG_OFF);
+
+        String tag = button.getTag().toString();
+        if (tag.equalsIgnoreCase(TAG_OFF)) {
+            sharedPreference.addFavorite(activity, lessonModels.get(position));
+            Toast.makeText(activity,
+                    activity.getResources().getString(R.string.add_to_favorites),
+                    Toast.LENGTH_SHORT).show();
+
+            button.setTag(TAG_ON);
+            button.setImageResource(R.drawable.favestar);
+        } else {
+            sharedPreference.removeFavorite(activity, lessonModels.get(position));
+            button.setTag(TAG_OFF);
+            button.setImageResource(R.drawable.star_none);
+            Toast.makeText(activity,
+                    activity.getResources().getString(R.string.remove_favorite),
+                    Toast.LENGTH_SHORT).show();
+        }
+
+        return true;
     }
 
 
