@@ -74,12 +74,15 @@ public class SharedPreference {
             LessonModel[] favoriteItems = gson.fromJson(jsonFavorites,
                     LessonModel[].class);
 
-            favorites = Arrays.asList(favoriteItems);
-            favorites = new ArrayList<LessonModel>(favorites);
-        } else
+            if(favoriteItems != null) {
+                favorites = Arrays.asList(favoriteItems);
+                favorites = new ArrayList<LessonModel>(favorites);
+                return (ArrayList<LessonModel>) favorites;
+
+            }
+        }
             return null;
 
-        return (ArrayList<LessonModel>) favorites;
     }
 
     public void clearSharedPreferencesWhichClearsAdapterIHope(Context context) {
