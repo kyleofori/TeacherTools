@@ -166,6 +166,7 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         switch (adapterView.getId()) {
             case R.id.list_search_results:
+                Log.i(getClass().getSimpleName(), "I have regular-clicked a search result");
                 LessonModel lessonModel = (LessonModel) adapterView.getAdapter().getItem(i);
                 DetailFragment detailFragment = DetailFragment.newInstance(lessonModel);
                 fragmentController.changeFragment(detailFragment, true);
@@ -175,6 +176,8 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
     @Override
     public boolean onItemLongClick(AdapterView<?> arg0, View view,
                                    int position, long arg3) {
+        Log.i(getClass().getSimpleName(), "I have long-clicked a search result");
+
         imgStar = (ImageView) view.findViewById(R.id.img_star);
 
         if (lessonModels.get(position).isFavorited()) {
