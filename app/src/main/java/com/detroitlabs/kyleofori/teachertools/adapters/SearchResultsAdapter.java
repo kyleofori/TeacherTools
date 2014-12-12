@@ -27,14 +27,11 @@ public class SearchResultsAdapter extends BaseAdapter implements Filterable {
     private List<LessonModel> originalLessons = new ArrayList<>();
     private List<LessonModel> filteredLessons = new ArrayList<>();
 
-    public void setLessonsInAdapter(List<LessonModel> lessonModels) {
-        this.originalLessons = lessonModels;
-        this.filteredLessons = lessonModels;
-    }
 
-    public SearchResultsAdapter(Context context) {
+    public SearchResultsAdapter(Context context, List<LessonModel> originalLessons) {
         super();
         this.context = context;
+        this.originalLessons = originalLessons;
     }
 
     public void clear() {

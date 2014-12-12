@@ -69,7 +69,6 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
     private EditText edtInputSearch;
     private ImageView imgStar;
 
-    private ProgressDialog loadingDialog;
     private SharedPreference sharedPreference;
     private List<LessonModel> favorites;
 
@@ -98,8 +97,6 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
         View view = inflater.inflate(R.layout.fragment_search_results, container, false);
 
         imgStar = (ImageView) view.findViewById(R.id.img_star);
-        loadingDialog = new ProgressDialog(getActivity());
-        loadingDialog.show();
         // Get favorite items from SharedPreferences.
         sharedPreference = new SharedPreference();
         favorites = sharedPreference.getFavorites(activity);
@@ -123,23 +120,18 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        searchResultsAdapter = new SearchResultsAdapter(getActivity());
+
+        lessonModels = HomepageActivity.khanAcademyLessonModels;
+        searchResultsAdapter = new SearchResultsAdapter(getActivity(),lessonModels );
         ListView listView = (ListView) view.findViewById(R.id.list_search_results);
         listView.setAdapter(searchResultsAdapter);
+
+
         listView.setOnItemClickListener(this);
         listView.setOnItemLongClickListener(this);
 
-        if (isAdded()) {
-            List<LessonModel> khanAcademyLessonModels = HomepageActivity.khanAcademyLessonModels;
-            lessonModels.addAll(khanAcademyLessonModels);
-            loadingDialog.dismiss();
-            searchResultsAdapter.clear();
-            searchResultsAdapter.setLessonsInAdapter(lessonModels);
-            searchResultsAdapter.notifyDataSetChanged();
-        }
 
-
-        retrieveParseObjectsFromCloud();
+        //retrieveParseObjectsFromCloud();
 
         edtInputSearch = (EditText) view.findViewById(R.id.edt_input_search);
         edtInputSearch.addTextChangedListener(new TextWatcher() {
@@ -226,11 +218,6 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
         if (isAdded()) {
             List<LessonModel> khanAcademyLessonModels = KhanAcademyJSONParser.parseJSONObject(response);
             lessonModels.addAll(khanAcademyLessonModels);
-            loadingDialog.dismiss();
-
-            searchResultsAdapter.clear();
-            searchResultsAdapter.setLessonsInAdapter(lessonModels);
-            searchResultsAdapter.notifyDataSetChanged();
         }
     }
 
