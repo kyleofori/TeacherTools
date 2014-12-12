@@ -73,6 +73,7 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
             case R.id.btn_add_to_favorites:
                 Toast.makeText(getActivity(), R.string.toast_favorite_added, Toast.LENGTH_SHORT).show();
                 sharedPreference.addFavorite(getActivity(), lessonModel);
+                btnAddToFavorites.setText(R.string.added_to_favorites);
                 btnAddToFavorites.setEnabled(false);
                 break;
         }

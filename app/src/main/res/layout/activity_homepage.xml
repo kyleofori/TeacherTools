@@ -17,6 +17,14 @@
         android:text="@string/welcome"
         android:textAllCaps="true"/>
 
+    <TextView
+        android:id="@+id/resource_loading_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="bottom"
+        android:text="@string/resources_loading"
+        android:textAllCaps="true"/>
+
     <Button
         android:id="@+id/btn_go_to_search"
         android:layout_width="wrap_content"

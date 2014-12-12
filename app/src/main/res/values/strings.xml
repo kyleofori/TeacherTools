@@ -8,9 +8,9 @@
     <string name="previous">Previous</string>
     <string name="next">Next</string>
     <string name="favorites">Favorites</string>
-    <string name="added_to_favorites">Star just turned gold for now anyway</string>
+    <string name="added_to_favorites">Added to favorites</string>
     <string name="see_favorites">See favorites</string>
-    <string name="removed_from_favorites">Star just turned gray for now anyway</string>
+    <string name="removed_from_favorites">Removed from favorites.</string>
     <string name="clear_favorites">Clear favorites</string>
     <string name="downloads">Downloads</string>
     <string name="search_on_success">Search the Lesson plans!</string>
@@ -37,5 +37,8 @@
     <string name="cancel">Cancel</string>
     <string name="dialog_clear_favorites_message">This action cannot be undone.</string>
     <string name="dialog_clear_favorites_title">Clear favorites?</string>
-    <string name="welcome">Welcome to Teacher Tools! We\'re now loading your resources.</string>
+    <string name="welcome">Welcome to Teacher Tools!</string>
+    <string name="resources_loading">"Your lesson plans are now loading…</string>
+    <string name="resources_loaded">"Your lesson plans are loaded.</string>
+    <string name="add_to_favorites">Add to favorites</string>
 </resources>

@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.detroitlabs.kyleofori.teachertools.R;
@@ -29,6 +30,7 @@ public class HomepageActivity extends Activity implements KhanAcademyApiCallback
 
     private KhanAcademyApi khanAcademyApi = KhanAcademyApi.getKhanAcademyApi();
     private Button btnGoToSearch;
+    private TextView txtResourceLoadingStatus;
 
 
 
@@ -43,6 +45,7 @@ public class HomepageActivity extends Activity implements KhanAcademyApiCallback
         btnGoToSearch = (Button) findViewById(R.id.btn_go_to_search);
         btnGoToSearch.setEnabled(false);
         btnGoToSearch.setOnClickListener(this);
+        txtResourceLoadingStatus = (TextView) findViewById(R.id.resource_loading_status);
     }
 
     @Override
@@ -58,6 +61,7 @@ public class HomepageActivity extends Activity implements KhanAcademyApiCallback
     @Override
     public void onSuccess(JSONArray response) {
         khanAcademyLessonModels = KhanAcademyJSONParser.parseJSONObject(response);
+        txtResourceLoadingStatus.setText(R.string.resources_loaded);
         btnGoToSearch.setEnabled(true);
     }
 
