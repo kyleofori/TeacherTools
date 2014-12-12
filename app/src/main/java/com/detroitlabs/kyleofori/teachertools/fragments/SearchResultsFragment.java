@@ -122,7 +122,7 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
         super.onViewCreated(view, savedInstanceState);
 
         lessonModels = HomepageActivity.khanAcademyLessonModels;
-        searchResultsAdapter = new SearchResultsAdapter(getActivity(),lessonModels );
+        searchResultsAdapter = new SearchResultsAdapter(getActivity(), lessonModels);
         ListView listView = (ListView) view.findViewById(R.id.list_search_results);
         listView.setAdapter(searchResultsAdapter);
 

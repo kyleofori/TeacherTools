@@ -32,6 +32,7 @@ public class SearchResultsAdapter extends BaseAdapter implements Filterable {
         super();
         this.context = context;
         this.originalLessons = originalLessons;
+        filteredLessons = this.originalLessons;
     }
 
     public void clear() {
