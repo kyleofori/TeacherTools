@@ -43,8 +43,6 @@ public class KhanAcademyApi {
                 .appendPath("api")
                 .appendPath("v1")
                 .appendPath("playlists")
-                .appendPath("cc-early-math-add-subtract-100")
-                .appendPath("exercises")
                 .build();
 
         new LoadDataInBackground(callback).execute(uri);

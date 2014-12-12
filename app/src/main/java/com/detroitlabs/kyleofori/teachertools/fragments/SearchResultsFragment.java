@@ -171,30 +171,31 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
         Log.i(getClass().getSimpleName(), "I have long-clicked a search result");
 
         imgStar = (ImageView) view.findViewById(R.id.img_star);
+        List<LessonModel> filteredLessons = searchResultsAdapter.filteredLessons;
 
-        if (lessonModels.get(position).isFavorited()) {
-            Log.i(getClass().getSimpleName(), "isFavorited() was " + lessonModels.get(position).isFavorited());
-            sharedPreference.removeFavorite(activity, lessonModels.get(position));
+        if (filteredLessons.get(position).isFavorited()) {
+            Log.i(getClass().getSimpleName(), "isFavorited() was " + filteredLessons.get(position).isFavorited());
+            sharedPreference.removeFavorite(activity, filteredLessons.get(position));
             Toast.makeText(activity,
                     activity.getResources().getString(R.string.removed_from_favorites),
                     Toast.LENGTH_SHORT).show();
             imgStar.setTag(GlobalTags.TAG_OFF);
             imgStar.setImageResource(R.drawable.star_none);
-            lessonModels.get(position).setFavorited(false);
+            filteredLessons.get(position).setFavorited(false);
             searchResultsAdapter.notifyDataSetChanged();
-            Log.i(getClass().getSimpleName(), "isFavorited() is now " + lessonModels.get(position).isFavorited());
+            Log.i(getClass().getSimpleName(), "isFavorited() is now " + filteredLessons.get(position).isFavorited());
         } else {
-            Log.i(getClass().getSimpleName(), "isFavorited() was " + lessonModels.get(position).isFavorited());
-            sharedPreference.addFavorite(activity, lessonModels.get(position));
+            Log.i(getClass().getSimpleName(), "isFavorited() was " + filteredLessons.get(position).isFavorited());
+            sharedPreference.addFavorite(activity, filteredLessons.get(position));
             Toast.makeText(activity,
                     activity.getResources().getString(R.string.added_to_favorites),
                     Toast.LENGTH_SHORT).show();
 
             imgStar.setTag(GlobalTags.TAG_ON);
             imgStar.setImageResource(R.drawable.favestar);
-            lessonModels.get(position).setFavorited(true);
+            filteredLessons.get(position).setFavorited(true);
             searchResultsAdapter.notifyDataSetChanged();
-            Log.i(getClass().getSimpleName(), "isFavorited() is now " + lessonModels.get(position).isFavorited());
+            Log.i(getClass().getSimpleName(), "isFavorited() is now " + filteredLessons.get(position).isFavorited());
 
         }
         return true;

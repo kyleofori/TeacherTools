@@ -1,7 +1,6 @@
 package com.detroitlabs.kyleofori.teachertools.adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,19 +23,19 @@ import java.util.List;
 public class SearchResultsAdapter extends BaseAdapter implements Filterable {
 
     private Context context;
-    private List<LessonModel> originalLessons = new ArrayList<>();
-    private List<LessonModel> filteredLessons = new ArrayList<>();
+    private List<LessonModel> lessonModels = new ArrayList<>();
+    public List<LessonModel> filteredLessons = new ArrayList<>();
 
 
-    public SearchResultsAdapter(Context context, List<LessonModel> originalLessons) {
+    public SearchResultsAdapter(Context context, List<LessonModel> lessonModels) {
         super();
         this.context = context;
-        this.originalLessons = originalLessons;
-        filteredLessons = this.originalLessons;
+        this.lessonModels = lessonModels;
+        filteredLessons = this.lessonModels;
     }
 
     public void clear() {
-        originalLessons.clear();
+        lessonModels.clear();
         filteredLessons.clear();
     }
 
@@ -101,12 +100,12 @@ public class SearchResultsAdapter extends BaseAdapter implements Filterable {
             protected FilterResults performFiltering(CharSequence constraint) {
                 FilterResults results = new FilterResults();
                 if (constraint == null || constraint.length() == 0) {
-                    results.values = originalLessons;
-                    results.count = originalLessons.size();
+                    results.values = lessonModels;
+                    results.count = lessonModels.size();
                 } else {
                     ArrayList<LessonModel> filteredList = new ArrayList<LessonModel>();
 
-                    for (LessonModel lessonModel : originalLessons) {
+                    for (LessonModel lessonModel : lessonModels) {
                         if (lessonModel.getTitle() != null && lessonModel.getTitle().toLowerCase().contains(constraint.toString().toLowerCase())) {
                             filteredList.add(lessonModel);
                         }
