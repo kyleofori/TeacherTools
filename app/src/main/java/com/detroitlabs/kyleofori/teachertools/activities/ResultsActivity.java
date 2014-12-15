@@ -21,6 +21,8 @@ import com.parse.Parse;
  */
 public class ResultsActivity extends Activity implements FragmentController, View.OnClickListener {
 
+    private FavoritesFragment favoritesFragment = new FavoritesFragment();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +39,9 @@ public class ResultsActivity extends Activity implements FragmentController, Vie
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_see_favorites:
-                changeFragment(new FavoritesFragment(), true);
+                if(!favoritesFragment.isAdded()) {
+                    changeFragment(favoritesFragment, true);
+                }
                 break;
         }
     }
