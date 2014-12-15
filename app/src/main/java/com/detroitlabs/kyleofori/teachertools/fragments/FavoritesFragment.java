@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.detroitlabs.kyleofori.teachertools.R;
 import com.detroitlabs.kyleofori.teachertools.adapters.FavoritesAdapter;
+import com.detroitlabs.kyleofori.teachertools.interfaces.FragmentController;
 import com.detroitlabs.kyleofori.teachertools.models.LessonModel;
 import com.detroitlabs.kyleofori.teachertools.tags.GlobalTags;
 import com.detroitlabs.kyleofori.teachertools.utils.SharedPreference;
@@ -34,6 +35,7 @@ public class FavoritesFragment extends Fragment implements CompoundButton.OnChec
 
     public static final String ARG_ITEM_ID = "favorite_list";
 
+    private FragmentController fragmentController;
     private ListView favoriteList;
     private SharedPreference sharedPreference;
     private List<LessonModel> favorites;
@@ -42,6 +44,16 @@ public class FavoritesFragment extends Fragment implements CompoundButton.OnChec
 
     Activity activity;
     FavoritesAdapter favoritesAdapter;
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        if(activity instanceof FragmentController) {
+            fragmentController = (FragmentController) activity;
+        } else {
+            throw new IllegalArgumentException(getString(R.string.fragment_controller_interface_error));
+        }
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -82,6 +94,9 @@ public class FavoritesFragment extends Fragment implements CompoundButton.OnChec
 
                     public void onItemClick(AdapterView<?> parent, View arg1,
                                             int position, long arg3) {
+                        LessonModel lessonModel = (LessonModel) parent.getAdapter().getItem(position);
+                        DetailFragment detailFragment = DetailFragment.newInstance(lessonModel);
+                        fragmentController.changeFragment(detailFragment, true);
 
                     }
                 });
