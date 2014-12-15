@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.detroitlabs.kyleofori.teachertools.R;
+import com.detroitlabs.kyleofori.teachertools.fragments.FavoritesFragment;
 import com.detroitlabs.kyleofori.teachertools.fragments.SearchResultsFragment;
 import com.detroitlabs.kyleofori.teachertools.interfaces.FragmentController;
 import com.detroitlabs.kyleofori.teachertools.tags.GlobalTags;
@@ -36,8 +37,7 @@ public class ResultsActivity extends Activity implements FragmentController, Vie
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_see_favorites:
-                Intent intent = new Intent(this, FavoritesActivity.class);
-                startActivity(intent);
+                changeFragment(new FavoritesFragment(), true);
                 break;
         }
     }
