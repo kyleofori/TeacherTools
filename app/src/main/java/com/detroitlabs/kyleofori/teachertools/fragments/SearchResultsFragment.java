@@ -120,6 +120,7 @@ public class SearchResultsFragment extends Fragment implements /*KhanAcademyApiC
         startingPosition = 0;
         stopPosition = 10;
 
+        visibleLessonModels.clear();
         for(int i=startingPosition; i<stopPosition; i++) {
             visibleLessonModels.add(HomepageActivity.khanAcademyLessonModels.get(i));
         }
