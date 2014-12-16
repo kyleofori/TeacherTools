@@ -33,6 +33,7 @@ import com.detroitlabs.kyleofori.teachertools.interfaces.FragmentController;
 import com.detroitlabs.kyleofori.teachertools.khanacademyapi.ParseDataset;
 import com.detroitlabs.kyleofori.teachertools.models.LessonModel;
 import com.detroitlabs.kyleofori.teachertools.parsers.ParseObjectParser;
+import com.detroitlabs.kyleofori.teachertools.tags.GlobalTags;
 import com.detroitlabs.kyleofori.teachertools.utils.SharedPreference;
 import com.parse.ParseObject;
 
@@ -54,7 +55,6 @@ public class SearchResultsFragment extends Fragment implements /*KhanAcademyApiC
 
     private ParseObjectParser parseObjectParser;
     private EditText edtInputSearch;
-    private ImageView imgStar;
     private int startingPosition;
     private int stopPosition;
 
@@ -88,7 +88,6 @@ public class SearchResultsFragment extends Fragment implements /*KhanAcademyApiC
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search_results, container, false);
 
-        imgStar = (ImageView) view.findViewById(R.id.img_star_result);
         // Get favorite items from SharedPreferences.
         sharedPreference = new SharedPreference();
         favorites = sharedPreference.getFavorites(activity);
@@ -113,6 +112,17 @@ public class SearchResultsFragment extends Fragment implements /*KhanAcademyApiC
         visibleLessonModels.clear();
         for(int i=startingPosition; i<stopPosition; i++) {
             visibleLessonModels.add(HomepageActivity.khanAcademyLessonModels.get(i));
+
+            LessonModel currentLesson = visibleLessonModels.get(i);
+            String currentLessonId = currentLesson.getLessonId();
+
+            if(favorites != null) {
+                for (LessonModel x : favorites) {
+                    if (currentLessonId.equals(x.getLessonId())) {
+                        currentLesson.setFavorited(true);
+                    }
+                }
+            }
         }
 
         Log.i(this.getClass().getSimpleName(), "See some id " + visibleLessonModels.get(0).getLessonId());
