@@ -5,18 +5,29 @@
     android:padding="@dimen/default_padding"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/titleTextView"
+    <ImageView
+        android:id="@+id/img_star_result"
+        android:tag="@string/off"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="240dp"
+        android:layout_marginRight="30dp"
+        android:background="@null"
+        android:contentDescription="@string/favorites"
+        android:src="@drawable/star_none"/>
+
 
     <TextView
-        android:id="@+id/lessonUrlTextView"
+        android:id="@+id/txt_title_result"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <TextView
-        android:id="@+id/descriptionTextView"
+        android:id="@+id/txt_lessonUrl_result"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/txt_description_result"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

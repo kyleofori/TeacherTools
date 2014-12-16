@@ -40,9 +40,9 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_detail, container, false);
 
-        txtTitle = (TextView) view.findViewById(R.id.titleTextView);
-        txtKaUrl = (TextView) view.findViewById(R.id.lessonUrlTextView);
-        txtDescription = (TextView) view.findViewById(R.id.descriptionTextView);
+        txtTitle = (TextView) view.findViewById(R.id.txt_title_result);
+        txtKaUrl = (TextView) view.findViewById(R.id.txt_lessonUrl_result);
+        txtDescription = (TextView) view.findViewById(R.id.txt_description_result);
 
         return view;
     }

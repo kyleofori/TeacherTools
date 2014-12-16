@@ -7,7 +7,6 @@ import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +14,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -106,7 +104,7 @@ public class FavoritesFragment extends Fragment implements CompoundButton.OnChec
 
                             @Override
                             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                                ImageView button = (ImageView) view.findViewById(R.id.img_star);
+                                ImageView button = (ImageView) view.findViewById(R.id.img_star_fav);
 
                                 String tag = button.getTag().toString();
                                 if (tag.equalsIgnoreCase(GlobalTags.TAG_OFF)) {

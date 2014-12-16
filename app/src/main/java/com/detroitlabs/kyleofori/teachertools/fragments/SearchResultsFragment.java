@@ -24,27 +24,17 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.detroitlabs.kyleofori.teachertools.R;
 import com.detroitlabs.kyleofori.teachertools.activities.HomepageActivity;
 import com.detroitlabs.kyleofori.teachertools.activities.ResultsActivity;
-import com.detroitlabs.kyleofori.teachertools.adapters.FavoritesAdapter;
 import com.detroitlabs.kyleofori.teachertools.adapters.SearchResultsAdapter;
 import com.detroitlabs.kyleofori.teachertools.interfaces.FragmentController;
-import com.detroitlabs.kyleofori.teachertools.khanacademyapi.KhanAcademyApiCallback;
 import com.detroitlabs.kyleofori.teachertools.khanacademyapi.ParseDataset;
 import com.detroitlabs.kyleofori.teachertools.models.LessonModel;
-import com.detroitlabs.kyleofori.teachertools.parsers.KhanAcademyJSONParser;
 import com.detroitlabs.kyleofori.teachertools.parsers.ParseObjectParser;
-import com.detroitlabs.kyleofori.teachertools.tags.GlobalTags;
 import com.detroitlabs.kyleofori.teachertools.utils.SharedPreference;
-import com.parse.FindCallback;
-import com.parse.ParseException;
 import com.parse.ParseObject;
-import com.parse.ParseQuery;
-
-import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +43,7 @@ import java.util.List;
  * Created by bobbake4 on 11/13/14.
  */
 public class SearchResultsFragment extends Fragment implements /*KhanAcademyApiCallback, */
-        AdapterView.OnItemClickListener, View.OnClickListener, AdapterView.OnItemLongClickListener {
+        AdapterView.OnItemClickListener, View.OnClickListener/*, AdapterView.OnItemLongClickListener*/ {
 
     private FragmentController fragmentController;
     private SearchResultsAdapter searchResultsAdapter;
@@ -98,7 +88,7 @@ public class SearchResultsFragment extends Fragment implements /*KhanAcademyApiC
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search_results, container, false);
 
-        imgStar = (ImageView) view.findViewById(R.id.img_star);
+        imgStar = (ImageView) view.findViewById(R.id.img_star_result);
         // Get favorite items from SharedPreferences.
         sharedPreference = new SharedPreference();
         favorites = sharedPreference.getFavorites(activity);
@@ -132,7 +122,7 @@ public class SearchResultsFragment extends Fragment implements /*KhanAcademyApiC
 
 
         listView.setOnItemClickListener(this);
-        listView.setOnItemLongClickListener(this);
+//        listView.setOnItemLongClickListener(this);
 
         listView.setOnScrollListener(new AbsListView.OnScrollListener(){
 
@@ -203,6 +193,7 @@ return view;
         }
     }
 
+/*
     @Override
     public boolean onItemLongClick(AdapterView<?> arg0, View view,
                                    int position, long arg3) {
@@ -232,6 +223,7 @@ return view;
         }
         return true;
     }
+*/
 
 
     @Override

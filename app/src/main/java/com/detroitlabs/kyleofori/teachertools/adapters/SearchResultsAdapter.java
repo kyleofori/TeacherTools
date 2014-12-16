@@ -60,7 +60,7 @@ public class SearchResultsAdapter extends BaseAdapter implements Filterable {
         ViewHolder viewHolder;
 
         if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.list_item_favorite, parent, false);
+            convertView = LayoutInflater.from(context).inflate(R.layout.list_item_lesson_plan, parent, false);
 
             viewHolder = new ViewHolder(convertView);
             convertView.setTag(viewHolder);
@@ -91,10 +91,10 @@ public class SearchResultsAdapter extends BaseAdapter implements Filterable {
         private ImageView imgStarFav;
 
         public ViewHolder(View rootView) {
-            this.txtTitleFav = (TextView) rootView.findViewById(R.id.txt_title_fav);
-            this.txtLessonUrlFav = (TextView) rootView.findViewById(R.id.txt_lessonUrl_fav);
-            this.txtDescriptionFav = (TextView) rootView.findViewById(R.id.txt_description_fav);
-            this.imgStarFav = (ImageView) rootView.findViewById(R.id.img_star);
+            this.txtTitleFav = (TextView) rootView.findViewById(R.id.txt_title_result);
+            this.txtLessonUrlFav = (TextView) rootView.findViewById(R.id.txt_lessonUrl_result);
+            this.txtDescriptionFav = (TextView) rootView.findViewById(R.id.txt_description_result);
+            this.imgStarFav = (ImageView) rootView.findViewById(R.id.img_star_result);
         }
     }
 
