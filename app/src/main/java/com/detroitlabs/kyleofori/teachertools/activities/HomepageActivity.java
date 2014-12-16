@@ -67,7 +67,7 @@ public class HomepageActivity extends Activity implements KhanAcademyApiCallback
 
     @Override
     public void onError() {
-        Toast.makeText(this, "There was an error loading lesson plans from Khan Academy.", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, R.string.error_loading_lesson_plans, Toast.LENGTH_SHORT).show();
         btnGoToSearch.setEnabled(true);
         btnGoToSearch.setText(getString(R.string.search_on_error));
     }

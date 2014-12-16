@@ -1,8 +1,11 @@
 package com.detroitlabs.kyleofori.teachertools.khanacademyapi;
 
+import android.app.ProgressDialog;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
+
+import com.detroitlabs.kyleofori.teachertools.activities.ResultsActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -69,6 +72,8 @@ public class KhanAcademyApi {
     private class LoadDataInBackground extends AsyncTask<Uri, Void, JSONArray> {
 
         private KhanAcademyApiCallback khanAcademyApiCallback;
+
+
 
         private LoadDataInBackground(KhanAcademyApiCallback khanAcademyApiCallback) {
             this.khanAcademyApiCallback = khanAcademyApiCallback;

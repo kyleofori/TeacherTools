@@ -41,4 +41,7 @@
     <string name="resources_loading">"Your lesson plans are now loading…</string>
     <string name="resources_loaded">"Your lesson plans are loaded.</string>
     <string name="add_to_favorites">Add to favorites</string>
+    <string name="error_loading_lesson_plans">There was an error loading lesson plans from Khan
+        Academy.
+    </string>
 </resources>

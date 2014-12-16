@@ -20,6 +20,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -59,7 +60,9 @@ import java.util.concurrent.TimeUnit;
 public class SearchResultsFragment extends Fragment implements KhanAcademyApiCallback,
         AdapterView.OnItemClickListener, View.OnClickListener, AdapterView.OnItemLongClickListener {
 
+    public static final int LOAD_NUMBER = 10;
 
+    private int numberOfVisibleLessons;
     private FragmentController fragmentController;
     private SearchResultsAdapter searchResultsAdapter;
     private ParseDataset parseDataset = new ParseDataset();
@@ -68,6 +71,8 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
     private ParseObjectParser parseObjectParser;
     private EditText edtInputSearch;
     private ImageView imgStar;
+    private int startingPosition;
+    private int stopPosition;
 
     private SharedPreference sharedPreference;
     private List<LessonModel> favorites;
@@ -90,6 +95,8 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
         super.onCreate(savedInstanceState);
         activity = getActivity();
         sharedPreference = new SharedPreference();
+        startingPosition = 0;
+        stopPosition = 10;
     }
 
     @Override
@@ -121,7 +128,9 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        lessonModels = HomepageActivity.khanAcademyLessonModels;
+        for(int i=startingPosition; i<stopPosition; i++) {
+            lessonModels.add(HomepageActivity.khanAcademyLessonModels.get(i));
+        }
         searchResultsAdapter = new SearchResultsAdapter(getActivity(), lessonModels);
         ListView listView = (ListView) view.findViewById(R.id.list_search_results);
         listView.setAdapter(searchResultsAdapter);
@@ -129,6 +138,23 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
 
         listView.setOnItemClickListener(this);
         listView.setOnItemLongClickListener(this);
+
+/*
+        listView.setOnScrollListener(new AbsListView.OnScrollListener(){
+
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {}
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem,
+                                 int visibleItemCount, int totalItemCount) {
+
+                int lastInScreen = firstVisibleItem + visibleItemCount;
+                if((lastInScreen == totalItemCount) && !(loadingMore)){
+                }
+            }
+        });
+*/
 
 
         //retrieveParseObjectsFromCloud();
@@ -149,9 +175,6 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
             public void afterTextChanged(Editable arg0) {
             }
         });
-
-
-//        parseDataset.prepopulateParseDataset();
     }
 
     @Override
