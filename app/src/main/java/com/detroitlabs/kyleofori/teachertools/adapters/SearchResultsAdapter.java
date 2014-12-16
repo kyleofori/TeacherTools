@@ -78,6 +78,11 @@ public class SearchResultsAdapter extends BaseAdapter implements Filterable {
         return convertView;
     }
 
+    public void add(LessonModel lessonModel) {
+        lessonModels.add(lessonModel);
+        notifyDataSetChanged();
+    }
+
     private static class ViewHolder {
 
         private TextView txtTitleFav;

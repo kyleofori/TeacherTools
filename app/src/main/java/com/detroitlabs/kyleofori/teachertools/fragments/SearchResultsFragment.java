@@ -7,7 +7,6 @@ import android.app.Fragment;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.ProgressDialog;
 import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -46,33 +45,31 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by bobbake4 on 11/13/14.
  */
-public class SearchResultsFragment extends Fragment implements KhanAcademyApiCallback,
+public class SearchResultsFragment extends Fragment implements /*KhanAcademyApiCallback, */
         AdapterView.OnItemClickListener, View.OnClickListener, AdapterView.OnItemLongClickListener {
 
-    public static final int LOAD_NUMBER = 10;
-
-    private int numberOfVisibleLessons;
     private FragmentController fragmentController;
     private SearchResultsAdapter searchResultsAdapter;
     private ParseDataset parseDataset = new ParseDataset();
-    private List<LessonModel> lessonModels = new ArrayList<>();
     private List<ParseObject> parseObjects = new ArrayList<>();
+    private List<LessonModel> lessonModels = new ArrayList<>();
+    private List<LessonModel> visibleLessonModels = new ArrayList<>();
+
     private ParseObjectParser parseObjectParser;
     private EditText edtInputSearch;
     private ImageView imgStar;
     private int startingPosition;
     private int stopPosition;
+
+    private static final int LOAD_NUMBER = 10;
+    private static final List<LessonModel> khanAcademyLessonModels = HomepageActivity.khanAcademyLessonModels;
 
     private SharedPreference sharedPreference;
     private List<LessonModel> favorites;
@@ -95,8 +92,6 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
         super.onCreate(savedInstanceState);
         activity = getActivity();
         sharedPreference = new SharedPreference();
-        startingPosition = 0;
-        stopPosition = 10;
     }
 
     @Override
@@ -119,19 +114,17 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
                         getResources().getString(R.string.no_favorites_msg));
             }
 
-            ListView favoriteList = (ListView) view.findViewById(R.id.list_favorites);
         }
-        return view;
-    }
 
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+
+        startingPosition = 0;
+        stopPosition = 10;
 
         for(int i=startingPosition; i<stopPosition; i++) {
-            lessonModels.add(HomepageActivity.khanAcademyLessonModels.get(i));
+            visibleLessonModels.add(HomepageActivity.khanAcademyLessonModels.get(i));
         }
-        searchResultsAdapter = new SearchResultsAdapter(getActivity(), lessonModels);
+
+        searchResultsAdapter = new SearchResultsAdapter(getActivity(), visibleLessonModels);
         ListView listView = (ListView) view.findViewById(R.id.list_search_results);
         listView.setAdapter(searchResultsAdapter);
 
@@ -139,7 +132,6 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
         listView.setOnItemClickListener(this);
         listView.setOnItemLongClickListener(this);
 
-/*
         listView.setOnScrollListener(new AbsListView.OnScrollListener(){
 
             @Override
@@ -149,13 +141,35 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
             public void onScroll(AbsListView view, int firstVisibleItem,
                                  int visibleItemCount, int totalItemCount) {
 
-                int lastInScreen = firstVisibleItem + visibleItemCount;
-                if((lastInScreen == totalItemCount) && !(loadingMore)){
+                if (firstVisibleItem + visibleItemCount == totalItemCount) {
+                    if (stopPosition < khanAcademyLessonModels.size()) {
+                        Log.i(this.getClass().getSimpleName(), "stop position " + String.valueOf(stopPosition));
+                        startingPosition = stopPosition;
+                        if ((stopPosition + LOAD_NUMBER) > khanAcademyLessonModels.size()) {
+                            stopPosition = stopPosition + (khanAcademyLessonModels.size() - stopPosition);
+                        } else {
+                            stopPosition = stopPosition + LOAD_NUMBER;
+                        }
+
+                        for (int i = startingPosition; i < stopPosition; i++) {
+                            searchResultsAdapter.add(khanAcademyLessonModels.get(i));
+                        }
+                        Log.i(this.getClass().getSimpleName(), "just added " + String.valueOf(startingPosition) + "thru " + String.valueOf(stopPosition));
+
+
+                        searchResultsAdapter.notifyDataSetChanged();
+                    }
                 }
             }
         });
-*/
 
+
+return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         //retrieveParseObjectsFromCloud();
 
@@ -225,79 +239,7 @@ public class SearchResultsFragment extends Fragment implements KhanAcademyApiCal
         getActivity().getActionBar().setTitle(R.string.favorites);
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-    }
 
-    @Override
-    public void onSuccess(JSONArray response) {
-        if (isAdded()) {
-            List<LessonModel> khanAcademyLessonModels = KhanAcademyJSONParser.parseJSONObject(response);
-            lessonModels.addAll(khanAcademyLessonModels);
-        }
-    }
-
-    @Override
-    public void onError() {
-        if (isAdded()) {
-            Toast.makeText(getActivity(), "Error loading search results list", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private void retrieveParseObjectsFromCloud() {
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("LessonPlan");
-        retrieveParseObjects(query);
-    }
-
-    private void retrieveParseObjectsFromDatastore() {
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("LessonPlan");
-        query.fromLocalDatastore();
-        retrieveParseObjects(query);
-    }
-
-    private void retrieveParseObjects(ParseQuery<ParseObject> query) {
-        query.findInBackground(new FindCallback<ParseObject>() {
-            public void done(List<ParseObject> objects, ParseException e) {
-                if (e == null) {
-                    Log.d("SearchResultsFragment", "Parse objects found");
-                    Log.d("SearchResultsFragment", objects.get(0).getString("title"));
-                    onCompletion(objects);
-                } else {
-                    Log.d("SearchResultsFragment", "No Parse objects were found");
-                }
-            }
-        });
-    }
-
-    public void onCompletion(List<ParseObject> objects) {
-        if(isAdded()) {
-            parseObjectParser = new ParseObjectParser();
-            ArrayList<LessonModel> testList = new ArrayList<>();
-            Log.i("SearchResultsFragment How big is the objects list? ", String.valueOf(objects.size()));
-            List<LessonModel> parsedLessonModels = parseObjectParser.parseParseObject(objects);
-            testList.addAll(parsedLessonModels);
-            Log.d("Test", testList.get(0).getDescription());
-            lessonModels.addAll(testList);
-            notifyUser();
-        }
-    }
-
-
-    private void unpinParseObjectsFromDatastore() {
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("LessonPlan");
-        query.fromLocalDatastore();
-        query.findInBackground(new FindCallback<ParseObject>() {
-            @Override
-            public void done(List<ParseObject> objects, ParseException e) {
-                if (e == null) {
-                    ParseObject.unpinAllInBackground(objects);
-                } else {
-                    Log.d("SearchResultsFragment", "No Parse objects to unpin from local storage.");
-                }
-            }
-        });
-    }
 
     public void showAlert(String title, String message) {
         if (activity != null && !activity.isFinishing()) {
