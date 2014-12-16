@@ -13,12 +13,14 @@ public class LessonModel implements Parcelable {
     private String lessonUrl;
     private String description;
     private boolean isFavorited;
+    private String lessonId;
 
-    public LessonModel(String title, String lessonUrl, String description, boolean isFavorited){
+    public LessonModel(String title, String lessonUrl, String description, boolean isFavorited, String lessonId){
         this.title = title;
         this.lessonUrl = lessonUrl;
         this.description = description;
         this.isFavorited = isFavorited;
+        this.lessonId = lessonId;
     }
 
     public String getTitle() {
@@ -37,6 +39,10 @@ public class LessonModel implements Parcelable {
         return isFavorited;
     }
 
+    public String getLessonId() {
+        return lessonId;
+    }
+
     public void setFavorited(boolean isFavorited) {
         this.isFavorited = isFavorited;
     }
@@ -46,6 +52,7 @@ public class LessonModel implements Parcelable {
         lessonUrl = in.readString();
         description = in.readString();
         isFavorited = in.readByte() != 0x00;
+        lessonId = in.readString();
     }
 
     @Override
@@ -59,6 +66,7 @@ public class LessonModel implements Parcelable {
         dest.writeString(lessonUrl);
         dest.writeString(description);
         dest.writeByte((byte) (isFavorited ? 0x01 : 0x00));
+        dest.writeString(lessonId);
     }
 
     @SuppressWarnings("unused")

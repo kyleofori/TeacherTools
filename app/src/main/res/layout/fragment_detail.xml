@@ -4,13 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/btn_add_to_favorites"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/add_to_favorites"
-        android:textSize="12sp"
-        android:layout_gravity="end"/>
+    <ImageView
+        android:id="@+id/img_detail_star"
+        android:src="@drawable/star_none"
+        android:tag="@string/off"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_marginRight="3dp"
+        android:background="@null"
+        android:contentDescription="@string/favorites" />
+
 
     <TextView
         android:id="@+id/titleTextView"

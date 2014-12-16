@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,7 +34,7 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
     private TextView txtTitle, txtKaUrl, txtDescription;
     private SharedPreference sharedPreference = new SharedPreference();
     private LessonModel lessonModel;
-    private Button btnAddToFavorites;
+    private ImageView imgFavoritesStar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -51,8 +51,8 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        btnAddToFavorites = (Button) view.findViewById(R.id.btn_add_to_favorites);
-        btnAddToFavorites.setOnClickListener(this);
+        imgFavoritesStar = (ImageView) view.findViewById(R.id.img_detail_star);
+        imgFavoritesStar.setOnClickListener(this);
 
         lessonModel = getArguments().getParcelable(ARG_PLAYLIST);
 
@@ -70,11 +70,10 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.btn_add_to_favorites:
+            case R.id.img_detail_star:
                 Toast.makeText(getActivity(), R.string.toast_favorite_added, Toast.LENGTH_SHORT).show();
                 sharedPreference.addFavorite(getActivity(), lessonModel);
-                btnAddToFavorites.setText(R.string.added_to_favorites);
-                btnAddToFavorites.setEnabled(false);
+                imgFavoritesStar.setEnabled(false);
                 break;
         }
     }

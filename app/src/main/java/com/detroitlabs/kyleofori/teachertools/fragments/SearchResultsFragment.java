@@ -125,6 +125,7 @@ public class SearchResultsFragment extends Fragment implements /*KhanAcademyApiC
             visibleLessonModels.add(HomepageActivity.khanAcademyLessonModels.get(i));
         }
 
+        Log.i(this.getClass().getSimpleName(), "See some id " + visibleLessonModels.get(0).getLessonId());
         searchResultsAdapter = new SearchResultsAdapter(getActivity(), visibleLessonModels);
         ListView listView = (ListView) view.findViewById(R.id.list_search_results);
         listView.setAdapter(searchResultsAdapter);

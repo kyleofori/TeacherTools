@@ -32,8 +32,9 @@ public class ParseObjectParser {
                 String title = currentParseObject.getString("title");
                 String lessonUrl = currentParseObject.getString("lessonUrl");
                 String description = currentParseObject.getString("description");
+                String lessonId = currentParseObject.getObjectId();
 
-                LessonModel currentLessonModel = new LessonModel(title, lessonUrl, description, false);
+                LessonModel currentLessonModel = new LessonModel(title, lessonUrl, description, false, lessonId);
 
                 lessonModels.add(currentLessonModel);
             }
