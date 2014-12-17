@@ -49,6 +49,11 @@ public class SharedPreference {
         if (favorites == null)
             favorites = new ArrayList<LessonModel>();
         favorites.add(lessonModel);
+        for (LessonModel x: favorites) {
+            if (x.getLessonId().equals(lessonModel.getLessonId())) {
+                favorites.remove(lessonModel);
+            }
+        }
         saveFavorites(context, favorites);
     }
 

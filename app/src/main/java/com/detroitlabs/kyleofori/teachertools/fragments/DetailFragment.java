@@ -43,6 +43,7 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
         txtTitle = (TextView) view.findViewById(R.id.txt_title_result);
         txtKaUrl = (TextView) view.findViewById(R.id.txt_lessonUrl_result);
         txtDescription = (TextView) view.findViewById(R.id.txt_description_result);
+        imgFavoritesStar = (ImageView) view.findViewById(R.id.img_detail_star);
 
         return view;
     }
@@ -65,6 +66,9 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
         } else {
             throw new IllegalStateException("Must supply a KhanAcademyPlaylist to DetailFragment");
         }
+
+        imgFavoritesStar.setImageDrawable(lessonModel.getStar(this.getActivity()));
+
     }
 
     @Override

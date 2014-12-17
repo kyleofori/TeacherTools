@@ -1,7 +1,11 @@
 package com.detroitlabs.kyleofori.teachertools.models;
 
+import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import com.detroitlabs.kyleofori.teachertools.R;
 
 /**
  * Created by bobbake4 on 11/13/14.
@@ -45,6 +49,16 @@ public class LessonModel implements Parcelable {
 
     public void setFavorited(boolean isFavorited) {
         this.isFavorited = isFavorited;
+    }
+
+    public Drawable getStar(Context context) {
+        Drawable star;
+        if(isFavorited()) {
+            star = context.getResources().getDrawable(R.drawable.favestar);
+        } else {
+            star = context.getResources().getDrawable(R.drawable.star_none);
+        }
+        return star;
     }
 
     protected LessonModel(Parcel in) {

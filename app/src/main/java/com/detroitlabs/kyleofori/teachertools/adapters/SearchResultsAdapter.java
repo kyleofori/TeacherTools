@@ -73,7 +73,7 @@ public class SearchResultsAdapter extends BaseAdapter implements Filterable {
         viewHolder.txtTitleFav.setText(lessonModel.getTitle());
         viewHolder.txtLessonUrlFav.setText(lessonModel.getLessonUrl());
         viewHolder.txtDescriptionFav.setText(lessonModel.getDescription());
-        viewHolder.imgStarFav.setImageDrawable(getStar(lessonModel));
+        viewHolder.imgStarFav.setImageDrawable(lessonModel.getStar(context));
 
         return convertView;
     }
@@ -129,16 +129,16 @@ public class SearchResultsAdapter extends BaseAdapter implements Filterable {
         };
     }
 
-    private Drawable getStar(LessonModel lessonModel) {
-        Drawable star;
-        if(lessonModel.isFavorited()) {
-            star = context.getResources().getDrawable(R.drawable.favestar);
-            notifyDataSetChanged();
-        } else {
-            star = context.getResources().getDrawable(R.drawable.star_none);
-            notifyDataSetChanged();
-        }
-        return star;
-    }
+//    public Drawable getStar(LessonModel lessonModel) {
+//        Drawable star;
+//        if(lessonModel.isFavorited()) {
+//            star = context.getResources().getDrawable(R.drawable.favestar);
+//            notifyDataSetChanged();
+//        } else {
+//            star = context.getResources().getDrawable(R.drawable.star_none);
+//            notifyDataSetChanged();
+//        }
+//        return star;
+//    }
 
 }
