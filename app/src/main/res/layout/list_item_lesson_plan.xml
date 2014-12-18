@@ -9,7 +9,7 @@
         android:id="@+id/img_star_result"
         android:tag="@string/off"
         android:layout_width="match_parent"
-        android:layout_height="240dp"
+        android:layout_height="60dp"
         android:layout_marginRight="30dp"
         android:background="@null"
         android:contentDescription="@string/favorites"

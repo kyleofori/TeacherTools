@@ -11,6 +11,7 @@ import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
@@ -24,6 +25,7 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.detroitlabs.kyleofori.teachertools.R;
 import com.detroitlabs.kyleofori.teachertools.activities.HomepageActivity;
@@ -44,7 +46,7 @@ import java.util.List;
  * Created by bobbake4 on 11/13/14.
  */
 public class SearchResultsFragment extends Fragment implements /*KhanAcademyApiCallback, */
-        AdapterView.OnItemClickListener, View.OnClickListener/*, AdapterView.OnItemLongClickListener*/ {
+        AdapterView.OnItemClickListener, View.OnClickListener, AdapterView.OnItemLongClickListener {
 
     private FragmentController fragmentController;
     private SearchResultsAdapter searchResultsAdapter;
@@ -132,7 +134,7 @@ public class SearchResultsFragment extends Fragment implements /*KhanAcademyApiC
 
 
         listView.setOnItemClickListener(this);
-//        listView.setOnItemLongClickListener(this);
+        listView.setOnItemLongClickListener(this);
 
         listView.setOnScrollListener(new AbsListView.OnScrollListener(){
 
@@ -203,21 +205,20 @@ return view;
         }
     }
 
-/*
+
     @Override
     public boolean onItemLongClick(AdapterView<?> arg0, View view,
                                    int position, long arg3) {
 
-        imgStar = (ImageView) view.findViewById(R.id.img_star);
         List<LessonModel> filteredLessons = searchResultsAdapter.filteredLessons;
+
+        ImageView lessonModelStar = (ImageView) view.findViewById(R.id.img_star_result);
 
         if (filteredLessons.get(position).isFavorited()) {
             sharedPreference.removeFavorite(activity, filteredLessons.get(position));
             Toast.makeText(activity,
                     activity.getResources().getString(R.string.removed_from_favorites),
                     Toast.LENGTH_SHORT).show();
-            imgStar.setTag(GlobalTags.TAG_OFF);
-            imgStar.setImageResource(R.drawable.star_none);
             filteredLessons.get(position).setFavorited(false);
             searchResultsAdapter.notifyDataSetChanged();
         } else {
@@ -225,15 +226,13 @@ return view;
             Toast.makeText(activity,
                     activity.getResources().getString(R.string.added_to_favorites),
                     Toast.LENGTH_SHORT).show();
-
-            imgStar.setTag(GlobalTags.TAG_ON);
-            imgStar.setImageResource(R.drawable.favestar);
             filteredLessons.get(position).setFavorited(true);
+//            Drawable newStar = filteredLessons.get(position).getStar(this.getActivity());
+//            lessonModelStar.setImageDrawable(newStar);
             searchResultsAdapter.notifyDataSetChanged();
         }
         return true;
     }
-*/
 
 
     @Override
