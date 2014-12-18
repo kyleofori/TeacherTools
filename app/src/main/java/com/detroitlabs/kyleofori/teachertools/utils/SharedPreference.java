@@ -99,9 +99,7 @@ public class SharedPreference {
         editor = settings.edit();
 
         if(settings.contains(FAVORITES)) {
-            String jsonFavorites = settings.getString(FAVORITES, null);
-            jsonFavorites = null;
-            editor.putString(FAVORITES, jsonFavorites);
+            editor.putString(FAVORITES, null);
             editor.commit();
         }
     }
