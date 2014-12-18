@@ -48,11 +48,14 @@ public class SharedPreference {
         List<LessonModel> favorites = getFavorites(context);
         if (favorites == null)
             favorites = new ArrayList<LessonModel>();
-        favorites.add(lessonModel);
+        boolean isGoingIn = true;
         for (LessonModel x: favorites) {
             if (x.getLessonId().equals(lessonModel.getLessonId())) {
-                favorites.remove(lessonModel);
+                isGoingIn = false;
             }
+        }
+        if(isGoingIn) {
+            favorites.add(lessonModel);
         }
         saveFavorites(context, favorites);
     }
