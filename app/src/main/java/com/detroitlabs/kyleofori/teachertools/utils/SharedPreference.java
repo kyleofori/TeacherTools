@@ -61,7 +61,7 @@ public class SharedPreference {
     }
 
     public void removeFavorite(Context context, LessonModel lessonModel) {
-        ArrayList<LessonModel> favorites = getFavorites(context);
+        List<LessonModel> favorites = getFavorites(context);
         if (favorites != null) {
             favorites.remove(lessonModel);
             saveFavorites(context, favorites);

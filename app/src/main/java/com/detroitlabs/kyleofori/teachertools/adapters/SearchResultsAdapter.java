@@ -128,17 +128,4 @@ public class SearchResultsAdapter extends BaseAdapter implements Filterable {
             }
         };
     }
-
-//    public Drawable getStar(LessonModel lessonModel) {
-//        Drawable star;
-//        if(lessonModel.isFavorited()) {
-//            star = context.getResources().getDrawable(R.drawable.favestar);
-//            notifyDataSetChanged();
-//        } else {
-//            star = context.getResources().getDrawable(R.drawable.star_none);
-//            notifyDataSetChanged();
-//        }
-//        return star;
-//    }
-
 }

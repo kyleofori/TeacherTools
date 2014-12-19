@@ -45,7 +45,7 @@ import java.util.List;
 /**
  * Created by bobbake4 on 11/13/14.
  */
-public class SearchResultsFragment extends Fragment implements /*KhanAcademyApiCallback, */
+public class SearchResultsFragment extends Fragment implements
         AdapterView.OnItemClickListener, View.OnClickListener, AdapterView.OnItemLongClickListener {
 
     private FragmentController fragmentController;
@@ -83,14 +83,12 @@ public class SearchResultsFragment extends Fragment implements /*KhanAcademyApiC
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activity = getActivity();
-        sharedPreference = new SharedPreference();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search_results, container, false);
 
-        // Get favorite items from SharedPreferences.
         sharedPreference = new SharedPreference();
         favorites = sharedPreference.getFavorites(activity);
 
@@ -212,8 +210,6 @@ return view;
 
         List<LessonModel> filteredLessons = searchResultsAdapter.filteredLessons;
 
-        ImageView lessonModelStar = (ImageView) view.findViewById(R.id.img_star_result);
-
         if (filteredLessons.get(position).isFavorited()) {
             sharedPreference.removeFavorite(activity, filteredLessons.get(position));
             Toast.makeText(activity,
@@ -227,8 +223,6 @@ return view;
                     activity.getResources().getString(R.string.added_to_favorites),
                     Toast.LENGTH_SHORT).show();
             filteredLessons.get(position).setFavorited(true);
-//            Drawable newStar = filteredLessons.get(position).getStar(this.getActivity());
-//            lessonModelStar.setImageDrawable(newStar);
             searchResultsAdapter.notifyDataSetChanged();
         }
         return true;
